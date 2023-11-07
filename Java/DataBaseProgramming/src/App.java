@@ -11,7 +11,7 @@ public static void oracleConnection(
         String db_service_name,
         String db_username,
         String db_password){
-            String Connection_string = String.format("%s:%s:%s:@%s:%s/%s",db_driver, db_type,db_driver_type, db_host_name, db_posrt, db_service_name);
+            String Connection_string = String.format("%s:%s:%s:@%s:%s:%s",db_driver, db_type,db_driver_type, db_host_name, db_posrt, db_service_name);
             System.out.println(Connection_string);
         }
 
