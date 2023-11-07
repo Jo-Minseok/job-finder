@@ -16,6 +16,6 @@ public static void oracleConnection(
         }
 
     public static void main(String[] args) throws Exception {
-        oracleConnection("jdbc", "oracle", "thin", "minseok821lab.kro.kr", "3306", "orcl", "seok3764", "0424");
+        oracleConnection("jdbc", "oracle", "thin", "minseok821lab.kro.kr", "1521", "orcl", "seok3764", "0424");
     }
 }
