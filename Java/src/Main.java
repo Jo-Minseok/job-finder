@@ -46,9 +46,9 @@ public class Main {
     public static void main(String[] args) throws SQLException{
         Main DB = new Main();
         DB.sqlRun();
-        REGISTER test = new REGISTER();
-        test.pack();
-        test.setVisible(true);
+        LOGIN Login = new LOGIN();
+        Login.pack();
+        Login.setVisible(true);
         System.exit(0);
     }
 }
