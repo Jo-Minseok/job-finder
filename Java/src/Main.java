@@ -20,7 +20,7 @@ public class Main extends JDialog {
             System.out.println("드라이버 적재 실패");
         }
         setContentPane(contentPane);
-        setModal(true);
+        setModal(true);test
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
