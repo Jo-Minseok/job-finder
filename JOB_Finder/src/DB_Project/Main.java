@@ -27,7 +27,7 @@ public class Main {
 		} catch(SQLException e) {
 			System.out.println("연결에 실패");
 		}
-		
+		System.out.println("test");
 	}
 
 }
