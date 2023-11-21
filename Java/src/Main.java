@@ -46,7 +46,7 @@ public class Main {
     public static void main(String[] args) throws SQLException{
         Main DB = new Main();
         DB.sqlRun();
-        LOGIN Login = new LOGIN();
+        LOGIN Login = new LOGIN("JOB Finder");
         Login.pack();
         Login.setVisible(true);
         System.exit(0);
