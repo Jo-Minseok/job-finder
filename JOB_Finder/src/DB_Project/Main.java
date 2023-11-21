@@ -9,6 +9,8 @@ public class Main {
 		try {
 			Login window = new Login();
 			window.frame.setVisible(true);
+			Register window2 = new Register();
+			window2.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
