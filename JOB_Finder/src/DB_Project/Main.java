@@ -14,6 +14,10 @@ public class Main {
 			window.frame.setVisible(true);
 			Register window2 = new Register();
 			window2.frame.setVisible(true);
+			Resume window3 = new Resume();
+			window3.frame.setVisible(true);
+			Business window4 = new Business();
+			window4.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
