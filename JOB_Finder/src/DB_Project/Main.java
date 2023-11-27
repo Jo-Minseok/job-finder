@@ -18,6 +18,8 @@ public class Main {
 			window3.frame.setVisible(true);
 			Business window4 = new Business();
 			window4.frame.setVisible(true);
+			Resign window5 = new Resign();
+			window5.frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
