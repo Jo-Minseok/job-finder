@@ -1,47 +1,24 @@
 package DB_Project;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Resign {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField ID_txt;
 	private JTextField Phone_txt;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Resign window = new Resign();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
 	public Resign() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 520, 400);
@@ -84,6 +61,11 @@ public class Resign {
 		frame.getContentPane().add(Resign_btn);
 		
 		JButton Exit_btn = new JButton("닫기");
+		Exit_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		Exit_btn.setBounds(421, 328, 71, 23);
 		frame.getContentPane().add(Exit_btn);
 		
