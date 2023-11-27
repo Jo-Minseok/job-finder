@@ -20,6 +20,9 @@ public class Main {
 			window4.frame.setVisible(true);
 			Resign window5 = new Resign();
 			window5.frame.setVisible(true);
+			CompanyFullView window6 = new CompanyFullView();
+			window6.frame.setVisible(true);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
