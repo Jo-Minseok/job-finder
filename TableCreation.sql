@@ -17,6 +17,12 @@ DROP TABLE 이력서_경력 CASCADE CONSTRAINTS;
 DROP TABLE 포지션_제안 CASCADE CONSTRAINTS;
 DROP TABLE 지원 CASCADE CONSTRAINTS;
 -- 정규화 테이블
+DROP TABLE 게시글수 CASCADE CONSTRAINTS;
+DROP TABLE 개인_포인트_수정_내역 CASCADE CONSTRAINTS;
+DROP TABLE 기업_포인트_수정_내역 CASCADE CONSTRAINTS;
+DROP TABLE 개인_회원_정보_변경 CASCADE CONSTRAINTS;
+DROP TABLE 기업_회원_정보_변경 CASCADE CONSTRAINTS;
+DROP TABLE 연봉_평균_계산 CASCADE CONSTRAINTS;
 
 -- 시퀀스
 DROP SEQUENCE 채용_게시글번호_SEQ;
@@ -155,8 +161,46 @@ CREATE TABLE 지원(
 );
 
 -- 변경내역 및 통계 저장 테이블
-CREATE
+CREATE TABLE 게시글수(
+    분류 NVARCHAR2(32),
+    게시글수 NUMBER(38,0)
+);
 
+CREATE TABLE 개인_포인트_수정_내역(
+    회원ID NVARCHAR2(32),
+    내역 NCHAR(40),
+    포인트 NUMBER(38,0),
+    CONSTRAINT FK_개인_포인트수정내역 FOREIGN KEY (회원ID) REFERENCES 개인회원(회원ID)
+);
+
+CREATE TABLE 기업_포인트_수정_내역(
+    회원ID NVARCHAR2(32),
+    내역 NCHAR(40),
+    포인트 NUMBER(38,0),
+    CONSTRAINT FK_기업_포인트수정내역 FOREIGN KEY (회원ID) REFERENCES 기업회원(회원ID)
+);
+
+CREATE TABLE 개인_회원_정보_변경(
+    회원ID NVARCHAR2(32),
+    변경_열 NCHAR(40),
+    변경_데이터 NVARCHAR2(76),
+    CONSTRAINT FK_개인_정보_수정내역 FOREIGN KEY (회원ID) REFERENCES 기업회원(회원ID)
+);
+
+CREATE TABLE 기업_회원_정보_변경(
+    회원ID NVARCHAR2(32),
+    변경_열 NCHAR(40),
+    변경_데이터 NVARCHAR2(76),
+    CONSTRAINT FK_기업_정보_수정내역 FOREIGN KEY (회원ID) REFERENCES 기업회원(회원ID)
+);
+
+CREATE TABLE 연봉_평균_계산(
+    기업명 NVARCHAR2(60),
+    직책 NCHAR(6),
+    평균 NUMBER(38,0),
+    CONSTRAINT FK_연봉_평균_계산 FOREIGN KEY (기업명) REFERENCES 기업(이름),
+    CONSTRAINT PK_연봉_평균_계산 PRIMARY KEY (기업명, 직책)
+);
 -----------------------------------------------------------------------------------------------
 -------------------------------------------- 시퀀스 --------------------------------------------
 -----------------------------------------------------------------------------------------------
