@@ -37,7 +37,6 @@ CREATE TABLE 개인회원(
     이름 NCHAR(8),
     생년월일 DATE,
     성별 NCHAR (2),
-    이메일 NVARCHAR2(100),
     휴대폰 NCHAR(13),
     거주_지역 NCHAR(6),
     개인정보_유효기간 NUMBER(2,0),
@@ -204,6 +203,7 @@ CREATE TABLE 연봉_평균_계산(
 -----------------------------------------------------------------------------------------------
 -------------------------------------------- 시퀀스 --------------------------------------------
 -----------------------------------------------------------------------------------------------
+-- 시퀀스: 게시글 번호 자동 부여
 CREATE SEQUENCE 채용_게시글번호_SEQ
 START WITH 1
 INCREMENT BY 1
@@ -214,25 +214,25 @@ CYCLE;
 -----------------------------------------------------------------------------------------------
 -------------------------------------------- 트리거 --------------------------------------------
 -----------------------------------------------------------------------------------------------
+-- 시퀀스: 게시글 번호 자동 부여
 CREATE OR REPLACE TRIGGER 채용_게시글번호_SEQ_TRIG BEFORE INSERT ON 채용_게시글
 FOR EACH ROW
 BEGIN
     SELECT 채용_게시글번호_SEQ.NEXTVAL INTO :NEW.게시글_번호 FROM DUAL;
 END;
 
+-- 회원 정보 수정 평균 연봉 재연산 및 정보 변경 내역 저장
+
+-- 채용/설명회 게시글 작성
+
+-- 포인트 충전 및 사용
+
+-- 회원 탈퇴
 -----------------------------------------------------------------------------------------------
 ------------------------------------------- 프로시저 -------------------------------------------
 -----------------------------------------------------------------------------------------------
-CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_PERSONAL()
-AS
-BEGIN
-END;
-
-CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_BUSINESS()
-AS
-BEGIN
-END;
-
+------------------------------------- [ID/PW 찾기 FROM] -----------------------------------------
+-- 개인회원
 CREATE OR REPLACE PROCEDURE PASSWROD_PROTECTION_PERSONAL(고객ID IN 개인회원.회원ID%TYPE, 부분비밀번호 OUT CHAR)
 AS
 BEGIN
@@ -240,11 +240,102 @@ BEGIN
     EXCEPTION WHEN NO_DATA_FOUND THEN
         부분비밀번호 := '아이디가 존재하지 않습니다!';
 END;
-
+-- 기업회원
 CREATE OR REPLACE PROCEDURE PASSWROD_PROTECTION_BUSINESS(고객ID IN 개인회원.회원ID%TYPE, 부분비밀번호 OUT CHAR)
 AS
 BEGIN
     SELECT RPAD(SUBSTR(비밀번호,1,3),LENGTH(비밀번호),'*') INTO 부분비밀번호 FROM 기업회원 WHERE 회원ID = 고객ID;
     EXCEPTION WHEN NO_DATA_FOUND THEN
         부분비밀번호 := '아이디가 존재하지 않습니다!';
+END;
+
+-------------------------------------- [회원가입 FROM] ------------------------------------------
+-- 개인 회원
+CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_PERSONAL(
+    회원이름 IN 개인회원.이름%TYPE,
+    전화번호 IN 개인회원.전화번호%TYPE,
+    회원ID IN 개인회원.회원ID%TYPE,
+    비밀번호 IN 개인회원.비밀번호%TYPE,
+    생년월일 IN 개인회원.생년월일%TYPE,
+    성별 IN 개인회원.성별%TYPE)
+AS
+    변환된_전화번호 개인회원.전화번호%TYPE;
+BEGIN   
+
+    IF((SELECT LENGTH(전화번호) FROM DUAL) != 13) THEN
+        BEGIN
+            변환된_전화번호 := SUBSTR(전화번호, 1,3) || '-' || SUBSTR(전화번호, 4,4) || '-' || SUBSTR(전화번호, 8,4);
+    RETURN '회원가입 완료';
+END;
+-- 기업 회원
+CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_BUSINESS()
+AS
+BEGIN
+END;
+-------------------------------------- [이력서 조회 FROM] ------------------------------------------
+CREATE OR REPLACE PROCEDURE 
+------------------------------------ [스케쥴러 + 프로시저] ------------------------------------------
+-- 이력서 삭제 프로시저
+CREATE OR REPLACE PROCEDURE DELETE_RESUME_DEADLINE()
+AS
+    현재_날짜 DATE := SYSDATE;
+BEGIN
+    DELETE FROM 이력서 WHERE 작성일자 < (현재_날짜 - INTERVAL '3' YEAR);
+END;
+
+CREATE OR REPLACE PROCEDURE DELETE_POSITION_DEADLINE()
+AS
+    현재_날짜 DATE := SYSDATE;
+BEGIN
+    DELETE FROM 포지션_제안 WHERE 마감기한 < 현재_날짜;
+END;
+
+CREATE OR REPLACE PROCEDURE DELETE_JOB_VACANCY()
+AS
+    현재_날짜 DATE := SYSDATE;
+BEGIN
+    DELETE FROM WHERE 마감일 < 현재_날짜;
+END;
+-----------------------------------------------------------------------------------------------
+------------------------------------------- 스케줄러 -------------------------------------------
+-----------------------------------------------------------------------------------------------
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB(
+        -- 
+        JOB_NAME => '매일_자정_이력서_삭제',
+        JOB_TYPE => 'PLSQL_BLOCK',
+        JOB_ACTION => 'BEGIN DELETE_RESUME_DEADLINE; END;',
+        -- START_DATE : 스케쥴이 작동을 시작 할 시각. 입력한 시점부터 스케쥴러가 시작된다. AM 00시로 설정함
+        START_DATE => TRUNC(SYSDATE) + INTERVAL '1' DAY,
+        -- REPEAT_INTERVAL => 스케쥴이 작동하는 주기. 하루 한번 돌게 설정.
+        REPEAT_INTERVAL => 'FREQ=DAILY; BYHOUR=0; BYMINUTE=0; BYSECOND=0',
+        END_DATE => NULL,
+        ENABLED => TRUE
+    );
+    
+    DBMS_SCHEDULER.CREATE_JOB(
+        -- 
+        JOB_NAME => '매일_자정_포지션_제안_삭제',
+        JOB_TYPE => 'PLSQL_BLOCK',
+        JOB_ACTION => 'BEGIN DELETE_POSITION_DEADLINE; END;',
+        -- START_DATE : 스케쥴이 작동을 시작 할 시각. 입력한 시점부터 스케쥴러가 시작된다. AM 00시로 설정함
+        START_DATE => TRUNC(SYSDATE) + INTERVAL '1' DAY,
+        -- REPEAT_INTERVAL => 스케쥴이 작동하는 주기. 하루 한번 돌게 설정.
+        REPEAT_INTERVAL => 'FREQ=DAILY; BYHOUR=0; BYMINUTE=0; BYSECOND=0',
+        END_DATE => NULL,
+        ENABLED => TRUE
+    );
+    
+    DBMS_SCHEDULER.CREATE_JOB(
+        -- 
+        JOB_NAME => '매일_자정_채용_게시글_삭제',
+        JOB_TYPE => 'PLSQL_BLOCK',
+        JOB_ACTION => 'BEGIN DELETE_JOB_VACANCY; END;',
+        -- START_DATE : 스케쥴이 작동을 시작 할 시각. 입력한 시점부터 스케쥴러가 시작된다. AM 00시로 설정함
+        START_DATE => TRUNC(SYSDATE) + INTERVAL '1' DAY,
+        -- REPEAT_INTERVAL => 스케쥴이 작동하는 주기. 하루 한번 돌게 설정.
+        REPEAT_INTERVAL => 'FREQ=DAILY; BYHOUR=0; BYMINUTE=0; BYSECOND=0',
+        END_DATE => NULL,
+        ENABLED => TRUE
+    );
 END;
