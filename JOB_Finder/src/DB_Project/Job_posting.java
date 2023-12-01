@@ -16,9 +16,6 @@ public class Job_posting {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 281, 351);
@@ -109,7 +106,7 @@ public class Job_posting {
 		JButton btnNewButton = new JButton("닫기");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(168, 279, 85, 23);
