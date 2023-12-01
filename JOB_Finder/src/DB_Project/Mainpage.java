@@ -8,6 +8,8 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Mainpage {
 
@@ -48,6 +50,12 @@ public class Mainpage {
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("전체");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CompanyFullView window = new CompanyFullView();
+				window.frame.setVisible(true);
+			}
+		});
 		btnNewButton_1.setBounds(433, 125, 78, 23);
 		frame.getContentPane().add(btnNewButton_1);
 		
@@ -86,6 +94,12 @@ public class Mainpage {
 		frame.getContentPane().add(Logout_btn);
 		
 		JButton Edit_btn = new JButton("정보수정");
+		Edit_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Edit_info window = new Edit_info();
+				window.frame.setVisible(true);
+			}
+		});
 		Edit_btn.setBounds(658, 284, 89, 23);
 		frame.getContentPane().add(Edit_btn);
 		
