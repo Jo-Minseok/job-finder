@@ -61,7 +61,7 @@ public class Job_description {
 		JButton btnNewButton = new JButton("닫기");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				frame.dispose();
 			}
 		});
 		btnNewButton.setBounds(325, 153, 97, 23);
