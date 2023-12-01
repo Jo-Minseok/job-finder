@@ -1,13 +1,16 @@
 package DB_Project;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
 
 public class Register {
 
@@ -23,23 +26,13 @@ public class Register {
 	private JTextField textField_8;
 	private JTextField textField_9;
 
-	/**
-	 * Launch the application.
-	 */
-
-	/**
-	 * Create the application.
-	 */
 	public Register() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 700);
+		frame.setBounds(100, 100, 450, 745);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -159,6 +152,21 @@ public class Register {
 		textField_9.setColumns(10);
 		textField_9.setBounds(30, 630, 190, 21);
 		frame.getContentPane().add(textField_9);
+		
+		JButton btnNewButton = new JButton("확 인");
+		btnNewButton.setBounds(30, 661, 91, 35);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("취 소");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				Login window = new Login();
+				window.frame.setVisible(true);
+			}
+		});
+		btnNewButton_1.setBounds(154, 661, 91, 35);
+		frame.getContentPane().add(btnNewButton_1);
 		
 		chk_employed.addItemListener(new ItemListener() {
 
