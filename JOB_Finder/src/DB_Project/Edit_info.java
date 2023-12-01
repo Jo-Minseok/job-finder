@@ -24,20 +24,10 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 	private JTextField textField_8;
 	private JTextField textField_9;
 
-	/**
-	 * Launch the application.
-	 */
-
-	/**
-	 * Create the application.
-	 */
 	public Edit_info() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 659);
@@ -147,7 +137,7 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		JButton Exit_btn = new JButton("닫기");
 		Exit_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				frame.dispose();
 			}
 		});
 		Exit_btn.setBounds(355, 581, 67, 29);
