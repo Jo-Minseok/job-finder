@@ -2,6 +2,8 @@ package DB_Project;
 
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 public class Main {
 	static Connection con = null;
 	static String url = "jdbc:oracle:thin:@minseok821lab.kro.kr:1521:orcl";
@@ -10,33 +12,16 @@ public class Main {
 	
 	public static void main(String[] args) {
 		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			con = DriverManager.getConnection(url,id,pw);
 			Login window = new Login();
 			window.frame.setVisible(true);
-			Register window2 = new Register();
-			window2.frame.setVisible(true);
-			Resume window3 = new Resume();
-			window3.frame.setVisible(true);
-			Business window4 = new Business();
-			window4.frame.setVisible(true);
-			Resign window5 = new Resign();
-			window5.frame.setVisible(true);
-			CompanyFullView window6 = new CompanyFullView();
-			window6.frame.setVisible(true);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			System.out.println("드라이버 적재 성공");
-			con = DriverManager.getConnection(url,id,pw);
-			System.out.println("데이터베이스 연결 성공");
-		}catch(ClassNotFoundException e) {
-			System.out.println("드라이버 찾기 실패");
-		} catch(SQLException e) {
-			System.out.println("연결에 실패");
+		catch(ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "드라이버 적재 실패","DB 오픈 실패", JOptionPane.ERROR_MESSAGE);
 		}
-		System.out.println("test");
+		catch(SQLException e) {
+			JOptionPane.showMessageDialog(null, "연결 실패","DB 오픈 실패", JOptionPane.ERROR_MESSAGE);
+		}
 	}
-
 }
