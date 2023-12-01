@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Login {
 
@@ -14,20 +16,10 @@ public class Login {
 	private JTextField txt_ID;
 	private JPasswordField passwordField;
 
-	/**
-	 * Launch the application.
-	 */
-
-	/**
-	 * Create the application.
-	 */
 	public Login() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setEnabled(false);
@@ -59,6 +51,11 @@ public class Login {
 		frame.getContentPane().add(btn_login);
 		
 		JButton btn_exit = new JButton("종료");
+		btn_exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btn_exit.setBounds(327, 197, 67, 23);
 		frame.getContentPane().add(btn_exit);
 		
@@ -67,6 +64,13 @@ public class Login {
 		frame.getContentPane().add(chckbxNewCheckBox);
 		
 		JButton btnNewButton = new JButton("회원 가입");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				Register window = new Register();
+				window.frame.setVisible(true);
+			}
+		});
 		btnNewButton.setBounds(25, 197, 97, 23);
 		frame.getContentPane().add(btnNewButton);
 		

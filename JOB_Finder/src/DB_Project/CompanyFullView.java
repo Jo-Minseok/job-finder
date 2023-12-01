@@ -59,7 +59,7 @@ public class CompanyFullView {
 		JButton Exit_btn = new JButton("닫기");
 		Exit_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				frame.dispose();
 			}
 		});
 		Exit_btn.setBounds(489, 10, 73, 32);
