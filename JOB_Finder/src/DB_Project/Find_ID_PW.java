@@ -20,22 +20,6 @@ public class Find_ID_PW extends JFrame {
 	private JTextField tf_PW_PHONE;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Find_ID_PW frame = new Find_ID_PW();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Find_ID_PW() {

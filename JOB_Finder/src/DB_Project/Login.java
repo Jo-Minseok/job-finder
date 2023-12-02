@@ -38,13 +38,13 @@ public class Login {
 		frame.getContentPane().add(txt_ID);
 		txt_ID.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("PASSWORD");
-		lblNewLabel.setBounds(37, 137, 67, 15);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel label_password = new JLabel("PASSWORD");
+		label_password.setBounds(37, 137, 67, 15);
+		frame.getContentPane().add(label_password);
 		
-		JLabel lblNewLabel_1 = new JLabel("ID");
-		lblNewLabel_1.setBounds(63, 94, 19, 15);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel label_id = new JLabel("ID");
+		label_id.setBounds(63, 94, 19, 15);
+		frame.getContentPane().add(label_id);
 		
 		JButton btn_login = new JButton("LOGIN");
 		btn_login.setBounds(314, 109, 80, 23);
@@ -63,20 +63,27 @@ public class Login {
 		chckbxNewCheckBox.setBounds(152, 160, 115, 23);
 		frame.getContentPane().add(chckbxNewCheckBox);
 		
-		JButton btnNewButton = new JButton("회원 가입");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btn_register = new JButton("회원 가입");
+		btn_register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 				Register window = new Register();
 				window.frame.setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(25, 197, 97, 23);
-		frame.getContentPane().add(btnNewButton);
+		btn_register.setBounds(25, 197, 97, 23);
+		frame.getContentPane().add(btn_register);
 		
-		JButton btnNewButton_1 = new JButton("ID/PW 찾기");
-		btnNewButton_1.setBounds(170, 197, 97, 23);
-		frame.getContentPane().add(btnNewButton_1);
+		JButton btn_find = new JButton("ID/PW 찾기");
+		btn_find.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				//frame.dispose();
+				Find_ID_PW window = new Find_ID_PW();
+				window.setVisible(true);
+			}
+		});
+		btn_find.setBounds(170, 197, 97, 23);
+		frame.getContentPane().add(btn_find);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\this0\\OneDrive\\Desktop\\캡처12.PNG"));
