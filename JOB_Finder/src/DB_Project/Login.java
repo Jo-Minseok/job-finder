@@ -68,24 +68,26 @@ public class Login {
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Main.con.open();
+					Main.DBConnection();
 					PreparedStatement pstmt = null;
-					String sql = "SELECT 비밀번호 FROM ";
+					String sql = "SELECT * FROM ";
 					if(chk_business.isSelected()) {
 						sql += "기업회원 ";
+						Main.mode = "기업";
 					}
 					else {
 						sql += "개인회원 ";
+						Main.mode = "개인";
 					}
 					sql += "WHERE 회원ID = ? AND 비밀번호 = ?";
 					pstmt = Main.con.prepareStatement(sql);
 					pstmt.setString(1, txt_ID.getText());
-					pstmt.setString(2, txt_password.getPassword().toString());
+					pstmt.setString(2, String.valueOf(txt_password.getPassword()));
 					Main.rs = pstmt.executeQuery();
 					if(Main.rs.next()) {
-						frame.dispose();
 						Mainpage window = new Mainpage();
 						window.frame.setVisible(true);
+						frame.dispose();
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "ID/PW가 올바르지 않거나 존재하지 않는 계정입니다.","로그인 실패", JOptionPane.ERROR_MESSAGE);
@@ -93,7 +95,7 @@ public class Login {
 						
 					Main.rs.close();
 					pstmt.close();
-					Main.con.close();
+					Main.DBClose();
 				}
 				catch(Exception ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(),"로그인 실패", JOptionPane.ERROR_MESSAGE);

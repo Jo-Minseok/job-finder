@@ -10,6 +10,7 @@ public class Main {
 	static String id = "seok3764";
 	static String pw = "0424";
 	static ResultSet rs = null;
+	static String mode = null;
 	
 	public static void main(String[] args) {
 		DriverLoad();
