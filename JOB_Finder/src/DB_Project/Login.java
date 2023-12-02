@@ -1,14 +1,18 @@
 package DB_Project;
 
 import javax.swing.JFrame;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import java.sql.*;
 
 public class Login {
 
@@ -46,10 +50,6 @@ public class Login {
 		label_id.setBounds(63, 94, 19, 15);
 		frame.getContentPane().add(label_id);
 		
-		JButton btn_login = new JButton("LOGIN");
-		btn_login.setBounds(314, 109, 80, 23);
-		frame.getContentPane().add(btn_login);
-		
 		JButton btn_exit = new JButton("종료");
 		btn_exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -62,6 +62,45 @@ public class Login {
 		JCheckBox chk_business = new JCheckBox("기업회원");
 		chk_business.setBounds(152, 160, 115, 23);
 		frame.getContentPane().add(chk_business);
+		
+		JButton btn_login = new JButton("LOGIN");
+		btn_login.setBounds(314, 109, 80, 23);
+		btn_login.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Main.con.open();
+					PreparedStatement pstmt = null;
+					String sql = "SELECT 비밀번호 FROM ";
+					if(chk_business.isSelected()) {
+						sql += "기업회원 ";
+					}
+					else {
+						sql += "개인회원 ";
+					}
+					sql += "WHERE 회원ID = ? AND 비밀번호 = ?";
+					pstmt = Main.con.prepareStatement(sql);
+					pstmt.setString(1, txt_ID.getText());
+					pstmt.setString(2, txt_password.getPassword().toString());
+					Main.rs = pstmt.executeQuery();
+					if(Main.rs.next()) {
+						frame.dispose();
+						Mainpage window = new Mainpage();
+						window.frame.setVisible(true);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "ID/PW가 올바르지 않거나 존재하지 않는 계정입니다.","로그인 실패", JOptionPane.ERROR_MESSAGE);
+					}
+						
+					Main.rs.close();
+					pstmt.close();
+					Main.con.close();
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(),"로그인 실패", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		frame.getContentPane().add(btn_login);
 		
 		JButton btn_register = new JButton("회원 가입");
 		btn_register.addActionListener(new ActionListener() {

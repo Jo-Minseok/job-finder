@@ -12,6 +12,10 @@ DROP TRIGGER 기업_포인트_변경_TRIG;
 DROP TRIGGER 개인_회원_탈퇴_TRIG;
 DROP TRIGGER 기업_회원_탈퇴_TRIG;
 
+-- 시퀀스
+DROP SEQUENCE POST_NUMBER_SEQ;
+DROP TRIGGER POST_NUMBER_TRIG;
+
 -- 회원 정보 수정 평균 연봉 재연산 및 정보 변경 내역 저장
 CREATE OR REPLACE TRIGGER 개인_회원정보수정_TRIG BEFORE UPDATE ON 개인회원
 FOR EACH ROW
@@ -159,4 +163,16 @@ CREATE OR REPLACE TRIGGER 기업_회원_탈퇴_TRIG BEFORE DELETE ON 기업회원
 FOR EACH ROW
 BEGIN
     INSERT INTO 기업_회원_정보_변경 VALUES (:OLD.회원ID,'탈퇴',NULL);
+END;
+----------------------------------------------------------------------- 시퀀스 ------------------------------------------------------------
+CREATE SEQUENCE POST_NUMBER_SEQ
+MINVALUE 1
+NOMAXVALUE
+INCREMENT BY 1 START WITH 1
+NOCYCLE;
+
+CREATE OR REPLACE TRIGGER POST_NUMBER_TRIG BEFORE INSERT ON 채용_게시글
+FOR EACH ROW
+BEGIN
+    SELECT POST_NUMBER_SEQ.NEXTVAL INTO :NEW.게시글_번호 FROM DUAL;
 END;
