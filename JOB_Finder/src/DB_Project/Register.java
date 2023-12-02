@@ -32,7 +32,7 @@ public class Register {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 745);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("NAME");
@@ -149,13 +149,7 @@ public class Register {
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("취 소");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-				Login window = new Login();
-				window.frame.setVisible(true);
-			}
-		});
+
 		btnNewButton_1.setBounds(30, 571, 91, 35);
 		frame.getContentPane().add(btnNewButton_1);
 		

@@ -24,7 +24,7 @@ public class Find_ID_PW extends JFrame {
 	 */
 	public Find_ID_PW() {
 		setTitle("ID/PW 찾기");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 470);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

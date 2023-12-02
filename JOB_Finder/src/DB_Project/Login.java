@@ -14,7 +14,7 @@ public class Login {
 
 	public JFrame frame;
 	private JTextField txt_ID;
-	private JPasswordField passwordField;
+	private JPasswordField txt_password;
 
 	public Login() {
 		initialize();
@@ -29,9 +29,9 @@ public class Login {
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(142, 133, 134, 21);
-		frame.getContentPane().add(passwordField);
+		txt_password = new JPasswordField();
+		txt_password.setBounds(142, 133, 134, 21);
+		frame.getContentPane().add(txt_password);
 		
 		txt_ID = new JTextField();
 		txt_ID.setBounds(142, 91, 134, 21);
@@ -59,14 +59,14 @@ public class Login {
 		btn_exit.setBounds(327, 197, 67, 23);
 		frame.getContentPane().add(btn_exit);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("기업회원");
-		chckbxNewCheckBox.setBounds(152, 160, 115, 23);
-		frame.getContentPane().add(chckbxNewCheckBox);
+		JCheckBox chk_business = new JCheckBox("기업회원");
+		chk_business.setBounds(152, 160, 115, 23);
+		frame.getContentPane().add(chk_business);
 		
 		JButton btn_register = new JButton("회원 가입");
 		btn_register.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				//frame.dispose();
 				Register window = new Register();
 				window.frame.setVisible(true);
 			}
@@ -85,9 +85,9 @@ public class Login {
 		btn_find.setBounds(170, 197, 97, 23);
 		frame.getContentPane().add(btn_find);
 		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon("C:\\Users\\this0\\OneDrive\\Desktop\\캡처12.PNG"));
-		lblNewLabel_2.setBounds(124, 10, 164, 59);
-		frame.getContentPane().add(lblNewLabel_2);
+		JLabel lbl_logo = new JLabel("");
+		lbl_logo.setIcon(new ImageIcon("C:\\Users\\this0\\OneDrive\\Desktop\\캡처12.PNG"));
+		lbl_logo.setBounds(124, 10, 164, 59);
+		frame.getContentPane().add(lbl_logo);
 	}
 }
