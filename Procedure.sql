@@ -77,8 +77,8 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
     END IF;
     
-    IF EXTRACT(YEAR FROM 생년월일) < EXTRACT(YEAR FROM SYSDATE) - 20 THEN
-        RAISE_APPLICATION_ERROR(-20004, '미성년자는 가입이 불가능합니다.'|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||' 이전 년생 부터 가입 가능.');
+    IF EXTRACT(YEAR FROM 생년월일) > EXTRACT(YEAR FROM SYSDATE) - 20 THEN
+        RAISE_APPLICATION_ERROR(-20004, '미성년자는 가입이 불가능합니다. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||' 이전 년생 부터 가입 가능.');
     END IF;
     
     IF NOT (성별='남' OR 성별='여') THEN
@@ -95,7 +95,9 @@ CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_BUSINESS(
     휴대폰 IN 기업회원.휴대폰%TYPE,
     회원ID IN 기업회원.회원ID%TYPE,
     비밀번호 IN 기업회원.비밀번호%TYPE,
-    개인정보유효기간 IN 기업회원.개인정보_유효기간%TYPE)
+    개인정보유효기간 IN 기업회원.개인정보_유효기간%TYPE,
+    사업자등록번호 IN 기업회원.사업자등록번호%TYPE,
+    완료 OUT NVARCHAR2)
 AS
     변환된_휴대폰 기업회원.휴대폰%TYPE;
     ROW_COUNT NUMBER;
@@ -122,9 +124,12 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20002, '회원ID의 형식이 올바르지 않거나 ID 길이가 6자를 넘지 않습니다.');
     END IF;
     
-     IF REGEXP_LIKE(비밀번호,'\s') OR LENGTH(회원ID) <=8 OR NOT REGEXP_LIKE(회원ID,'[[:alpha:]]') OR NOT REGEXP_LIKE(회원ID,'[[:digit:]]') THEN
+     IF REGEXP_LIKE(비밀번호,'\s') OR LENGTH(비밀번호) <=8 OR NOT REGEXP_LIKE(비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(비밀번호,'[[:digit:]]') THEN
         RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
     END IF;
+    INSERT INTO 기업회원 VALUES (기업명, 회원ID, 비밀번호, 회원이름, 사업자등록번호, 변환된_휴대폰, 개인정보유효기간, SYSDATE, 0, 0);
+    INSERT INTO 기업_회원_정보_변경 VALUES (회원ID,'생성',NULL);
+    완료:='회원가입을 성공했습니다.';
 END;
 -------------------------------------- [이력서 조회 FROM] ------------------------------------------
 CREATE OR REPLACE PROCEDURE COMPITITION_RATE

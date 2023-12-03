@@ -60,12 +60,8 @@ public class Mainpage {
 		frame.getContentPane().add(btn_all);
 		
 		JLabel lbl_now = new JLabel("현재 모집중인 공고 개수  : ");
-		lbl_now.setBounds(557, 126, 153, 15);
+		lbl_now.setBounds(557, 126, 182, 15);
 		frame.getContentPane().add(lbl_now);
-		
-		JLabel lbl_now_count = new JLabel("New label");
-		lbl_now_count.setBounds(709, 126, 57, 15);
-		frame.getContentPane().add(lbl_now_count);
 		
 		JButton btn_market = new JButton("채용 시장 분석");
 		btn_market.setBounds(567, 151, 172, 23);
@@ -75,8 +71,9 @@ public class Mainpage {
 		lbl_name.setBounds(557, 184, 57, 15);
 		frame.getContentPane().add(lbl_name);
 		
-		JLabel lbl_ID = new JLabel("아이디 :");
-		lbl_ID.setBounds(557, 209, 57, 15);
+		JLabel lbl_ID = new JLabel("아이디 : ");
+		lbl_ID.setText(lbl_ID.getText() + Main.ID);
+		lbl_ID.setBounds(557, 209, 182, 15);
 		frame.getContentPane().add(lbl_ID);
 		
 		JLabel lbl_resume = new JLabel("작성한 이력서 개수 :");

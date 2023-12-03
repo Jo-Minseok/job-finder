@@ -2,15 +2,7 @@ package DB_Project;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -63,13 +55,18 @@ public class Upload_recruit extends JFrame {
 		txt_name = new JTextField();
 		txt_name.setEditable(false);
 		try {
-			String sql = "SELECT 기업명 FROM 기업회원 WHERE 회원ID = " + ;
+			Main.DBConnection();
+			String sql = "SELECT 기업명 FROM 기업회원 WHERE 회원ID = " + Main.ID;
 			Main.stmt = Main.con.createStatement();
+			Main.rs = Main.stmt.executeQuery(sql);
+			txt_name.setText(Main.rs.getString(1));
 		}
-		catch(Excpetion ex) {
-			
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(),"DB 연결 실패", JOptionPane.ERROR_MESSAGE);
 		}
-		txt_name.setText("( DB에서 불러와서 수정 불가 )");
+		finally {
+			Main.DBClose();
+		}
 		txt_name.setBounds(20, 80, 350, 25);
 		contentPane.add(txt_name);
 		txt_name.setColumns(10);
