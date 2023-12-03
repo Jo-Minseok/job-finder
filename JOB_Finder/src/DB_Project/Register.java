@@ -4,11 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -27,16 +32,24 @@ public class Register {
 	private JTextField txt_id;
 	private JTextField txt_pw;
 	private JTextField txt_birth;
-	private JTextField txt_gender;
 	private JTextField txt_corporate;
 	private JTextField txt_salary;
 	private JTextField txt_position;
 	private JComboBox<String> com_address = new JComboBox<>();
+	private JTextField txt_companynumber;
+	private JCheckBox chk_member;
+	private JButton btn_create;
 
 	public Register() {
 		initialize();
 	}
-
+	private void updateButtonState() {
+		if (chk_member.isSelected() && txt_corporate.getText().trim().isEmpty()) {
+            btn_create.setEnabled(false);
+        } else {
+            btn_create.setEnabled(true);
+        }
+	}
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 745);
@@ -44,83 +57,78 @@ public class Register {
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lbl_name = new JLabel("NAME");
-		lbl_name.setBounds(30, 10, 190, 15);
-		frame.getContentPane().add(lbl_name);
+		JLabel lblNewLabel = new JLabel("NAME");
+		lblNewLabel.setBounds(30, 10, 190, 15);
+		frame.getContentPane().add(lblNewLabel);
 		
 		txt_name = new JTextField();
 		txt_name.setBounds(30, 28, 190, 21);
 		frame.getContentPane().add(txt_name);
 		txt_name.setColumns(10);
 		
-		JLabel lbl_phnumber = new JLabel("PHONE_NUMBER");
-		lbl_phnumber.setBounds(30, 59, 190, 15);
-		frame.getContentPane().add(lbl_phnumber);
+		JLabel lblPhonenumber = new JLabel("PHONE_NUMBER");
+		lblPhonenumber.setBounds(30, 59, 190, 15);
+		frame.getContentPane().add(lblPhonenumber);
 		
 		txt_phone = new JTextField();
 		txt_phone.setColumns(10);
 		txt_phone.setBounds(30, 77, 190, 21);
 		frame.getContentPane().add(txt_phone);
 		
-		JLabel lbl_id = new JLabel("ID");
-		lbl_id.setBounds(30, 108, 190, 15);
-		frame.getContentPane().add(lbl_id);
+		JLabel lblId = new JLabel("ID");
+		lblId.setBounds(30, 108, 190, 15);
+		frame.getContentPane().add(lblId);
 		
 		txt_id = new JTextField();
 		txt_id.setColumns(10);
 		txt_id.setBounds(30, 126, 190, 21);
 		frame.getContentPane().add(txt_id);
 		
-		JLabel lbl_password = new JLabel("PASSWORD");
-		lbl_password.setBounds(30, 157, 190, 15);
-		frame.getContentPane().add(lbl_password);
+		JLabel lblPassword = new JLabel("PASSWORD");
+		lblPassword.setBounds(30, 157, 190, 15);
+		frame.getContentPane().add(lblPassword);
 		
 		txt_pw = new JTextField();
 		txt_pw.setColumns(10);
 		txt_pw.setBounds(30, 175, 190, 21);
 		frame.getContentPane().add(txt_pw);
 		
-		JLabel lbl_birthday = new JLabel("BIRTH DAY");
-		lbl_birthday.setBounds(30, 206, 190, 15);
-		frame.getContentPane().add(lbl_birthday);
+		JLabel lblBirthDay = new JLabel("BIRTH DAY");
+		lblBirthDay.setBounds(30, 206, 190, 15);
+		frame.getContentPane().add(lblBirthDay);
 		
 		txt_birth = new JTextField();
 		txt_birth.setColumns(10);
 		txt_birth.setBounds(30, 224, 190, 21);
 		frame.getContentPane().add(txt_birth);
 		
-		JLabel lbl_gender = new JLabel("GENDER");
-		lbl_gender.setBounds(30, 255, 190, 15);
-		frame.getContentPane().add(lbl_gender);
+		JLabel lblGender = new JLabel("GENDER");
+		lblGender.setBounds(30, 255, 190, 15);
+		frame.getContentPane().add(lblGender);
 		
-		txt_gender = new JTextField();
-		txt_gender.setColumns(10);
-		txt_gender.setBounds(30, 273, 190, 21);
-		frame.getContentPane().add(txt_gender);
+		JLabel lblNewLabel_1 = new JLabel("ADDRESS");
+		lblNewLabel_1.setBounds(30, 304, 57, 15);
+		frame.getContentPane().add(lblNewLabel_1);
 		
-		JLabel lbl_address = new JLabel("ADDRESS");
-		lbl_address.setBounds(30, 304, 57, 15);
-		frame.getContentPane().add(lbl_address);
-		
+		//JComboBox comboBox = new JComboBox();
 		com_address.setBounds(30, 319, 111, 23);
 		frame.getContentPane().add(com_address);
 		AddressComboBox();
 		
-		JLabel lbl_privateyear = new JLabel("개인정보 유효 기간");
-		lbl_privateyear.setBounds(30, 352, 111, 15);
-		frame.getContentPane().add(lbl_privateyear);
+		JLabel lblNewLabel_2 = new JLabel("개인정보 유효 기간");
+		lblNewLabel_2.setBounds(30, 352, 111, 15);
+		frame.getContentPane().add(lblNewLabel_2);
 		
 		String private_year[] = {"1년","3년","5년"};
-		JComboBox<String> com_period = new JComboBox<String>(private_year);
+		JComboBox com_period = new JComboBox(private_year);
 		com_period.setBounds(30, 369, 111, 23);
 		frame.getContentPane().add(com_period);
 		
-		JCheckBox chk_member = new JCheckBox("기업회원");
+		this.chk_member = new JCheckBox("기업회원");
 		chk_member.setBounds(149, 369, 115, 23);
 		frame.getContentPane().add(chk_member);
 		
 		JCheckBox chk_employed = new JCheckBox("무직");
-		chk_employed.setSelected(true);
 		chk_employed.setBounds(30, 398, 115, 23);
 		frame.getContentPane().add(chk_employed);		
 		
@@ -129,7 +137,6 @@ public class Register {
 		frame.getContentPane().add(lbl_corporate);
 		
 		txt_corporate = new JTextField();
-		txt_corporate.setEnabled(false);
 		txt_corporate.setColumns(10);
 		txt_corporate.setBounds(30, 445, 190, 21);
 		frame.getContentPane().add(txt_corporate);
@@ -139,7 +146,6 @@ public class Register {
 		frame.getContentPane().add(lbl_salary);
 		
 		txt_salary = new JTextField();
-		txt_salary.setEnabled(false);
 		txt_salary.setColumns(10);
 		txt_salary.setBounds(30, 494, 190, 21);
 		frame.getContentPane().add(txt_salary);
@@ -149,13 +155,12 @@ public class Register {
 		frame.getContentPane().add(lbl_position);
 		
 		txt_position = new JTextField();
-		txt_position.setEnabled(false);
 		txt_position.setColumns(10);
 		txt_position.setBounds(30, 540, 190, 21);
 		frame.getContentPane().add(txt_position);
 		
-		JButton btn_create = new JButton("생 성");
-		btn_create.setBounds(129, 571, 91, 35);
+		this.btn_create = new JButton("생 성");
+		btn_create.setBounds(129, 627, 91, 35);
 		frame.getContentPane().add(btn_create);
 		
 		JButton btn_cancle = new JButton("취 소");
@@ -166,19 +171,33 @@ public class Register {
 				window.frame.setVisible(true);
 			}
 		});
-		btn_cancle.setBounds(30, 571, 91, 35);
+		btn_cancle.setBounds(30, 627, 91, 35);
 		frame.getContentPane().add(btn_cancle);
+		
+		JComboBox com_gender = new JComboBox();
+		com_gender.setModel(new DefaultComboBoxModel(new String[] {"남", "여"}));
+		com_gender.setBounds(30, 269, 111, 23);
+		frame.getContentPane().add(com_gender);
+		
+		JLabel lbl_companynumber = new JLabel("사업자등록번호");
+		lbl_companynumber.setBounds(30, 571, 190, 15);
+		frame.getContentPane().add(lbl_companynumber);
+		
+		txt_companynumber = new JTextField();
+		txt_companynumber.setColumns(10);
+		txt_companynumber.setBounds(30, 589, 190, 21);
+		frame.getContentPane().add(txt_companynumber);
 		
 //=============================================================
 //===========================기능 구현===========================
 //=============================================================
 		
-		//  생성 버튼 
 		btn_create.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+		    	if(!chk_member.isSelected()) {  // 개인회원
 		        try {
 		        	Main.DBConnection();
-		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_PERSONAL(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)}");
+		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_PERSONAL(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"); // 개인 회원
 		        	
 		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		            java.util.Date parsedDate = dateFormat.parse(txt_birth.getText());
@@ -189,7 +208,7 @@ public class Register {
 		            Main.cstmt.setString(3, txt_id.getText());
 		            Main.cstmt.setString(4, txt_pw.getText());
 		            Main.cstmt.setDate(5, sqlDate);
-		            Main.cstmt.setString(6, txt_gender.getText());
+		            Main.cstmt.setString(6, com_gender.getSelectedItem().toString());
 		            Main.cstmt.setString(7, com_address.getSelectedItem().toString());
 		            
 		            String selectedPeriod = com_period.getSelectedItem().toString();
@@ -234,26 +253,84 @@ public class Register {
 		        finally {
 		            Main.DBClose();
 		        }
+		    } else {  // 기업회원 
+		    	try {
+		        	Main.DBConnection();
+		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_BUSINESS(?, ?, ?, ?, ?, ?, ?, ?)}");
+	           
+		            
+		            // 기업명, ID, PW, NAME, 사업자등록번호, 휴대폰번호, 개인정보유효기간
+		            Main.cstmt.setString(1, txt_corporate.getText());
+		            Main.cstmt.setString(2, txt_name.getText());
+		            Main.cstmt.setString(3, txt_phone.getText());
+		            Main.cstmt.setString(4, txt_id.getText());
+		            Main.cstmt.setString(5, txt_pw.getText());
+		            
+		            String selectedPeriod = com_period.getSelectedItem().toString();
+		            int validityPeriod = switch (selectedPeriod) {
+		                case "1년" -> 1;
+		                case "3년" -> 3;
+		                case "5년" -> 5;
+		                default -> 0;
+		            };
+		            Main.cstmt.setInt(6, validityPeriod);		            
+
+		            Main.cstmt.setString(7, txt_companynumber.getText());
+		            Main.cstmt.registerOutParameter(8,Types.NVARCHAR);
+		            
+		            Main.cstmt.execute();
+		            String result = Main.cstmt.getString(8);
+		            
+		            if (result != null && !result.isEmpty()) {
+		                JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
+		            } else {
+		                JOptionPane.showMessageDialog(frame, "회원가입 처리 결과가 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+		            }
+		            
+		            //JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
+		        } catch (SQLException ex) {
+		        	String errorMessage = ex.toString(); // toString()은 예외 이름과 메시지를 모두 포함합니다.
+		            JOptionPane.showMessageDialog(frame, errorMessage, "SQL 오류", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		            
+		        } catch (Exception ex) {
+		        	 String errorMessage = ex.toString(); // toString() 사용
+		             JOptionPane.showMessageDialog(frame, errorMessage, "일반 오류", JOptionPane.ERROR_MESSAGE);
+		             ex.printStackTrace();
+		        }
+		        finally {
+		            Main.DBClose();
+		        }
 		    }
+		  }
 		});
+		
+		
 		
 		// 무직 체크박스
 		chk_employed.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				updateButtonState();
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					txt_corporate.setEnabled(false); 
-					txt_salary.setEnabled(false);
-					txt_position.setEnabled(false);
+                	txt_salary.setEnabled(false);
+                	txt_position.setEnabled(false);
+					txt_companynumber.setEnabled(false);
+					chk_member.setEnabled(false);
                 } else {
-                	txt_corporate.setEnabled(true); 
-                	txt_salary.setEnabled(true);
-                	txt_position.setEnabled(true);
+					txt_corporate.setEnabled(true); 
+					txt_salary.setEnabled(true);
+					txt_position.setEnabled(true);
+					txt_companynumber.setEnabled(true);
+					chk_member.setEnabled(true);
                 }
 			}
 			
 		});
+		
+
 		
 		// 기업회원 체크시, 기업이름이 빈칸이면 생성 버튼 비활성화
 		txt_corporate.getDocument().addDocumentListener(new DocumentListener() {
@@ -272,13 +349,6 @@ public class Register {
 		        updateButtonState();
 		    }
 
-		    private void updateButtonState() {
-		        if (chk_member.isSelected() && txt_corporate.getText().trim().isEmpty()) {
-		            btn_create.setEnabled(false);
-		        } else {
-		            btn_create.setEnabled(true);
-		        }
-		    }
 		});
 		
 		// 기업회원 체크박스
@@ -286,40 +356,53 @@ public class Register {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				updateButtonState();
 				if (e.getStateChange() == ItemEvent.SELECTED) {
 					txt_corporate.setEnabled(true);
-					txt_corporate.requestFocus();
+					txt_salary.setEnabled(false);
+					txt_position.setEnabled(false);
 					txt_birth.setEnabled(false);
-					txt_gender.setEnabled(false);
+					com_gender.setEnabled(false);
+					chk_employed.setEnabled(false);
 				} else {
-					txt_corporate.setEnabled(false);
 					txt_birth.setEnabled(true);
-					txt_gender.setEnabled(true);
+					txt_salary.setEnabled(true);
+					txt_position.setEnabled(true);
+					com_gender.setEnabled(true);
+					chk_employed.setEnabled(true);
 				}
+				
 			}
+
+
 			
 			
 		});
+		
+		
 	}
-
+	
 	
 	// 지역 콤보박스 DB연결
 	public ArrayList<String> getRegionData(){
 		ArrayList<String> regionList = new ArrayList<>();
 		
 		try {	           
-            Main.DBConnection();
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@minseok821lab.kro.kr:1521:orcl", "seok3764", "0424");
 
-            String query = "SELECT 지역명 FROM 지역";
-            Main.stmt = Main.con.createStatement();
-            Main.rs = Main.stmt.executeQuery(query);
+            String query = "SELECT \"지역명\" FROM \"SEOK3764\".\"지역\"";
+            java.sql.Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
 
-            while (Main.rs.next()) {
-                String regionName = Main.rs.getString("지역명");
+            while (rs.next()) {
+                String regionName = rs.getString("지역명");
                 regionList.add(regionName);
                 //System.out.println("Retrieved Region: " + regionName);
             }
-            Main.DBClose();
+
+            rs.close();
+            stmt.close();
+            con.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -336,5 +419,4 @@ public class Register {
 	        //System.out.println("Retrieved Region: " + address);
 	    }
 	}
-	
 }
