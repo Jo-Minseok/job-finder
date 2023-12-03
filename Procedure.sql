@@ -45,7 +45,8 @@ CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_PERSONAL(
     개인정보_유효기간 IN 개인회원.개인정보_유효기간%TYPE,
     기업_이름 IN 개인회원.기업_이름%TYPE,
     연봉 IN 개인회원.연봉%TYPE,
-    직책 IN 개인회원.직책%TYPE)
+    직책 IN 개인회원.직책%TYPE,
+    완료 OUT NVARCHAR2)
 AS
     변환된_휴대폰 개인회원.휴대폰%TYPE;
     삭제된_ID 개인회원.회원ID%TYPE;
@@ -77,14 +78,15 @@ BEGIN
     END IF;
     
     IF EXTRACT(YEAR FROM 생년월일) < EXTRACT(YEAR FROM SYSDATE) - 20 THEN
-        RAISE_APPLICATION_ERROR(-20004, '미성년자는 가입이 불가능합니다.'||EXTRACT(YEAR FROM SYSDATE)-20 ||' 이전 년생 부터 가입 가능.');
+        RAISE_APPLICATION_ERROR(-20004, '미성년자는 가입이 불가능합니다.'|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||' 이전 년생 부터 가입 가능.');
     END IF;
     
     IF NOT (성별='남' OR 성별='여') THEN
         RAISE_APPLICATION_ERROR(-20005, '성별이 올바르지 않습니다.(''남'',''여''로 입력하세요.)');
     END IF;
     INSERT INTO 개인회원 VALUES (회원ID, 비밀번호, 회원이름, 생년월일, 성별, 변환된_휴대폰, 거주_지역, 개인정보_유효기간, SYSDATE, 0, 0, 기업_이름, 연봉,직책);
-    
+    INSERT INTO 개인_회원_정보_변경 VALUES (회원ID,'생성',NULL);
+    완료:='회원가입을 성공했습니다.';
 END;
 -- 기업 회원
 CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_BUSINESS(
