@@ -11,11 +11,12 @@ public class Main {
 	static CallableStatement cstmt = null;
 	static ResultSet rs = null;
 	
-	static String url = "jdbc:oracle:thin:@minseok821lab.kro.kr:1521:orcl";
-	static String id = "seok3764";
-	static String pw = "0424";
-	static String mode = null;
+	static String DB_url = "jdbc:oracle:thin:@minseok821lab.kro.kr:1521:orcl";
+	static String DB_id = "seok3764";
+	static String DB_pw = "0424";
 	
+	static String mode = null;
+	static String ID = null;
 	public static void main(String[] args) {
 		DriverLoad();
 		DBConnection();
@@ -35,7 +36,7 @@ public class Main {
 	
 	public static void DBConnection() {
 		try {
-			con = DriverManager.getConnection(url,id,pw);
+			con = DriverManager.getConnection(DB_url,DB_id,DB_pw);
 		}
 		catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, "연결 실패","DB 오픈 실패", JOptionPane.ERROR_MESSAGE);

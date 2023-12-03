@@ -18,14 +18,14 @@ public class Upload_recruit extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField recruit_tf1;
-	private JTextField recruit_tf2;
-	private JTextField recruit_tf3;
-	private JTextField recruit_tf4;
-	private JTextField recruit_tf5;
-	private JTextField recruit_tf6;
-	private JTextField recruit_tf7;
-	private JTextField recruit_tf8;
+	private JTextField txt_name;
+	private JTextField txt_job;
+	private JTextField txt_category;
+	private JTextField txt_salary;
+	private JTextField txt_address;
+	private JTextField txt_time;
+	private JTextField txt_position;
+	private JTextField txt_deadline;
 
 	public Upload_recruit() {
 		setTitle("채용 게시글 작성");
@@ -60,88 +60,95 @@ public class Upload_recruit extends JFrame {
 		lbl_name.setBounds(20, 60, 150, 20);
 		contentPane.add(lbl_name);
 		
-		recruit_tf1 = new JTextField();
-		recruit_tf1.setEditable(false);
-		recruit_tf1.setText("( DB에서 불러와서 수정 불가 )");
-		recruit_tf1.setBounds(20, 80, 350, 25);
-		contentPane.add(recruit_tf1);
-		recruit_tf1.setColumns(10);
+		txt_name = new JTextField();
+		txt_name.setEditable(false);
+		try {
+			String sql = "SELECT 기업명 FROM 기업회원 WHERE 회원ID = " + ;
+			Main.stmt = Main.con.createStatement();
+		}
+		catch(Excpetion ex) {
+			
+		}
+		txt_name.setText("( DB에서 불러와서 수정 불가 )");
+		txt_name.setBounds(20, 80, 350, 25);
+		contentPane.add(txt_name);
+		txt_name.setColumns(10);
 		
-		JLabel recruit_lb2 = new JLabel("직종");
-		recruit_lb2.setBounds(20, 110, 150, 20);
-		contentPane.add(recruit_lb2);
+		JLabel lbl_job = new JLabel("직종");
+		lbl_job.setBounds(20, 110, 150, 20);
+		contentPane.add(lbl_job);
 		
-		recruit_tf2 = new JTextField();
-		recruit_tf2.setBounds(20, 130, 350, 25);
-		contentPane.add(recruit_tf2);
-		recruit_tf2.setColumns(10);
+		txt_job = new JTextField();
+		txt_job.setBounds(20, 130, 350, 25);
+		contentPane.add(txt_job);
+		txt_job.setColumns(10);
 		
-		JLabel recruit_lb3 = new JLabel("채용 분류");
-		recruit_lb3.setBounds(20, 160, 150, 20);
-		contentPane.add(recruit_lb3);
+		JLabel lbl_category = new JLabel("채용 분류");
+		lbl_category.setBounds(20, 160, 150, 20);
+		contentPane.add(lbl_category);
 		
-		recruit_tf3 = new JTextField();
-		recruit_tf3.setBounds(20, 180, 350, 25);
-		contentPane.add(recruit_tf3);
-		recruit_tf3.setColumns(10);
+		txt_category = new JTextField();
+		txt_category.setBounds(20, 180, 350, 25);
+		contentPane.add(txt_category);
+		txt_category.setColumns(10);
 		
-		JLabel recruit_lb4 = new JLabel("급여");
-		recruit_lb4.setBounds(20, 210, 150, 20);
-		contentPane.add(recruit_lb4);
+		JLabel lbl_salary = new JLabel("급여");
+		lbl_salary.setBounds(20, 210, 150, 20);
+		contentPane.add(lbl_salary);
 		
-		recruit_tf4 = new JTextField();
-		recruit_tf4.setBounds(20, 230, 350, 25);
-		contentPane.add(recruit_tf4);
-		recruit_tf4.setColumns(10);
+		txt_salary = new JTextField();
+		txt_salary.setBounds(20, 230, 350, 25);
+		contentPane.add(txt_salary);
+		txt_salary.setColumns(10);
 		
-		JLabel recruit_lb5 = new JLabel("근무 지역");
-		recruit_lb5.setBounds(20, 260, 150, 20);
-		contentPane.add(recruit_lb5);
+		JLabel lbl_address = new JLabel("근무 지역");
+		lbl_address.setBounds(20, 260, 150, 20);
+		contentPane.add(lbl_address);
 		
-		recruit_tf5 = new JTextField();
-		recruit_tf5.setBounds(20, 280, 350, 25);
-		contentPane.add(recruit_tf5);
-		recruit_tf5.setColumns(10);
+		txt_address = new JTextField();
+		txt_address.setBounds(20, 280, 350, 25);
+		contentPane.add(txt_address);
+		txt_address.setColumns(10);
 		
-		JLabel recruit_lb6 = new JLabel("근무 시간(주)");
-		recruit_lb6.setBounds(20, 310, 150, 20);
-		contentPane.add(recruit_lb6);
+		JLabel lbl_time = new JLabel("근무 시간(주)");
+		lbl_time.setBounds(20, 310, 150, 20);
+		contentPane.add(lbl_time);
 		
-		recruit_tf6 = new JTextField();
-		recruit_tf6.setBounds(20, 330, 350, 25);
-		contentPane.add(recruit_tf6);
-		recruit_tf6.setColumns(10);
+		txt_time = new JTextField();
+		txt_time.setBounds(20, 330, 350, 25);
+		contentPane.add(txt_time);
+		txt_time.setColumns(10);
 		
-		JLabel recruit_lb7 = new JLabel("직책");
-		recruit_lb7.setBounds(20, 360, 150, 20);
-		contentPane.add(recruit_lb7);
+		JLabel lbl_position = new JLabel("직책");
+		lbl_position.setBounds(20, 360, 150, 20);
+		contentPane.add(lbl_position);
 		
-		recruit_tf7 = new JTextField();
-		recruit_tf7.setBounds(20, 380, 350, 25);
-		contentPane.add(recruit_tf7);
-		recruit_tf7.setColumns(10);
+		txt_position = new JTextField();
+		txt_position.setBounds(20, 380, 350, 25);
+		contentPane.add(txt_position);
+		txt_position.setColumns(10);
 		
-		JLabel recruit_lb8 = new JLabel("마감일");
-		recruit_lb8.setBounds(20, 410, 150, 20);
-		contentPane.add(recruit_lb8);
+		JLabel lbl_deadline = new JLabel("마감일");
+		lbl_deadline.setBounds(20, 410, 150, 20);
+		contentPane.add(lbl_deadline);
 		
-		recruit_tf8 = new JTextField();
-		recruit_tf8.setBounds(20, 430, 350, 25);
-		contentPane.add(recruit_tf8);
-		recruit_tf8.setColumns(10);
+		txt_deadline = new JTextField();
+		txt_deadline.setBounds(20, 430, 350, 25);
+		contentPane.add(txt_deadline);
+		txt_deadline.setColumns(10);
 		
-		JButton bt_upload = new JButton("작성");
-		bt_upload.setBounds(540, 390, 75, 30);
-		contentPane.add(bt_upload);
+		JButton btn_upload = new JButton("작성");
+		btn_upload.setBounds(540, 390, 75, 30);
+		contentPane.add(btn_upload);
 		
-		JButton bt_close = new JButton("닫기");
-		bt_close.addActionListener(new ActionListener() {
+		JButton btn_close = new JButton("닫기");
+		btn_close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		bt_close.setBounds(540, 430, 75, 30);
-		contentPane.add(bt_close);
+		btn_close.setBounds(540, 430, 75, 30);
+		contentPane.add(btn_close);
 	}
 	
 	private void openWindow() {

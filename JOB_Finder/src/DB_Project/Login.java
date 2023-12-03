@@ -86,6 +86,7 @@ public class Login {
 					Main.pstmt.setString(2, String.valueOf(txt_password.getPassword()));
 					Main.rs = Main.pstmt.executeQuery();
 					if(Main.rs.next()) {
+						Main.ID = txt_ID.getText();
 						Mainpage window = new Mainpage();
 						window.frame.setVisible(true);
 						frame.dispose();
