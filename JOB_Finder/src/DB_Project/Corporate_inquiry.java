@@ -97,14 +97,14 @@ public class Corporate_inquiry extends JFrame {
 			lbl_ceo.setText(lbl_ceo.getText() + Main.rs.getString(5));
 			lbl_count.setText(lbl_count.getText() + Main.rs.getString(6));
 			lbl_date.setText(lbl_date.getText() + Main.rs.getDate(7));
-			lbl_take.setText(lbl_take.getText() + Main.rs.getInt(8));
+			lbl_take.setText(lbl_take.getText() + Main.rs.getString(8));
 			lbl_salary.setText(lbl_salary.getText() + Main.rs.getString(9));
 			lbl_local.setText(lbl_local.getText() + Main.rs.getString(10));
 			
 			sql = "SELECT AVG(경쟁률) FROM 채용_게시글 WHERE 작성자ID IN (SELECT 회원ID FROM 기업회원 WHERE 기업명 = '"+ Business + "')";
 			Main.rs = Main.stmt.executeQuery(sql);
 			Main.rs.next();
-			lbl_rate.setText(lbl_rate.getText() + Main.rs.getInt(1));
+			lbl_rate.setText(lbl_rate.getText() + Main.rs.getInt(1) + "%");
 			if(Main.rs.getInt(1) < 50) {
 				lbl_rate.setForeground(Color.BLUE);
 			}
@@ -114,10 +114,9 @@ public class Corporate_inquiry extends JFrame {
 			else {
 				lbl_rate.setForeground(Color.RED);
 			}
-			
+			this.setVisible(true);
 		}
 		catch(Exception ex) {
-			dispose();
 			JOptionPane.showMessageDialog(null, "기업이 존재하지 않습니다.","검색 실패", JOptionPane.ERROR_MESSAGE);
 		}
 		finally {

@@ -55,7 +55,6 @@ public class Mainpage {
 		btn_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Corporate_inquiry window = new Corporate_inquiry(txt_business.getText());
-				window.setVisible(true);
 			}
 		});
 		btn_search.setBounds(343, 125, 78, 23);
