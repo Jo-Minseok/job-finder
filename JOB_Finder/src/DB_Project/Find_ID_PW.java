@@ -1,23 +1,29 @@
 package DB_Project;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+import java.sql.*;
+import javax.swing.JCheckBox;
 
 public class Find_ID_PW extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField tf_ID_NAME;
-	private JTextField tf_ID_PHONE;
-	private JTextField tf_PW_ID;
-	private JTextField tf_PW_NAME;
-	private JTextField tf_PW_PHONE;
+	private JTextField txt_id_name;
+	private JTextField txt_id_phone;
+	private JTextField txt_pw_id;
+	private JTextField txt_pw_name;
+	private JTextField txt_pw_phone;
 
 	/**
 	 * Create the frame.
@@ -32,89 +38,179 @@ public class Find_ID_PW extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lb_ID_find = new JLabel("ID 찾기");
-		lb_ID_find.setBounds(25, 30, 40, 20);
-		contentPane.add(lb_ID_find);
+		JLabel lbl_id_find = new JLabel("ID 찾기");
+		lbl_id_find.setBounds(25, 30, 40, 20);
+		contentPane.add(lbl_id_find);
 		
-		JLabel lb_ID_NAME = new JLabel("NAME");
-		lb_ID_NAME.setBounds(25, 60, 40, 20);
-		contentPane.add(lb_ID_NAME);
+		JLabel lbl_id_name = new JLabel("NAME");
+		lbl_id_name.setBounds(25, 60, 40, 20);
+		contentPane.add(lbl_id_name);
 		
-		JLabel lb_ID_PHONE = new JLabel("PHONE_NUMBER");
-		lb_ID_PHONE.setBounds(25, 115, 100, 15);
-		contentPane.add(lb_ID_PHONE);
+		JLabel lbl_id_phone = new JLabel("PHONE_NUMBER");
+		lbl_id_phone.setBounds(25, 115, 100, 15);
+		contentPane.add(lbl_id_phone);
 		
-		JLabel lb_ID_result1 = new JLabel("검색 결과 ID : ");
-		lb_ID_result1.setBounds(210, 80, 80, 25);
-		contentPane.add(lb_ID_result1);
+		JLabel lbl_id_result1 = new JLabel("검색 결과 ID : ");
+		lbl_id_result1.setBounds(210, 60, 80, 25);
+		contentPane.add(lbl_id_result1);
 		
-		JLabel lb_ID_result2 = new JLabel("Nan");
-		lb_ID_result2.setBounds(290, 80, 150, 25);
-		contentPane.add(lb_ID_result2);
+		JLabel lbl_id_result2 = new JLabel("\"\"");
+		lbl_id_result2.setBounds(290, 60, 150, 25);
+		contentPane.add(lbl_id_result2);
 		
-		tf_ID_NAME = new JTextField();
-		tf_ID_NAME.setBounds(25, 80, 150, 25);
-		contentPane.add(tf_ID_NAME);
-		tf_ID_NAME.setColumns(10);
+		txt_id_name = new JTextField();
+		txt_id_name.setBounds(25, 80, 150, 25);
+		contentPane.add(txt_id_name);
+		txt_id_name.setColumns(10);
 		
-		tf_ID_PHONE = new JTextField();
-		tf_ID_PHONE.setColumns(10);
-		tf_ID_PHONE.setBounds(25, 130, 150, 25);
-		contentPane.add(tf_ID_PHONE);
+		txt_id_phone = new JTextField();
+		txt_id_phone.setColumns(10);
+		txt_id_phone.setBounds(25, 130, 150, 25);
+		contentPane.add(txt_id_phone);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(15, 190, 405, 5);
 		contentPane.add(separator);
 		
-		JButton bt_ID_search = new JButton("검색");
-		bt_ID_search.setBounds(230, 130, 75, 25);
-		contentPane.add(bt_ID_search);
+		JButton btn_id_search = new JButton("검색");
+		btn_id_search.setBounds(230, 130, 75, 25);
+
+		JCheckBox chk_business_id = new JCheckBox("기업회원");
+		chk_business_id.setBounds(230, 100, 115, 20);
+		contentPane.add(chk_business_id);
 		
-		JLabel lb_PW_find_1 = new JLabel("PW 찾기");
-		lb_PW_find_1.setBounds(25, 220, 50, 20);
-		contentPane.add(lb_PW_find_1);
+		JCheckBox chk_business_pw = new JCheckBox("기업회원");
+		chk_business_pw.setBounds(230, 295, 115, 20);
+		contentPane.add(chk_business_pw);
+	
+	
+		// 기능구현1 = 아이디 검색
 		
-		JLabel lb_PW_ID = new JLabel("ID");
-		lb_PW_ID.setBounds(25, 250, 15, 20);
-		contentPane.add(lb_PW_ID);
+		btn_id_search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				try {
+					Main.DBConnection();
+					
+					String sql = "SELECT 회원ID FROM ";
+					if(chk_business_id.isSelected()) {
+						sql += "기업회원 ";
+					}
+					else {
+						sql += "개인회원 ";
+					}
+					sql += "WHERE 이름 = ? AND 휴대폰 = ?";
+					
+					Main.pstmt = Main.con.prepareStatement(sql);
+					Main.pstmt.setString(1, txt_id_name.getText());
+					Main.pstmt.setString(2, txt_id_phone.getText());
+					
+					Main.rs = Main.pstmt.executeQuery(); // 쿼리 실행 및 결과 조회
+					if(Main.rs.next()) { // 결과가 있을 경우
+						String memberID = Main.rs.getString("회원ID");
+						lbl_id_result2.setText(memberID);						
+					}
+					else { // 결과가 없는 경우
+						JOptionPane.showMessageDialog(null, "해당 정보로 ID를 찾을 수 없습니다.", "ID 찾기 실패", JOptionPane.ERROR_MESSAGE);
+					}
 		
-		JLabel lb_PW_NAME = new JLabel("NAME");
-		lb_PW_NAME.setBounds(25, 305, 40, 20);
-		contentPane.add(lb_PW_NAME);
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(null,  ex.getMessage(), "ID 찾기 실패", JOptionPane.ERROR_MESSAGE);
+				}
+				finally {
+					Main.DBClose();
+				}
+			}
+		});
 		
-		JLabel lb_PW_PHONE = new JLabel("PHONE_NUMBER");
-		lb_PW_PHONE.setBounds(25, 360, 100, 20);
-		contentPane.add(lb_PW_PHONE);
+		contentPane.add(btn_id_search);
 		
-		JLabel lb_PW_result1 = new JLabel("검색 결과 PW : ");
-		lb_PW_result1.setBounds(210, 270, 90, 25);
-		contentPane.add(lb_PW_result1);
+		JLabel lbl_pw_find_1 = new JLabel("PW 찾기");
+		lbl_pw_find_1.setBounds(25, 220, 50, 20);
+		contentPane.add(lbl_pw_find_1);
 		
-		JLabel lb_PW_result2 = new JLabel("pas***");
-		lb_PW_result2.setBounds(300, 270, 130, 25);
-		contentPane.add(lb_PW_result2);
+		JLabel lbl_pw_id = new JLabel("ID");
+		lbl_pw_id.setBounds(25, 250, 15, 20);
+		contentPane.add(lbl_pw_id);
 		
-		tf_PW_ID = new JTextField();
-		tf_PW_ID.setColumns(10);
-		tf_PW_ID.setBounds(25, 270, 150, 25);
-		contentPane.add(tf_PW_ID);
+		JLabel lbl_pw_name = new JLabel("NAME");
+		lbl_pw_name.setBounds(25, 305, 40, 20);
+		contentPane.add(lbl_pw_name);
 		
-		tf_PW_NAME = new JTextField();
-		tf_PW_NAME.setColumns(10);
-		tf_PW_NAME.setBounds(25, 325, 150, 25);
-		contentPane.add(tf_PW_NAME);
+		JLabel lbl_pw_phone = new JLabel("PHONE_NUMBER");
+		lbl_pw_phone.setBounds(25, 360, 100, 20);
+		contentPane.add(lbl_pw_phone);
 		
-		tf_PW_PHONE = new JTextField();
-		tf_PW_PHONE.setColumns(10);
-		tf_PW_PHONE.setBounds(25, 380, 150, 25);
-		contentPane.add(tf_PW_PHONE);
+		JLabel lbl_pw_result1 = new JLabel("검색 결과 PW : ");
+		lbl_pw_result1.setBounds(210, 250, 90, 25);
+		contentPane.add(lbl_pw_result1);
 		
-		JButton bt_PW_search = new JButton("검색");
-		bt_PW_search.setBounds(230, 325, 75, 25);
-		contentPane.add(bt_PW_search);
+		JLabel lbl_pw_result2 = new JLabel("\"\"");
+		lbl_pw_result2.setBounds(300, 250, 130, 25);
+		contentPane.add(lbl_pw_result2);
 		
-		JButton bt_exit = new JButton("닫기");
-		bt_exit.setBounds(360, 396, 60, 25);
-		contentPane.add(bt_exit);
+		txt_pw_id = new JTextField();
+		txt_pw_id.setColumns(10);
+		txt_pw_id.setBounds(25, 270, 150, 25);
+		contentPane.add(txt_pw_id);
+		
+		txt_pw_name = new JTextField();
+		txt_pw_name.setColumns(10);
+		txt_pw_name.setBounds(25, 325, 150, 25);
+		contentPane.add(txt_pw_name);
+		
+		txt_pw_phone = new JTextField();
+		txt_pw_phone.setColumns(10);
+		txt_pw_phone.setBounds(25, 380, 150, 25);
+		contentPane.add(txt_pw_phone);
+		
+		JButton btn_pw_search = new JButton("검색");
+		btn_pw_search.setBounds(230, 325, 75, 25);
+		
+		// 기능구현2 = 비밀번호 검색
+		
+		btn_pw_search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				try {
+					Main.DBConnection();
+					
+					String sql = "SELECT 비밀번호 FROM ";
+					if(chk_business_id.isSelected()) {
+						sql += "기업회원 ";
+					}
+					else {
+						sql += "개인회원 ";
+					}
+					sql += "WHERE 회원ID = ? AND 이름 = ? AND 휴대폰 = ?";
+					
+					Main.pstmt = Main.con.prepareStatement(sql);
+					Main.pstmt.setString(1, txt_pw_id.getText());
+					Main.pstmt.setString(2, txt_pw_name.getText());
+					Main.pstmt.setString(3, txt_pw_phone.getText());
+					
+					Main.rs = Main.pstmt.executeQuery(); // 쿼리 실행 및 결과 조회
+					if(Main.rs.next()) { // 결과가 있을 경우
+						String memberPW = Main.rs.getString("비밀번호");
+						lbl_pw_result2.setText(memberPW);						
+					}
+					else { // 결과가 없는 경우
+						JOptionPane.showMessageDialog(null, "해당 정보로 비밀번호를 찾을 수 없습니다.", "비밀번호 찾기 실패", JOptionPane.ERROR_MESSAGE);
+					}
+		
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(null,  ex.getMessage(), "비밀번호 찾기 실패", JOptionPane.ERROR_MESSAGE);
+				}
+				finally {
+					Main.DBClose();
+				}
+			}
+		});
+		
+		contentPane.add(btn_pw_search);
+		
+		JButton btn_exit = new JButton("닫기");
+		btn_exit.setBounds(360, 396, 60, 25);
+		contentPane.add(btn_exit);
 	}
 }
