@@ -85,6 +85,7 @@ public class Find_ID_PW extends JFrame {
 	
 	
 		// 기능구현1 = 아이디 검색
+		// PreparedStatement로
 		
 		btn_id_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
@@ -168,34 +169,13 @@ public class Find_ID_PW extends JFrame {
 		btn_pw_search.setBounds(230, 325, 75, 25);
 		
 		// 기능구현2 = 비밀번호 검색
+		// CallableStatement로
 		
 		btn_pw_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				try {
-					Main.DBConnection();
 					
-					String sql = "SELECT 비밀번호 FROM ";
-					if(chk_business_id.isSelected()) {
-						sql += "기업회원 ";
-					}
-					else {
-						sql += "개인회원 ";
-					}
-					sql += "WHERE 회원ID = ? AND 이름 = ? AND 휴대폰 = ?";
 					
-					Main.pstmt = Main.con.prepareStatement(sql);
-					Main.pstmt.setString(1, txt_pw_id.getText());
-					Main.pstmt.setString(2, txt_pw_name.getText());
-					Main.pstmt.setString(3, txt_pw_phone.getText());
-					
-					Main.rs = Main.pstmt.executeQuery(); // 쿼리 실행 및 결과 조회
-					if(Main.rs.next()) { // 결과가 있을 경우
-						String memberPW = Main.rs.getString("비밀번호");
-						lbl_pw_result2.setText(memberPW);						
-					}
-					else { // 결과가 없는 경우
-						JOptionPane.showMessageDialog(null, "해당 정보로 비밀번호를 찾을 수 없습니다.", "비밀번호 찾기 실패", JOptionPane.ERROR_MESSAGE);
-					}
 		
 				}
 				catch(Exception ex) {
