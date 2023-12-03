@@ -1,6 +1,7 @@
 -----------------------------------------------------------------------------------------------
 ------------------------------------------- 프로시저 -------------------------------------------
 -----------------------------------------------------------------------------------------------
+DROP PROCEDURE MAIN_FIND;
 DROP PROCEDURE PASSWORD_PROTECTION_PERSONAL;
 DROP PROCEDURE PASSWORD_PROTECTION_BUSINESS;
 DROP PROCEDURE CREATE_ACCOUNT_PERSONAL;
@@ -40,7 +41,7 @@ END;
 
 ------------------------------------- [ID/PW 찾기 FROM] -----------------------------------------
 -- 개인회원
-CREATE OR REPLACE PROCEDURE PASSWORD_PROTECTION_PERSONAL(고객ID IN 개인회원.회원ID%TYPE, 부분비밀번호 OUT CHAR)
+CREATE OR REPLACE PROCEDURE PASSWORD_PROTECTION_PERSONAL(고객ID IN 개인회원.회원ID%TYPE, 부분비밀번호 OUT NVARCHAR2)
 AS
 BEGIN
     SELECT RPAD(SUBSTR(비밀번호,1,3),LENGTH(비밀번호),'*') INTO 부분비밀번호 FROM 개인회원 WHERE 회원ID = 고객ID;
@@ -48,7 +49,7 @@ BEGIN
         부분비밀번호 := '아이디가 존재하지 않습니다!';
 END;
 -- 기업회원
-CREATE OR REPLACE PROCEDURE PASSWORD_PROTECTION_BUSINESS(고객ID IN 개인회원.회원ID%TYPE, 부분비밀번호 OUT CHAR)
+CREATE OR REPLACE PROCEDURE PASSWORD_PROTECTION_BUSINESS(고객ID IN 개인회원.회원ID%TYPE, 부분비밀번호 OUT NVARCHAR2)
 AS
 BEGIN
     SELECT RPAD(SUBSTR(비밀번호,1,3),LENGTH(비밀번호),'*') INTO 부분비밀번호 FROM 기업회원 WHERE 회원ID = 고객ID;

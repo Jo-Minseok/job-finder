@@ -65,7 +65,7 @@ CREATE TABLE 기업(
 CREATE TABLE 개인회원(
     회원ID NVARCHAR2(32),
     비밀번호 NVARCHAR2(32),
-    이름 NCHAR(8),
+    이름 NCHAR(6),
     생년월일 DATE,
     성별 NCHAR (2),
     휴대폰 NCHAR(13),
@@ -86,7 +86,7 @@ CREATE TABLE 기업회원(
     기업명 NVARCHAR2 (60),
     회원ID NVARCHAR2(32),
     비밀번호 NVARCHAR2(32),
-    이름 NVARCHAR2(8),
+    이름 NCHAR(6),
     사업자등록번호 NVARCHAR2(12),
     휴대폰 NCHAR(13),
     개인정보_유효기간 NUMBER(2,0),
