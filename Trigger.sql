@@ -1,188 +1,188 @@
 -----------------------------------------------------------------------------------------------
--------------------------------------------- Æ®¸®°Å --------------------------------------------
+-------------------------------------------- íŠ¸ë¦¬ê±° --------------------------------------------
 -----------------------------------------------------------------------------------------------
-DROP TRIGGER °³ÀÎ_È¸¿øÁ¤º¸¼öÁ¤_TRIG;
-DROP TRIGGER °³ÀÎ_È¸¿øÁ¤º¸¼öÁ¤_¿¹¿Ü_TRIG;
-DROP TRIGGER ±â¾÷_È¸¿øÁ¤º¸¼öÁ¤_TRIG;
-DROP TRIGGER ±â¾÷_È¸¿øÁ¤º¸¼öÁ¤_¿¹¿Ü_TRIG;
-DROP TRIGGER Ã¤¿ë°Ô½Ã±Û_TRIG;
-DROP TRIGGER Ã¤¿ë¼³¸íÈ¸_TRIG;
-DROP TRIGGER °³ÀÎ_Æ÷ÀÎÆ®_º¯°æ_TRIG;
-DROP TRIGGER ±â¾÷_Æ÷ÀÎÆ®_º¯°æ_TRIG;
-DROP TRIGGER °³ÀÎ_È¸¿ø_Å»Åð_TRIG;
-DROP TRIGGER ±â¾÷_È¸¿ø_Å»Åð_TRIG;
+DROP TRIGGER ê°œì¸_íšŒì›ì •ë³´ìˆ˜ì •_TRIG;
+DROP TRIGGER ê°œì¸_íšŒì›ì •ë³´ìˆ˜ì •_ì˜ˆì™¸_TRIG;
+DROP TRIGGER ê¸°ì—…_íšŒì›ì •ë³´ìˆ˜ì •_TRIG;
+DROP TRIGGER ê¸°ì—…_íšŒì›ì •ë³´ìˆ˜ì •_ì˜ˆì™¸_TRIG;
+DROP TRIGGER ì±„ìš©ê²Œì‹œê¸€_TRIG;
+DROP TRIGGER ì±„ìš©ì„¤ëª…íšŒ_TRIG;
+DROP TRIGGER ê°œì¸_í¬ì¸íŠ¸_ë³€ê²½_TRIG;
+DROP TRIGGER ê¸°ì—…_í¬ì¸íŠ¸_ë³€ê²½_TRIG;
+DROP TRIGGER ê°œì¸_íšŒì›_íƒˆí‡´_TRIG;
+DROP TRIGGER ê¸°ì—…_íšŒì›_íƒˆí‡´_TRIG;
 
--- ½ÃÄö½º
+-- ì‹œí€€ìŠ¤
 DROP SEQUENCE POST_NUMBER_SEQ;
 DROP TRIGGER POST_NUMBER_TRIG;
 
--- È¸¿ø Á¤º¸ ¼öÁ¤ Æò±Õ ¿¬ºÀ Àç¿¬»ê ¹× Á¤º¸ º¯°æ ³»¿ª ÀúÀå
-CREATE OR REPLACE TRIGGER °³ÀÎ_È¸¿øÁ¤º¸¼öÁ¤_TRIG BEFORE UPDATE ON °³ÀÎÈ¸¿ø
+-- íšŒì› ì •ë³´ ìˆ˜ì • í‰ê·  ì—°ë´‰ ìž¬ì—°ì‚° ë° ì •ë³´ ë³€ê²½ ë‚´ì—­ ì €ìž¥
+CREATE OR REPLACE TRIGGER ê°œì¸_íšŒì›ì •ë³´ìˆ˜ì •_TRIG BEFORE UPDATE ON ê°œì¸íšŒì›
 FOR EACH ROW
 DECLARE
-    NEW_¿¬ºÀ °³ÀÎÈ¸¿ø.¿¬ºÀ%TYPE;
-    OLD_¿¬ºÀ °³ÀÎÈ¸¿ø.¿¬ºÀ%TYPE;
+    NEW_ì—°ë´‰ ê°œì¸íšŒì›.ì—°ë´‰%TYPE;
+    OLD_ì—°ë´‰ ê°œì¸íšŒì›.ì—°ë´‰%TYPE;
 BEGIN
-    IF UPDATING('ÈÞ´ëÆù') THEN
-        IF(LENGTH(:NEW.ÈÞ´ëÆù) = 11) THEN
+    IF UPDATING('íœ´ëŒ€í°') THEN
+        IF(LENGTH(:NEW.íœ´ëŒ€í°) = 11) THEN
             BEGIN
-                :NEW.ÈÞ´ëÆù := SUBSTR(:NEW.ÈÞ´ëÆù, 1,3) || '-' || SUBSTR(:NEW.ÈÞ´ëÆù, 4,4) || '-' || SUBSTR(:NEW.ÈÞ´ëÆù, 8,4);
+                :NEW.íœ´ëŒ€í° := SUBSTR(:NEW.íœ´ëŒ€í°, 1,3) || '-' || SUBSTR(:NEW.íœ´ëŒ€í°, 4,4) || '-' || SUBSTR(:NEW.íœ´ëŒ€í°, 8,4);
             END;
-        ELSIF LENGTH(:NEW.ÈÞ´ëÆù) <> 13 THEN
+        ELSIF LENGTH(:NEW.íœ´ëŒ€í°) <> 13 THEN
             BEGIN
-                RAISE_APPLICATION_ERROR(-20001, 'ÈÞ´ëÆù ¹øÈ£ÀÇ ÀÔ·ÂÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.');
-            END;
-        END IF;
-    END IF;
-    
-    IF UPDATING('ºñ¹Ð¹øÈ£') THEN
-        IF REGEXP_LIKE(:NEW.ºñ¹Ð¹øÈ£,'\s') OR LENGTH(:NEW.ºñ¹Ð¹øÈ£) <=8 OR NOT REGEXP_LIKE(:NEW.ºñ¹Ð¹øÈ£,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.ºñ¹Ð¹øÈ£,'[[:digit:]]') THEN
-            RAISE_APPLICATION_ERROR(-20003, 'ºñ¹Ð¹øÈ£ÀÇ Çü½ÄÀÌ ¿Ã¹Ù¸£Áö ¾Ê°Å³ª ±æÀÌ°¡ 8ÀÚ¸¦ ³ÑÁö ¾Ê½À´Ï´Ù.');
-        END IF;
-    END IF;
-    
-    IF UPDATING('»ý³â¿ùÀÏ') THEN
-        IF EXTRACT(YEAR FROM :NEW.»ý³â¿ùÀÏ) < EXTRACT(YEAR FROM SYSDATE) - 20 THEN
-            RAISE_APPLICATION_ERROR(-20004, '¹Ì¼º³âÀÚ·Î ¼öÁ¤ÀÌ ºÒ°¡´ÉÇÕ´Ï´Ù. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||'ÀÌÀü ³â»ýÀ¸·Î ¼öÁ¤ °¡´É.');
-        END IF;
-    END IF;
-    
-    IF UPDATING('¼ºº°') THEN
-        IF NOT (:NEW.¼ºº°='³²' OR :NEW.¼ºº°='¿©') THEN
-            RAISE_APPLICATION_ERROR(-20005, '¼ºº°ÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.(''³²'',''¿©''·Î ÀÔ·ÂÇÏ¼¼¿ä.)');
-        END IF;
-    END IF;
-    
-    IF UPDATING('±â¾÷_ÀÌ¸§') OR UPDATING('¿¬ºÀ') OR UPDATING('Á÷Ã¥') THEN
-        SELECT AVG(¿¬ºÀ) INTO NEW_¿¬ºÀ FROM °³ÀÎÈ¸¿ø WHERE ±â¾÷_ÀÌ¸§=:NEW.±â¾÷_ÀÌ¸§ AND Á÷Ã¥=:NEW.Á÷Ã¥;
-        SELECT AVG(¿¬ºÀ) INTO OLD_¿¬ºÀ FROM °³ÀÎÈ¸¿ø WHERE ±â¾÷_ÀÌ¸§=:OLD.±â¾÷_ÀÌ¸§ AND Á÷Ã¥=:OLD.Á÷Ã¥;
-        UPDATE ¿¬ºÀ_Æò±Õ_°è»ê SET Æò±Õ = NEW_¿¬ºÀ WHERE ±â¾÷¸í =:NEW.±â¾÷_ÀÌ¸§ AND Á÷Ã¥=:NEW.Á÷Ã¥;
-        UPDATE ¿¬ºÀ_Æò±Õ_°è»ê SET Æò±Õ = OLD_¿¬ºÀ WHERE ±â¾÷¸í =:OLD.±â¾÷_ÀÌ¸§ AND Á÷Ã¥=:OLD.Á÷Ã¥;
-    END IF;
-    
-    IF UPDATING('ºñ¹Ð¹øÈ£') THEN
-        INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, 'ºñ¹Ð¹øÈ£', :NEW.ºñ¹Ð¹øÈ£);
-    END IF;
-    
-    IF UPDATING('ÀÌ¸§') THEN
-        INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, 'ÀÌ¸§', :NEW.ÀÌ¸§);
-    END IF;
-    
-    IF UPDATING('»ý³â¿ùÀÏ') THEN
-        INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, '»ý³â¿ùÀÏ', :NEW.»ý³â¿ùÀÏ);
-    END IF;
-    
-    IF UPDATING('¼ºº°') THEN
-        INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, '¼ºº°', :NEW.¼ºº°);
-    END IF;
-    
-    IF UPDATING('ÈÞ´ëÆù') THEN
-        INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, 'ÈÞ´ëÆù', :NEW.ÈÞ´ëÆù);
-    END IF;
-    
-    IF UPDATING('°ÅÁÖ_Áö¿ª') THEN
-        INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, '°ÅÁÖ_Áö¿ª', :NEW.°ÅÁÖ_Áö¿ª);
-    END IF;
-    
-    IF UPDATING('°³ÀÎÁ¤º¸_À¯È¿±â°£') THEN
-        INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, '°³ÀÎÁ¤º¸_À¯È¿±â°£', :NEW.°³ÀÎÁ¤º¸_À¯È¿±â°£);
-    END IF;
-    
-END;
-
-CREATE OR REPLACE TRIGGER ±â¾÷_È¸¿øÁ¤º¸¼öÁ¤_TRIG BEFORE UPDATE ON ±â¾÷È¸¿ø
-FOR EACH ROW
-BEGIN
-    IF UPDATING('ÈÞ´ëÆù') THEN
-        IF(LENGTH(:NEW.ÈÞ´ëÆù) = 11) THEN
-            BEGIN
-                :NEW.ÈÞ´ëÆù := SUBSTR(:NEW.ÈÞ´ëÆù, 1,3) || '-' || SUBSTR(:NEW.ÈÞ´ëÆù, 4,4) || '-' || SUBSTR(:NEW.ÈÞ´ëÆù, 8,4);
-            END;
-        ELSIF LENGTH(:NEW.ÈÞ´ëÆù) <> 13 THEN
-            BEGIN
-                RAISE_APPLICATION_ERROR(-20001, 'ÀüÈ­¹øÈ£ÀÇ ÀÔ·ÂÀÌ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.');
+                RAISE_APPLICATION_ERROR(-20001, 'íœ´ëŒ€í° ë²ˆí˜¸ì˜ ìž…ë ¥ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.');
             END;
         END IF;
     END IF;
     
-    IF UPDATING('±â¾÷È¸¿ø.ºñ¹Ð¹øÈ£') THEN
-        IF REGEXP_LIKE(:NEW.ºñ¹Ð¹øÈ£,'\s') OR LENGTH(:NEW.ºñ¹Ð¹øÈ£) <=8 OR NOT REGEXP_LIKE(:NEW.ºñ¹Ð¹øÈ£,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.ºñ¹Ð¹øÈ£,'[[:digit:]]') THEN
-            RAISE_APPLICATION_ERROR(-20003, 'ºñ¹Ð¹øÈ£ÀÇ Çü½ÄÀÌ ¿Ã¹Ù¸£Áö ¾Ê°Å³ª ±æÀÌ°¡ 8ÀÚ¸¦ ³ÑÁö ¾Ê½À´Ï´Ù.');
+    IF UPDATING('ë¹„ë°€ë²ˆí˜¸') THEN
+        IF REGEXP_LIKE(:NEW.ë¹„ë°€ë²ˆí˜¸,'\s') OR LENGTH(:NEW.ë¹„ë°€ë²ˆí˜¸) <=8 OR NOT REGEXP_LIKE(:NEW.ë¹„ë°€ë²ˆí˜¸,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.ë¹„ë°€ë²ˆí˜¸,'[[:digit:]]') THEN
+            RAISE_APPLICATION_ERROR(-20003, 'ë¹„ë°€ë²ˆí˜¸ì˜ í˜•ì‹ì´ ì˜¬ë°”ë¥´ì§€ ì•Šê±°ë‚˜ ê¸¸ì´ê°€ 8ìžë¥¼ ë„˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
+        END IF;
+    END IF;
+    
+    IF UPDATING('ìƒë…„ì›”ì¼') THEN
+        IF EXTRACT(YEAR FROM :NEW.ìƒë…„ì›”ì¼) > EXTRACT(YEAR FROM SYSDATE) - 20 THEN
+            RAISE_APPLICATION_ERROR(-20004, 'ë¯¸ì„±ë…„ìžë¡œ ìˆ˜ì •ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||'ì´ì „ ë…„ìƒìœ¼ë¡œ ìˆ˜ì • ê°€ëŠ¥.');
+        END IF;
+    END IF;
+    
+    IF UPDATING('ì„±ë³„') THEN
+        IF NOT (:NEW.ì„±ë³„='ë‚¨' OR :NEW.ì„±ë³„='ì—¬') THEN
+            RAISE_APPLICATION_ERROR(-20005, 'ì„±ë³„ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.(''ë‚¨'',''ì—¬''ë¡œ ìž…ë ¥í•˜ì„¸ìš”.)');
+        END IF;
+    END IF;
+    
+    IF UPDATING('ê¸°ì—…_ì´ë¦„') OR UPDATING('ì—°ë´‰') OR UPDATING('ì§ì±…') THEN
+        SELECT AVG(ì—°ë´‰) INTO NEW_ì—°ë´‰ FROM ê°œì¸íšŒì› WHERE ê¸°ì—…_ì´ë¦„=:NEW.ê¸°ì—…_ì´ë¦„ AND ì§ì±…=:NEW.ì§ì±…;
+        SELECT AVG(ì—°ë´‰) INTO OLD_ì—°ë´‰ FROM ê°œì¸íšŒì› WHERE ê¸°ì—…_ì´ë¦„=:OLD.ê¸°ì—…_ì´ë¦„ AND ì§ì±…=:OLD.ì§ì±…;
+        UPDATE ì—°ë´‰_í‰ê· _ê³„ì‚° SET í‰ê·  = NEW_ì—°ë´‰ WHERE ê¸°ì—…ëª… =:NEW.ê¸°ì—…_ì´ë¦„ AND ì§ì±…=:NEW.ì§ì±…;
+        UPDATE ì—°ë´‰_í‰ê· _ê³„ì‚° SET í‰ê·  = OLD_ì—°ë´‰ WHERE ê¸°ì—…ëª… =:OLD.ê¸°ì—…_ì´ë¦„ AND ì§ì±…=:OLD.ì§ì±…;
+    END IF;
+    
+    IF UPDATING('ë¹„ë°€ë²ˆí˜¸') THEN
+        INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ë¹„ë°€ë²ˆí˜¸', :NEW.ë¹„ë°€ë²ˆí˜¸);
+    END IF;
+    
+    IF UPDATING('ì´ë¦„') THEN
+        INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ì´ë¦„', :NEW.ì´ë¦„);
+    END IF;
+    
+    IF UPDATING('ìƒë…„ì›”ì¼') THEN
+        INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ìƒë…„ì›”ì¼', :NEW.ìƒë…„ì›”ì¼);
+    END IF;
+    
+    IF UPDATING('ì„±ë³„') THEN
+        INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ì„±ë³„', :NEW.ì„±ë³„);
+    END IF;
+    
+    IF UPDATING('íœ´ëŒ€í°') THEN
+        INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'íœ´ëŒ€í°', :NEW.íœ´ëŒ€í°);
+    END IF;
+    
+    IF UPDATING('ê±°ì£¼_ì§€ì—­') THEN
+        INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ê±°ì£¼_ì§€ì—­', :NEW.ê±°ì£¼_ì§€ì—­);
+    END IF;
+    
+    IF UPDATING('ê°œì¸ì •ë³´_ìœ íš¨ê¸°ê°„') THEN
+        INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ê°œì¸ì •ë³´_ìœ íš¨ê¸°ê°„', :NEW.ê°œì¸ì •ë³´_ìœ íš¨ê¸°ê°„);
+    END IF;
+    
+END;
+
+CREATE OR REPLACE TRIGGER ê¸°ì—…_íšŒì›ì •ë³´ìˆ˜ì •_TRIG BEFORE UPDATE ON ê¸°ì—…íšŒì›
+FOR EACH ROW
+BEGIN
+    IF UPDATING('íœ´ëŒ€í°') THEN
+        IF(LENGTH(:NEW.íœ´ëŒ€í°) = 11) THEN
+            BEGIN
+                :NEW.íœ´ëŒ€í° := SUBSTR(:NEW.íœ´ëŒ€í°, 1,3) || '-' || SUBSTR(:NEW.íœ´ëŒ€í°, 4,4) || '-' || SUBSTR(:NEW.íœ´ëŒ€í°, 8,4);
+            END;
+        ELSIF LENGTH(:NEW.íœ´ëŒ€í°) <> 13 THEN
+            BEGIN
+                RAISE_APPLICATION_ERROR(-20001, 'ì „í™”ë²ˆí˜¸ì˜ ìž…ë ¥ì´ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.');
+            END;
+        END IF;
+    END IF;
+    
+    IF UPDATING('ê¸°ì—…íšŒì›.ë¹„ë°€ë²ˆí˜¸') THEN
+        IF REGEXP_LIKE(:NEW.ë¹„ë°€ë²ˆí˜¸,'\s') OR LENGTH(:NEW.ë¹„ë°€ë²ˆí˜¸) <=8 OR NOT REGEXP_LIKE(:NEW.ë¹„ë°€ë²ˆí˜¸,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.ë¹„ë°€ë²ˆí˜¸,'[[:digit:]]') THEN
+            RAISE_APPLICATION_ERROR(-20003, 'ë¹„ë°€ë²ˆí˜¸ì˜ í˜•ì‹ì´ ì˜¬ë°”ë¥´ì§€ ì•Šê±°ë‚˜ ê¸¸ì´ê°€ 8ìžë¥¼ ë„˜ì§€ ì•ŠìŠµë‹ˆë‹¤.');
         END IF;
     END IF;
 
-    IF UPDATING('ÀÌ¸§') THEN
-        INSERT INTO ±â¾÷_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, 'ÀÌ¸§', :NEW.ÀÌ¸§);
+    IF UPDATING('ì´ë¦„') THEN
+        INSERT INTO ê¸°ì—…_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ì´ë¦„', :NEW.ì´ë¦„);
     END IF;
-    IF UPDATING('°³ÀÎÁ¤º¸_À¯È¿±â°£') THEN
-        INSERT INTO ±â¾÷_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, '°³ÀÎÁ¤º¸_À¯È¿±â°£', :NEW.°³ÀÎÁ¤º¸_À¯È¿±â°£);
+    IF UPDATING('ê°œì¸ì •ë³´_ìœ íš¨ê¸°ê°„') THEN
+        INSERT INTO ê¸°ì—…_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ê°œì¸ì •ë³´_ìœ íš¨ê¸°ê°„', :NEW.ê°œì¸ì •ë³´_ìœ íš¨ê¸°ê°„);
     END IF;
-    IF UPDATING('ÈÞ´ëÆù') THEN
-        INSERT INTO ±â¾÷_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, 'ÈÞ´ëÆù', :NEW.ÈÞ´ëÆù);
+    IF UPDATING('íœ´ëŒ€í°') THEN
+        INSERT INTO ê¸°ì—…_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'íœ´ëŒ€í°', :NEW.íœ´ëŒ€í°);
     END IF;
-    IF UPDATING('ºñ¹Ð¹øÈ£') THEN
-        INSERT INTO ±â¾÷_È¸¿ø_Á¤º¸_º¯°æ VALUES (:NEW.È¸¿øID, 'ºñ¹Ð¹øÈ£', :NEW.ºñ¹Ð¹øÈ£);
-    END IF;
-END;
-
--- Ã¤¿ë/¼³¸íÈ¸ °Ô½Ã±Û ÀÛ¼º
-CREATE OR REPLACE TRIGGER Ã¤¿ë°Ô½Ã±Û_TRIG AFTER INSERT ON Ã¤¿ë_°Ô½Ã±Û
-FOR EACH ROW
-BEGIN
-    IF(:NEW.¸¶°¨ÀÏ < SYSDATE) THEN
-        RAISE_APPLICATION_ERROR(-20008, 'ÇöÀç ³¯Â¥º¸´Ù ÀÌÀü ³¯·Î ¸¶°¨ÇÒ ¼ö ¾ø½À´Ï´Ù!' || SYSDATE || 'ÀÌÈÄ·Î ¸ÂÃçÁÖ¼¼¿ä');
+    IF UPDATING('ë¹„ë°€ë²ˆí˜¸') THEN
+        INSERT INTO ê¸°ì—…_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:NEW.íšŒì›ID, 'ë¹„ë°€ë²ˆí˜¸', :NEW.ë¹„ë°€ë²ˆí˜¸);
     END IF;
 END;
 
-CREATE OR REPLACE TRIGGER Ã¤¿ë¼³¸íÈ¸_TRIG AFTER INSERT ON Ã¤¿ë_¼³¸íÈ¸
+-- ì±„ìš©/ì„¤ëª…íšŒ ê²Œì‹œê¸€ ìž‘ì„±
+CREATE OR REPLACE TRIGGER ì±„ìš©ê²Œì‹œê¸€_TRIG AFTER INSERT ON ì±„ìš©_ê²Œì‹œê¸€
 FOR EACH ROW
 BEGIN
-    IF(:NEW.ÀÏ½Ã < SYSDATE) THEN
-        RAISE_APPLICATION_ERROR(-20009, 'ÇöÀç ³¯Â¥º¸´Ù ÀÌÀü ³¯·Î °³ÃÖÇÒ ¼ö ¾ø½À´Ï´Ù!' || SYSDATE || 'ÀÌÈÄ·Î ¸ÂÃçÁÖ¼¼¿ä');
+    IF(:NEW.ë§ˆê°ì¼ < SYSDATE) THEN
+        RAISE_APPLICATION_ERROR(-20008, 'í˜„ìž¬ ë‚ ì§œë³´ë‹¤ ì´ì „ ë‚ ë¡œ ë§ˆê°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!' || SYSDATE || 'ì´í›„ë¡œ ë§žì¶°ì£¼ì„¸ìš”');
     END IF;
 END;
 
-CREATE OR REPLACE TRIGGER °³ÀÎ_Æ÷ÀÎÆ®_º¯°æ_TRIG AFTER UPDATE ON °³ÀÎÈ¸¿ø
+CREATE OR REPLACE TRIGGER ì±„ìš©ì„¤ëª…íšŒ_TRIG AFTER INSERT ON ì±„ìš©_ì„¤ëª…íšŒ
 FOR EACH ROW
 BEGIN
-    IF(:NEW.Æ÷ÀÎÆ® < 0) THEN
-        RAISE_APPLICATION_ERROR(-20007, 'Æ÷ÀÎÆ®°¡ ºÎÁ·ÇÕ´Ï´Ù.');
-    ELSIF(:NEW.Æ÷ÀÎÆ® > :OLD.Æ÷ÀÎÆ®) THEN
-        INSERT INTO °³ÀÎ_Æ÷ÀÎÆ®_¼öÁ¤_³»¿ª VALUES (:NEW.È¸¿øID,'Ãß°¡',:NEW.Æ÷ÀÎÆ® - :OLD.Æ÷ÀÎÆ®);
+    IF(:NEW.ì¼ì‹œ < SYSDATE) THEN
+        RAISE_APPLICATION_ERROR(-20009, 'í˜„ìž¬ ë‚ ì§œë³´ë‹¤ ì´ì „ ë‚ ë¡œ ê°œìµœí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!' || SYSDATE || 'ì´í›„ë¡œ ë§žì¶°ì£¼ì„¸ìš”');
     END IF;
 END;
 
-CREATE OR REPLACE TRIGGER ±â¾÷_Æ÷ÀÎÆ®_º¯°æ_TRIG AFTER UPDATE ON ±â¾÷È¸¿ø
+CREATE OR REPLACE TRIGGER ê°œì¸_í¬ì¸íŠ¸_ë³€ê²½_TRIG AFTER UPDATE ON ê°œì¸íšŒì›
 FOR EACH ROW
 BEGIN
-    IF(:NEW.Æ÷ÀÎÆ® < 0) THEN
-        RAISE_APPLICATION_ERROR(-20007, 'Æ÷ÀÎÆ®°¡ ºÎÁ·ÇÕ´Ï´Ù.');
-    ELSIF(:NEW.Æ÷ÀÎÆ® > :OLD.Æ÷ÀÎÆ®) THEN
-        INSERT INTO ±â¾÷_Æ÷ÀÎÆ®_¼öÁ¤_³»¿ª VALUES (:NEW.È¸¿øID,'Ãß°¡',:NEW.Æ÷ÀÎÆ® - :OLD.Æ÷ÀÎÆ®);
+    IF(:NEW.í¬ì¸íŠ¸ < 0) THEN
+        RAISE_APPLICATION_ERROR(-20007, 'í¬ì¸íŠ¸ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.');
+    ELSIF(:NEW.í¬ì¸íŠ¸ > :OLD.í¬ì¸íŠ¸) THEN
+        INSERT INTO ê°œì¸_í¬ì¸íŠ¸_ìˆ˜ì •_ë‚´ì—­ VALUES (:NEW.íšŒì›ID,'ì¶”ê°€',:NEW.í¬ì¸íŠ¸ - :OLD.í¬ì¸íŠ¸);
     END IF;
 END;
 
--- È¸¿ø Å»Åð
-CREATE OR REPLACE TRIGGER °³ÀÎ_È¸¿ø_Å»Åð_TRIG BEFORE DELETE ON °³ÀÎÈ¸¿ø
+CREATE OR REPLACE TRIGGER ê¸°ì—…_í¬ì¸íŠ¸_ë³€ê²½_TRIG AFTER UPDATE ON ê¸°ì—…íšŒì›
 FOR EACH ROW
 BEGIN
-    INSERT INTO °³ÀÎ_È¸¿ø_Á¤º¸_º¯°æ VALUES (:OLD.È¸¿øID,'Å»Åð',NULL);
+    IF(:NEW.í¬ì¸íŠ¸ < 0) THEN
+        RAISE_APPLICATION_ERROR(-20007, 'í¬ì¸íŠ¸ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.');
+    ELSIF(:NEW.í¬ì¸íŠ¸ > :OLD.í¬ì¸íŠ¸) THEN
+        INSERT INTO ê¸°ì—…_í¬ì¸íŠ¸_ìˆ˜ì •_ë‚´ì—­ VALUES (:NEW.íšŒì›ID,'ì¶”ê°€',:NEW.í¬ì¸íŠ¸ - :OLD.í¬ì¸íŠ¸);
+    END IF;
 END;
 
-CREATE OR REPLACE TRIGGER ±â¾÷_È¸¿ø_Å»Åð_TRIG BEFORE DELETE ON ±â¾÷È¸¿ø
+-- íšŒì› íƒˆí‡´
+CREATE OR REPLACE TRIGGER ê°œì¸_íšŒì›_íƒˆí‡´_TRIG BEFORE DELETE ON ê°œì¸íšŒì›
 FOR EACH ROW
 BEGIN
-    INSERT INTO ±â¾÷_È¸¿ø_Á¤º¸_º¯°æ VALUES (:OLD.È¸¿øID,'Å»Åð',NULL);
+    INSERT INTO ê°œì¸_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:OLD.íšŒì›ID,'íƒˆí‡´',NULL);
 END;
------------------------------------------------------------------------ ½ÃÄö½º ------------------------------------------------------------
+
+CREATE OR REPLACE TRIGGER ê¸°ì—…_íšŒì›_íƒˆí‡´_TRIG BEFORE DELETE ON ê¸°ì—…íšŒì›
+FOR EACH ROW
+BEGIN
+    INSERT INTO ê¸°ì—…_íšŒì›_ì •ë³´_ë³€ê²½ VALUES (:OLD.íšŒì›ID,'íƒˆí‡´',NULL);
+END;
+----------------------------------------------------------------------- ì‹œí€€ìŠ¤ ------------------------------------------------------------
 CREATE SEQUENCE POST_NUMBER_SEQ
 MINVALUE 1
 NOMAXVALUE
 INCREMENT BY 1 START WITH 1
 NOCYCLE;
 
-CREATE OR REPLACE TRIGGER POST_NUMBER_TRIG BEFORE INSERT ON Ã¤¿ë_°Ô½Ã±Û
+CREATE OR REPLACE TRIGGER POST_NUMBER_TRIG BEFORE INSERT ON ì±„ìš©_ê²Œì‹œê¸€
 FOR EACH ROW
 BEGIN
-    SELECT POST_NUMBER_SEQ.NEXTVAL INTO :NEW.°Ô½Ã±Û_¹øÈ£ FROM DUAL;
+    SELECT POST_NUMBER_SEQ.NEXTVAL INTO :NEW.ê²Œì‹œê¸€_ë²ˆí˜¸ FROM DUAL;
 END;
