@@ -89,8 +89,19 @@ public class Corporate_inquiry extends JFrame {
 			Main.stmt = Main.con.createStatement();
 			Main.rs = Main.stmt.executeQuery(sql);
 			Main.rs.next();
-			lbl_name.setText(Main.rs.getString(1));
-			lbl_;
+			lbl_name.setText(lbl_name.getText() + Main.rs.getString(1));
+			lbl_industry.setText(lbl_industry.getText() + Main.rs.getString(2));
+			lbl_category.setText(lbl_category.getText() + Main.rs.getString(3));
+			lbl_money.setText(lbl_money.getText() + Main.rs.getString(4));
+			lbl_ceo.setText(lbl_ceo.getText() + Main.rs.getString(5));
+			lbl_count.setText(lbl_count.getText() + Main.rs.getString(6));
+			lbl_date.setText(lbl_date.getText() + Main.rs.getDate(7));
+			lbl_take.setText(lbl_take.getText() + Main.rs.getInt(8));
+			lbl_salary.setText(lbl_salary.getText() + Main.rs.getString(9));
+			lbl_local.setText(lbl_local.getText() + Main.rs.getString(10));
+			
+			sql = "SELECT 채용_게시글.게시글_번호 , 채용_게시글.모집인원, COUNT(지원.게시글_번호) FROM 채용_게시글, 기업회원, 지원 WHERE 지원.게시글_번호 = 채용_게시글.게시글_번호 AND 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = '" + Business + "'";
+			
 		}
 		catch(Exception ex) {
 			dispose();
