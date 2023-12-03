@@ -20,25 +20,7 @@ public class Upload_briefing extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTextField textField_3;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Upload_briefing frame = new Upload_briefing();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Upload_briefing() {
 		setTitle("설명회 게시글 작성");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
