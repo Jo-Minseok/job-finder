@@ -103,7 +103,7 @@ public class Find_ID_PW extends JFrame {
 					Main.rs = Main.pstmt.executeQuery(); // 쿼리 실행 및 결과 조회
 					
 					if(Main.rs.next()) { // 결과가 있을 경우
-						String memberID = Main.rs.getString("회원ID");
+						String memberID = Main.rs.getString(1);
 						lbl_id_result2.setText(memberID);						
 					}
 					else { // 결과가 없는 경우

@@ -58,25 +58,25 @@ CREATE TABLE 기업(
  설립일 DATE,
  매출액 NUMBER(38,0),
  대졸초임 NUMBER(38,0),
- 지역 NCHAR(6),
+ 지역 NVARCHAR2(3),
  CONSTRAINT PK_기업 PRIMARY KEY(이름)
 );
 
 CREATE TABLE 개인회원(
     회원ID NVARCHAR2(32),
     비밀번호 NVARCHAR2(32),
-    이름 NCHAR(6),
+    이름 NCHAR(3),
     생년월일 DATE,
-    성별 NCHAR (2),
-    휴대폰 NCHAR(13),
-    거주_지역 NCHAR(6),
+    성별 NCHAR (1),
+    휴대폰 NVARCHAR2(13),
+    거주_지역 NVARCHAR2(3),
     개인정보_유효기간 NUMBER(2,0),
     가입일자 DATE,
     포인트 NUMBER(38,0),
     이력서_작성수 NUMBER(38,0),
     기업_이름 NVARCHAR2(60),
     연봉 NUMBER(38,0),
-    직책 NCHAR(6),
+    직책 NVARCHAR2(3),
     CONSTRAINT PK_개인회원 PRIMARY KEY(회원ID),
     CONSTRAINT UK_개인회원 UNIQUE (휴대폰),
     CONSTRAINT FK_개인회원 FOREIGN KEY (기업_이름) REFERENCES 기업(이름) ON DELETE SET NULL
@@ -86,9 +86,9 @@ CREATE TABLE 기업회원(
     기업명 NVARCHAR2 (60),
     회원ID NVARCHAR2(32),
     비밀번호 NVARCHAR2(32),
-    이름 NCHAR(6),
+    이름 NCHAR(3),
     사업자등록번호 NVARCHAR2(12),
-    휴대폰 NCHAR(13),
+    휴대폰 NVARCHAR2(13),
     개인정보_유효기간 NUMBER(2,0),
     가입일자 DATE,
     포인트 NUMBER(38,0),
@@ -116,10 +116,10 @@ CREATE TABLE 채용_게시글(
     채용_분류 NVARCHAR2(60),
     고용형태 NVARCHAR2(10),
     급여 NUMBER(38,0),
-    지역 NCHAR(6),
+    지역 NVARCHAR2(6),
     근무시간 NUMBER(2,0),
     모집인원 NUMBER(38,0),
-    직책 NCHAR(6),
+    직책 NVARCHAR2(6),
     마감일 DATE,
     경쟁률 NUMBER(3,0),
     CONSTRAINT PK_채용_게시글 PRIMARY KEY(게시글_번호),
@@ -150,7 +150,7 @@ CREATE TABLE 이력서_경력(
     이력서명 NVARCHAR2(40),
     경력_위치 NVARCHAR2(60),
     년수 NUMBER(2,0),
-    직급 NCHAR(6),
+    직급 NVARCHAR2(3),
     연봉 NUMBER(11,0),
     CONSTRAINT PK_이력서_경력 PRIMARY KEY (회원ID,이력서명,경력_위치),
     CONSTRAINT FK_이력서_경력 FOREIGN KEY (회원ID, 이력서명) REFERENCES 이력서(작성자ID, 이력서명) ON DELETE CASCADE
@@ -186,38 +186,38 @@ CREATE TABLE 게시글수(
 
 CREATE TABLE 개인_포인트_수정_내역(
     회원ID NVARCHAR2(32),
-    내역 NCHAR(40),
+    내역 NCHAR(2),
     포인트 NUMBER(38,0),
     CONSTRAINT FK_개인_포인트수정내역 FOREIGN KEY (회원ID) REFERENCES 개인회원(회원ID) ON DELETE CASCADE
 );
 
 CREATE TABLE 기업_포인트_수정_내역(
     회원ID NVARCHAR2(32),
-    내역 NCHAR(40),
+    내역 NCHAR(2),
     포인트 NUMBER(38,0),
     CONSTRAINT FK_기업_포인트수정내역 FOREIGN KEY (회원ID) REFERENCES 기업회원(회원ID) ON DELETE CASCADE
 );
 
 CREATE TABLE 개인_회원_정보_변경(
     회원ID NVARCHAR2(32),
-    변경_열 NCHAR(40),
+    변경_열 NVARCHAR2(10),
     변경_데이터 NVARCHAR2(76)
 );
 
 CREATE TABLE 기업_회원_정보_변경(
     회원ID NVARCHAR2(32),
-    변경_열 NCHAR(40),
+    변경_열 NVARCHAR2(10),
     변경_데이터 NVARCHAR2(76)
 );
 
 CREATE TABLE 연봉_평균_계산(
     기업명 NVARCHAR2(60),
-    직책 NCHAR(6),
+    직책 NVARCHAR2(6),
     평균 NUMBER(38,0),
     CONSTRAINT FK_연봉_평균_계산 FOREIGN KEY (기업명) REFERENCES 기업(이름) ON DELETE CASCADE,
     CONSTRAINT PK_연봉_평균_계산 PRIMARY KEY (기업명, 직책)
 );
 
 CREATE TABLE 지역(
-    지역명 NCHAR(4)
+    지역명 NVARCHAR2(4)
 );
