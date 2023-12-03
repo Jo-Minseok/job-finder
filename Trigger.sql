@@ -23,57 +23,68 @@ DECLARE
     NEW_연봉 개인회원.연봉%TYPE;
     OLD_연봉 개인회원.연봉%TYPE;
 BEGIN
-    IF(LENGTH(:NEW.휴대폰) = 11) THEN
-        BEGIN
-            :NEW.휴대폰 := SUBSTR(:NEW.휴대폰, 1,3) || '-' || SUBSTR(:NEW.휴대폰, 4,4) || '-' || SUBSTR(:NEW.휴대폰, 8,4);
-        END;
-    ELSIF LENGTH(:NEW.휴대폰) <> 13 THEN
-        BEGIN
-            RAISE_APPLICATION_ERROR(-20001, '휴대폰 번호의 입력이 올바르지 않습니다.');
-        END;
-    END IF;
-    IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <=8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
-        RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
-    END IF;
-    IF EXTRACT(YEAR FROM :NEW.생년월일) < EXTRACT(YEAR FROM SYSDATE) - 20 THEN
-        RAISE_APPLICATION_ERROR(-20004, '미성년자로 수정이 불가능합니다. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||'이전 년생으로 수정 가능.');
-    END IF;
-    IF NOT (:NEW.성별='남' OR :NEW.성별='여') THEN
-        RAISE_APPLICATION_ERROR(-20005, '성별이 올바르지 않습니다.(''남'',''여''로 입력하세요.)');
+    IF UPDATING('휴대폰') THEN
+        IF(LENGTH(:NEW.휴대폰) = 11) THEN
+            BEGIN
+                :NEW.휴대폰 := SUBSTR(:NEW.휴대폰, 1,3) || '-' || SUBSTR(:NEW.휴대폰, 4,4) || '-' || SUBSTR(:NEW.휴대폰, 8,4);
+            END;
+        ELSIF LENGTH(:NEW.휴대폰) <> 13 THEN
+            BEGIN
+                RAISE_APPLICATION_ERROR(-20001, '휴대폰 번호의 입력이 올바르지 않습니다.');
+            END;
+        END IF;
     END IF;
     
-    IF :NEW.기업_이름 <> :OLD.기업_이름 OR :NEW.연봉 <> :OLD.연봉 OR :NEW.직책 <> :OLD.직책 THEN
+    IF UPDATING('비밀번호') THEN
+        IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <=8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
+            RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
+        END IF;
+    END IF;
+    
+    IF UPDATING('생년월일') THEN
+        IF EXTRACT(YEAR FROM :NEW.생년월일) < EXTRACT(YEAR FROM SYSDATE) - 20 THEN
+            RAISE_APPLICATION_ERROR(-20004, '미성년자로 수정이 불가능합니다. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||'이전 년생으로 수정 가능.');
+        END IF;
+    END IF;
+    
+    IF UPDATING('성별') THEN
+        IF NOT (:NEW.성별='남' OR :NEW.성별='여') THEN
+            RAISE_APPLICATION_ERROR(-20005, '성별이 올바르지 않습니다.(''남'',''여''로 입력하세요.)');
+        END IF;
+    END IF;
+    
+    IF UPDATING('기업_이름') OR UPDATING('연봉') OR UPDATING('직책') THEN
         SELECT AVG(연봉) INTO NEW_연봉 FROM 개인회원 WHERE 기업_이름=:NEW.기업_이름 AND 직책=:NEW.직책;
         SELECT AVG(연봉) INTO OLD_연봉 FROM 개인회원 WHERE 기업_이름=:OLD.기업_이름 AND 직책=:OLD.직책;
         UPDATE 연봉_평균_계산 SET 평균 = NEW_연봉 WHERE 기업명 =:NEW.기업_이름 AND 직책=:NEW.직책;
         UPDATE 연봉_평균_계산 SET 평균 = OLD_연봉 WHERE 기업명 =:OLD.기업_이름 AND 직책=:OLD.직책;
     END IF;
     
-    IF :NEW.비밀번호 <> :OLD.비밀번호 THEN
+    IF UPDATING('비밀번호') THEN
         INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '비밀번호', :NEW.비밀번호);
     END IF;
     
-    IF :NEW.이름 <> :OLD.이름 THEN
+    IF UPDATING('이름') THEN
         INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '이름', :NEW.이름);
     END IF;
     
-    IF :NEW.생년월일 <> :OLD.생년월일 THEN
+    IF UPDATING('생년월일') THEN
         INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '생년월일', :NEW.생년월일);
     END IF;
     
-    IF :NEW.성별 <> :OLD.성별 THEN
+    IF UPDATING('성별') THEN
         INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '성별', :NEW.성별);
     END IF;
     
-    IF :NEW.휴대폰 <> :OLD.휴대폰 THEN
+    IF UPDATING('휴대폰') THEN
         INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '휴대폰', :NEW.휴대폰);
     END IF;
     
-    IF :NEW.거주_지역 <> :OLD.거주_지역 THEN
+    IF UPDATING('거주_지역') THEN
         INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '거주_지역', :NEW.거주_지역);
     END IF;
     
-    IF :NEW.개인정보_유효기간 <> :OLD.개인정보_유효기간 THEN
+    IF UPDATING('개인정보_유효기간') THEN
         INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '개인정보_유효기간', :NEW.개인정보_유효기간);
     END IF;
     
@@ -82,30 +93,35 @@ END;
 CREATE OR REPLACE TRIGGER 기업_회원정보수정_TRIG BEFORE UPDATE ON 기업회원
 FOR EACH ROW
 BEGIN
-    IF(LENGTH(:NEW.휴대폰) = 11) THEN
-        BEGIN
-            :NEW.휴대폰 := SUBSTR(:NEW.휴대폰, 1,3) || '-' || SUBSTR(:NEW.휴대폰, 4,4) || '-' || SUBSTR(:NEW.휴대폰, 8,4);
-        END;
-    ELSIF LENGTH(:NEW.휴대폰) <> 13 THEN
-        BEGIN
-            RAISE_APPLICATION_ERROR(-20001, '전화번호의 입력이 올바르지 않습니다.');
-        END;
-    END IF;
-    IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <=8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
-        RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
+    IF UPDATING('휴대폰') THEN
+        IF(LENGTH(:NEW.휴대폰) = 11) THEN
+            BEGIN
+                :NEW.휴대폰 := SUBSTR(:NEW.휴대폰, 1,3) || '-' || SUBSTR(:NEW.휴대폰, 4,4) || '-' || SUBSTR(:NEW.휴대폰, 8,4);
+            END;
+        ELSIF LENGTH(:NEW.휴대폰) <> 13 THEN
+            BEGIN
+                RAISE_APPLICATION_ERROR(-20001, '전화번호의 입력이 올바르지 않습니다.');
+            END;
+        END IF;
     END IF;
     
-    IF :NEW.비밀번호 <> :OLD.비밀번호 THEN
-        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '비밀번호', :NEW.비밀번호);
+    IF UPDATING('기업회원.비밀번호') THEN
+        IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <=8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
+            RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
+        END IF;
     END IF;
-    IF :NEW.이름 <> :OLD.이름 THEN
+
+    IF UPDATING('이름') THEN
         INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '이름', :NEW.이름);
     END IF;
-    IF :NEW.휴대폰 <> :OLD.휴대폰 THEN
+    IF UPDATING('개인정보_유효기간') THEN
+        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '개인정보_유효기간', :NEW.개인정보_유효기간);
+    END IF;
+    IF UPDATING('휴대폰') THEN
         INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '휴대폰', :NEW.휴대폰);
     END IF;
-    IF :NEW.개인정보_유효기간 <> :OLD.개인정보_유효기간 THEN
-        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '개인정보_유효기간', :NEW.개인정보_유효기간);
+    IF UPDATING('비밀번호') THEN
+        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '비밀번호', :NEW.비밀번호);
     END IF;
 END;
 
@@ -131,11 +147,8 @@ FOR EACH ROW
 BEGIN
     IF(:NEW.포인트 < 0) THEN
         RAISE_APPLICATION_ERROR(-20007, '포인트가 부족합니다.');
-    ELSE
-        INSERT INTO 개인_포인트_수정_내역 VALUES (:NEW.회원ID,'사용',:NEW.포인트);
-    END IF;
-    IF(:NEW.포인트 > :OLD.포인트) THEN
-        INSERT INTO 개인_포인트_수정_내역 VALUES (:NEW.회원ID,'추가',:NEW.포인트);
+    ELSIF(:NEW.포인트 > :OLD.포인트) THEN
+        INSERT INTO 개인_포인트_수정_내역 VALUES (:NEW.회원ID,'추가',:NEW.포인트 - :OLD.포인트);
     END IF;
 END;
 
@@ -144,11 +157,8 @@ FOR EACH ROW
 BEGIN
     IF(:NEW.포인트 < 0) THEN
         RAISE_APPLICATION_ERROR(-20007, '포인트가 부족합니다.');
-    ELSE
-        INSERT INTO 기업_포인트_수정_내역 VALUES (:NEW.회원ID,'사용',:NEW.포인트);
-    END IF;
-    IF(:NEW.포인트 > :OLD.포인트) THEN
-        INSERT INTO 기업_포인트_수정_내역 VALUES (:NEW.회원ID,'추가',:NEW.포인트);
+    ELSIF(:NEW.포인트 > :OLD.포인트) THEN
+        INSERT INTO 기업_포인트_수정_내역 VALUES (:NEW.회원ID,'추가',:NEW.포인트 - :OLD.포인트);
     END IF;
 END;
 

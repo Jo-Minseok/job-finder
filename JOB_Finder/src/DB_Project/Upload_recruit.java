@@ -2,6 +2,7 @@ package DB_Project;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
@@ -15,16 +16,17 @@ public class Upload_recruit extends JFrame {
 	private JTextField txt_job;
 	private JTextField txt_category;
 	private JTextField txt_salary;
-	private JTextField txt_address;
 	private JTextField txt_time;
 	private JTextField txt_position;
 	private JTextField txt_deadline;
 	private JTextField txt_human;
+	private JTextField txt_type;
+	private JComboBox<String> com_address = new JComboBox<String>();
 
 	public Upload_recruit() {
 		setTitle("채용 게시글 작성");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 593);
+		setBounds(100, 100, 650, 631);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -93,47 +95,42 @@ public class Upload_recruit extends JFrame {
 		txt_category.setColumns(10);
 		
 		JLabel lbl_salary = new JLabel("급여");
-		lbl_salary.setBounds(20, 210, 150, 20);
+		lbl_salary.setBounds(20, 268, 150, 20);
 		contentPane.add(lbl_salary);
 		
 		txt_salary = new JTextField();
-		txt_salary.setBounds(20, 230, 350, 25);
+		txt_salary.setBounds(20, 288, 350, 25);
 		contentPane.add(txt_salary);
 		txt_salary.setColumns(10);
 		
 		JLabel lbl_address = new JLabel("근무 지역");
-		lbl_address.setBounds(20, 260, 150, 20);
+		lbl_address.setBounds(20, 318, 150, 20);
 		contentPane.add(lbl_address);
 		
-		txt_address = new JTextField();
-		txt_address.setBounds(20, 280, 350, 25);
-		contentPane.add(txt_address);
-		txt_address.setColumns(10);
-		
 		JLabel lbl_time = new JLabel("근무 시간(주)");
-		lbl_time.setBounds(20, 310, 150, 20);
+		lbl_time.setBounds(20, 368, 150, 20);
 		contentPane.add(lbl_time);
 		
 		txt_time = new JTextField();
-		txt_time.setBounds(20, 330, 350, 25);
+		txt_time.setBounds(20, 388, 350, 25);
 		contentPane.add(txt_time);
 		txt_time.setColumns(10);
 		
 		JLabel lbl_position = new JLabel("직책");
-		lbl_position.setBounds(20, 418, 150, 20);
+		lbl_position.setBounds(20, 476, 150, 20);
 		contentPane.add(lbl_position);
 		
 		txt_position = new JTextField();
-		txt_position.setBounds(20, 438, 350, 25);
+		txt_position.setBounds(20, 496, 350, 25);
 		contentPane.add(txt_position);
 		txt_position.setColumns(10);
 		
 		JLabel lbl_deadline = new JLabel("마감일");
-		lbl_deadline.setBounds(20, 468, 150, 20);
+		lbl_deadline.setBounds(20, 526, 150, 20);
 		contentPane.add(lbl_deadline);
 		
 		txt_deadline = new JTextField();
-		txt_deadline.setBounds(20, 488, 350, 25);
+		txt_deadline.setBounds(20, 546, 350, 25);
 		contentPane.add(txt_deadline);
 		txt_deadline.setColumns(10);
 		
@@ -142,8 +139,18 @@ public class Upload_recruit extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Main.DBConnection();
-					String sql = "INSERT INTO 채용_게시글 VALUES (0,'" + Main.ID + "','" + txt_job + "','" + txt_category + "','" + txt_salary + "','" + txt_address + "','" + txt_time +"','" + txt_human + "','" + txt_position + "','" + txt_deadline + "')";
+					Main.con.setAutoCommit(false);
+					String sql = "INSERT INTO 채용_게시글 VALUES (0,'" + Main.ID + "','" + txt_job.getText() + "','" + txt_category.getText() + "','" + txt_type.getText() + "','" + txt_salary.getText() + "','" + com_address.getSelectedItem().toString() + "','" + txt_time.getText() +"','" + txt_human.getText() + "','" + txt_position.getText() + "','" + txt_deadline.getText() + "','0')";
+					Main.stmt = Main.con.createStatement();
+					Main.stmt.executeUpdate(sql);
 					
+					sql = "UPDATE 기업회원 SET 포인트 = 포인트 - 1000 WHERE 회원ID = '" + Main.ID +"'";
+					Main.stmt = Main.con.createStatement();
+					Main.stmt.executeUpdate(sql);
+					
+					sql = "INSERT INTO 기업_포인트_수정_내역 VALUES ('" + Main.ID + "','사용','1000')";
+					Main.stmt = Main.con.createStatement();
+					Main.stmt.executeUpdate(sql);
 					Main.con.commit();
 				}
 				catch(SQLException ex) {
@@ -155,6 +162,10 @@ public class Upload_recruit extends JFrame {
 				}
 				finally {
 					Main.DBClose();
+					try {
+					Main.con.setAutoCommit(true);
+					}
+					catch(SQLException ex2) {}
 				}
 			}
 		});
@@ -171,13 +182,58 @@ public class Upload_recruit extends JFrame {
 		contentPane.add(btn_close);
 		
 		JLabel lbl_human = new JLabel("모집인원");
-		lbl_human.setBounds(20, 363, 150, 20);
+		lbl_human.setBounds(20, 421, 150, 20);
 		contentPane.add(lbl_human);
 		
 		txt_human = new JTextField();
 		txt_human.setColumns(10);
-		txt_human.setBounds(20, 383, 350, 25);
+		txt_human.setBounds(20, 441, 350, 25);
 		contentPane.add(txt_human);
+		
+		txt_type = new JTextField();
+		txt_type.setColumns(10);
+		txt_type.setBounds(20, 233, 350, 25);
+		contentPane.add(txt_type);
+		
+		JLabel lbl_type = new JLabel("고용형태");
+		lbl_type.setBounds(20, 213, 150, 20);
+		contentPane.add(lbl_type);
+		
+		com_address.setBounds(20, 336, 101, 23);
+		contentPane.add(com_address);
+		AddressComboBox();	
+	}
+	public ArrayList<String> getRegionData(){
+		ArrayList<String> regionList = new ArrayList<>();
+		
+		try {	           
+            Main.DBConnection();
+
+            String query = "SELECT 지역명 FROM 지역";
+            Main.stmt = Main.con.createStatement();
+            Main.rs = Main.stmt.executeQuery(query);
+
+            while (Main.rs.next()) {
+                String regionName = Main.rs.getString("지역명");
+                regionList.add(regionName);
+                //System.out.println("Retrieved Region: " + regionName);
+            }
+            Main.DBClose();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return regionList;
+    }
+	
+	// 지역 콤보박스 리스트 추가
+	public void AddressComboBox() {
+	    ArrayList<String> addressList = getRegionData();
+	    for (String address : addressList) {
+	        com_address.addItem(address);
+	        //System.out.println("Retrieved Region: " + address);
+	    }
 	}
 	
 	private void openWindow() {
