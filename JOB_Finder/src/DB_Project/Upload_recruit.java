@@ -1,6 +1,7 @@
 package DB_Project;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 import javax.swing.border.EmptyBorder;
 import javax.swing.*;
@@ -18,11 +19,12 @@ public class Upload_recruit extends JFrame {
 	private JTextField txt_time;
 	private JTextField txt_position;
 	private JTextField txt_deadline;
+	private JTextField txt_human;
 
 	public Upload_recruit() {
 		setTitle("채용 게시글 작성");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 650, 525);
+		setBounds(100, 100, 650, 593);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -56,9 +58,10 @@ public class Upload_recruit extends JFrame {
 		txt_name.setEditable(false);
 		try {
 			Main.DBConnection();
-			String sql = "SELECT 기업명 FROM 기업회원 WHERE 회원ID = " + Main.ID;
+			String sql = "SELECT 기업명 FROM 기업회원 WHERE 회원ID = '" + Main.ID + "'";
 			Main.stmt = Main.con.createStatement();
 			Main.rs = Main.stmt.executeQuery(sql);
+			Main.rs.next();
 			txt_name.setText(Main.rs.getString(1));
 		}
 		catch(Exception ex) {
@@ -117,24 +120,44 @@ public class Upload_recruit extends JFrame {
 		txt_time.setColumns(10);
 		
 		JLabel lbl_position = new JLabel("직책");
-		lbl_position.setBounds(20, 360, 150, 20);
+		lbl_position.setBounds(20, 418, 150, 20);
 		contentPane.add(lbl_position);
 		
 		txt_position = new JTextField();
-		txt_position.setBounds(20, 380, 350, 25);
+		txt_position.setBounds(20, 438, 350, 25);
 		contentPane.add(txt_position);
 		txt_position.setColumns(10);
 		
 		JLabel lbl_deadline = new JLabel("마감일");
-		lbl_deadline.setBounds(20, 410, 150, 20);
+		lbl_deadline.setBounds(20, 468, 150, 20);
 		contentPane.add(lbl_deadline);
 		
 		txt_deadline = new JTextField();
-		txt_deadline.setBounds(20, 430, 350, 25);
+		txt_deadline.setBounds(20, 488, 350, 25);
 		contentPane.add(txt_deadline);
 		txt_deadline.setColumns(10);
 		
 		JButton btn_upload = new JButton("작성");
+		btn_upload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Main.DBConnection();
+					String sql = "INSERT INTO 채용_게시글 VALUES (0,'" + Main.ID + "','" + txt_job + "','" + txt_category + "','" + txt_salary + "','" + txt_address + "','" + txt_time +"','" + txt_human + "','" + txt_position + "','" + txt_deadline + "')";
+					
+					Main.con.commit();
+				}
+				catch(SQLException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(),"게시글 업로드 실패", JOptionPane.ERROR_MESSAGE);
+					try {
+						Main.con.rollback();
+					}
+					catch(SQLException ex1) {}
+				}
+				finally {
+					Main.DBClose();
+				}
+			}
+		});
 		btn_upload.setBounds(540, 390, 75, 30);
 		contentPane.add(btn_upload);
 		
@@ -146,6 +169,15 @@ public class Upload_recruit extends JFrame {
 		});
 		btn_close.setBounds(540, 430, 75, 30);
 		contentPane.add(btn_close);
+		
+		JLabel lbl_human = new JLabel("모집인원");
+		lbl_human.setBounds(20, 363, 150, 20);
+		contentPane.add(lbl_human);
+		
+		txt_human = new JTextField();
+		txt_human.setColumns(10);
+		txt_human.setBounds(20, 383, 350, 25);
+		contentPane.add(txt_human);
 	}
 	
 	private void openWindow() {

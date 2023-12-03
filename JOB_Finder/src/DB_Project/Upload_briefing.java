@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.DefaultComboBoxModel;
@@ -61,7 +62,20 @@ public class Upload_briefing extends JFrame {
 		contentPane.add(lbl_name);
 		
 		txt_name = new JTextField();
-		txt_name.setText("( DB에서 불러와서 수정 불가 )");
+		try {
+			Main.DBConnection();
+			String sql = "SELECT 기업명 FROM 기업회원 WHERE 회원ID = '" + Main.ID + "'";
+			Main.stmt = Main.con.createStatement();
+			Main.rs = Main.stmt.executeQuery(sql);
+			Main.rs.next();
+			txt_name.setText(Main.rs.getString(1));
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(),"DB 연결 실패", JOptionPane.ERROR_MESSAGE);
+		}
+		finally {
+			Main.DBClose();
+		}
 		txt_name.setEditable(false);
 		txt_name.setColumns(10);
 		txt_name.setBounds(20, 80, 350, 25);

@@ -36,7 +36,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
     END IF;
     IF EXTRACT(YEAR FROM :NEW.생년월일) < EXTRACT(YEAR FROM SYSDATE) - 20 THEN
-        RAISE_APPLICATION_ERROR(-20004, '미성년자로 수정이 불가능합니다.'||EXTRACT(YEAR FROM SYSDATE)-20 ||'이전 년생으로 수정 가능.');
+        RAISE_APPLICATION_ERROR(-20004, '미성년자로 수정이 불가능합니다. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||'이전 년생으로 수정 가능.');
     END IF;
     IF NOT (:NEW.성별='남' OR :NEW.성별='여') THEN
         RAISE_APPLICATION_ERROR(-20005, '성별이 올바르지 않습니다.(''남'',''여''로 입력하세요.)');
