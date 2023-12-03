@@ -76,15 +76,10 @@ public class Mainpage {
 		lbl_ID.setBounds(557, 209, 182, 15);
 		frame.getContentPane().add(lbl_ID);
 		
-		JLabel lbl_resume = new JLabel("작성한 이력서 개수 :");
+		JLabel lbl_resume = new JLabel("작성한 게시글 개수 :");
 		lbl_resume.setForeground(Color.BLACK);
 		lbl_resume.setBounds(557, 234, 121, 15);
 		frame.getContentPane().add(lbl_resume);
-		
-		JLabel lbl_recruit = new JLabel("작성한 채용 게시글 개수 :");
-		lbl_recruit.setForeground(Color.BLACK);
-		lbl_recruit.setBounds(557, 259, 153, 15);
-		frame.getContentPane().add(lbl_recruit);
 		
 		JButton btn_logout = new JButton("로그아웃");
 		btn_logout.setBounds(557, 284, 89, 23);

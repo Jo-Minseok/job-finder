@@ -33,7 +33,7 @@ public class Upload_recruit extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JComboBox com_category = new JComboBox();
+		JComboBox<String> com_category = new JComboBox<String>();
 		com_category.setMaximumRowCount(2);
 		com_category.setModel(new DefaultComboBoxModel(new String[] {"채용 게시글", "설명회 게시글"}));
 		com_category.setSelectedIndex(0);
@@ -42,7 +42,7 @@ public class Upload_recruit extends JFrame {
 		
 		com_category.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JComboBox combo = (JComboBox)e.getSource();
+				JComboBox<String> combo = (JComboBox<String>)e.getSource();
 				int selectedIndex = combo.getSelectedIndex();
 				
 				if(selectedIndex==1) {
