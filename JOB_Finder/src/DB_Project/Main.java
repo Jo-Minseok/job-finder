@@ -19,7 +19,7 @@ public class Main {
 	public static void main(String[] args) {
 		DriverLoad();
 		DBConnection();
-		Register window = new Register();
+		Login window = new Login();
 		window.frame.setVisible(true);
 		DBClose();
 	}
