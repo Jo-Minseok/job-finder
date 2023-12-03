@@ -12,8 +12,8 @@ import java.awt.event.ActionEvent;
 public class Resign {
 
 	public JFrame frame;
-	private JTextField ID_txt;
-	private JTextField Phone_txt;
+	private JTextField txt_id;
+	private JTextField txt_phone;
 
 	public Resign() {
 		initialize();
@@ -25,23 +25,23 @@ public class Resign {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("ID");
-		lblNewLabel.setBounds(12, 10, 57, 15);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel lbl_ID = new JLabel("ID");
+		lbl_ID.setBounds(12, 10, 57, 15);
+		frame.getContentPane().add(lbl_ID);
 		
-		ID_txt = new JTextField();
-		ID_txt.setBounds(12, 35, 240, 21);
-		frame.getContentPane().add(ID_txt);
-		ID_txt.setColumns(10);
+		txt_id = new JTextField();
+		txt_id.setBounds(12, 35, 240, 21);
+		frame.getContentPane().add(txt_id);
+		txt_id.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("PHONE_NUMBER");
-		lblNewLabel_1.setBounds(12, 66, 116, 15);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel lbl_phone = new JLabel("PHONE_NUMBER");
+		lbl_phone.setBounds(12, 66, 116, 15);
+		frame.getContentPane().add(lbl_phone);
 		
-		Phone_txt = new JTextField();
-		Phone_txt.setBounds(12, 91, 240, 21);
-		frame.getContentPane().add(Phone_txt);
-		Phone_txt.setColumns(10);
+		txt_phone = new JTextField();
+		txt_phone.setBounds(12, 91, 240, 21);
+		frame.getContentPane().add(txt_phone);
+		txt_phone.setColumns(10);
 		
 		JCheckBox chk1 = new JCheckBox("회원 탈퇴 시, 일부 정보는 보존될 수 있습니다.");
 		chk1.setBounds(12, 161, 480, 23);
@@ -55,43 +55,43 @@ public class Resign {
 		chk3.setBounds(12, 249, 480, 23);
 		frame.getContentPane().add(chk3);
 		
-		JButton Resign_btn = new JButton("회원 탈퇴");
-		Resign_btn.setFont(new Font("굴림", Font.BOLD, 18));
-		Resign_btn.setBounds(12, 294, 116, 57);
-		frame.getContentPane().add(Resign_btn);
+		JButton btn_resign = new JButton("회원 탈퇴");
+		btn_resign.setFont(new Font("굴림", Font.BOLD, 18));
+		btn_resign.setBounds(12, 294, 116, 57);
+		frame.getContentPane().add(btn_resign);
 		
-		JButton Exit_btn = new JButton("닫기");
-		Exit_btn.addActionListener(new ActionListener() {
+		JButton btn_exit = new JButton("닫기");
+		btn_exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		Exit_btn.setBounds(421, 328, 71, 23);
-		frame.getContentPane().add(Exit_btn);
+		btn_exit.setBounds(421, 328, 71, 23);
+		frame.getContentPane().add(btn_exit);
 		
-		Resign_btn.setEnabled(false);
+		btn_resign.setEnabled(false);
 		
 		chk1.addItemListener(e -> {
 		    if (chk1.isSelected() && chk2.isSelected() && chk3.isSelected()) {
-		    	Resign_btn.setEnabled(true); 
+		    	btn_resign.setEnabled(true); 
 		    } else {
-		    	Resign_btn.setEnabled(false); 
+		    	btn_resign.setEnabled(false); 
 		    }
 		});
 		
 		chk2.addItemListener(e -> {
 		    if (chk1.isSelected() && chk2.isSelected() && chk3.isSelected()) {
-		    	Resign_btn.setEnabled(true); 
+		    	btn_resign.setEnabled(true); 
 		    } else {
-		    	Resign_btn.setEnabled(false); 
+		    	btn_resign.setEnabled(false); 
 		    }
 		});
 		
 		chk3.addItemListener(e -> {
 		    if (chk1.isSelected() && chk2.isSelected() && chk3.isSelected()) {
-		    	Resign_btn.setEnabled(true); 
+		    	btn_resign.setEnabled(true); 
 		    } else {
-		    	Resign_btn.setEnabled(false); 
+		    	btn_resign.setEnabled(false); 
 		    }
 		});
 	}

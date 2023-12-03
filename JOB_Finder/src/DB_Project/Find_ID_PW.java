@@ -86,7 +86,7 @@ public class Find_ID_PW extends JFrame {
 	
 	
 		// 기능구현1 = 아이디 검색
-		// PreparedStatement로
+		// PreparedStatement
 		
 		btn_id_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -165,7 +165,7 @@ public class Find_ID_PW extends JFrame {
 		btn_pw_search.setBounds(230, 325, 75, 25);
 		
 		// 기능구현2 = 비밀번호 검색
-		// CallableStatement로
+		// CallableStatement
 		
 		btn_pw_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
