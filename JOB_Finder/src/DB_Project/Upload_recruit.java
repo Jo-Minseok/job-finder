@@ -56,14 +56,14 @@ public class Upload_recruit extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JComboBox cb = new JComboBox();
-		cb.setMaximumRowCount(2);
-		cb.setModel(new DefaultComboBoxModel(new String[] {"채용 게시글", "설명회 게시글"}));
-		cb.setSelectedIndex(0);
-		cb.setBounds(20, 20, 150, 30);
-		contentPane.add(cb);
+		JComboBox com_category = new JComboBox();
+		com_category.setMaximumRowCount(2);
+		com_category.setModel(new DefaultComboBoxModel(new String[] {"채용 게시글", "설명회 게시글"}));
+		com_category.setSelectedIndex(0);
+		com_category.setBounds(20, 20, 150, 30);
+		contentPane.add(com_category);
 		
-		cb.addActionListener(new ActionListener() {
+		com_category.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox combo = (JComboBox)e.getSource();
 				int selectedIndex = combo.getSelectedIndex();
@@ -75,9 +75,9 @@ public class Upload_recruit extends JFrame {
 			}
 		});
 		
-		JLabel recruit_lb1 = new JLabel("기업명");
-		recruit_lb1.setBounds(20, 60, 150, 20);
-		contentPane.add(recruit_lb1);
+		JLabel lbl_name = new JLabel("기업명");
+		lbl_name.setBounds(20, 60, 150, 20);
+		contentPane.add(lbl_name);
 		
 		recruit_tf1 = new JTextField();
 		recruit_tf1.setEditable(false);
