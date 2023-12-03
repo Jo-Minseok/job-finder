@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 public class Mainpage {
 
 	public JFrame frame;
-	private JTextField textField;
+	private JTextField txt_business;
 
 	public Mainpage() {
 		initialize();
@@ -30,206 +30,225 @@ public class Mainpage {
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setForeground(Color.BLACK);
-		lblNewLabel.setBackground(Color.WHITE);
-		lblNewLabel.setBounds(12, 10, 766, 109);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel lbl_logo = new JLabel("New label");
+		lbl_logo.setForeground(Color.BLACK);
+		lbl_logo.setBackground(Color.WHITE);
+		lbl_logo.setBounds(12, 10, 766, 109);
+		frame.getContentPane().add(lbl_logo);
 		
-		JLabel lblNewLabel_1 = new JLabel("기업 조회");
-		lblNewLabel_1.setBounds(22, 129, 57, 15);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel lbl_business_search = new JLabel("기업 조회");
+		lbl_business_search.setBounds(22, 129, 57, 15);
+		frame.getContentPane().add(lbl_business_search);
 		
-		textField = new JTextField();
-		textField.setBounds(106, 126, 220, 21);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		txt_business = new JTextField();
+		txt_business.setBounds(106, 126, 220, 21);
+		frame.getContentPane().add(txt_business);
+		txt_business.setColumns(10);
 		
-		JButton btnNewButton = new JButton("조회");
-		btnNewButton.setBounds(343, 125, 78, 23);
-		frame.getContentPane().add(btnNewButton);
+		JButton btn_search = new JButton("조회");
+		btn_search.setBounds(343, 125, 78, 23);
+		frame.getContentPane().add(btn_search);
 		
-		JButton btnNewButton_1 = new JButton("전체");
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton btn_all = new JButton("전체");
+		btn_all.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CompanyFullView window = new CompanyFullView();
 				window.frame.setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(433, 125, 78, 23);
-		frame.getContentPane().add(btnNewButton_1);
+		btn_all.setBounds(433, 125, 78, 23);
+		frame.getContentPane().add(btn_all);
 		
-		JLabel lblNewLabel_2 = new JLabel("현재 모집중인 공고 개수  : ");
-		lblNewLabel_2.setBounds(557, 126, 153, 15);
-		frame.getContentPane().add(lblNewLabel_2);
+		JLabel lbl_now = new JLabel("현재 모집중인 공고 개수  : ");
+		lbl_now.setBounds(557, 126, 153, 15);
+		frame.getContentPane().add(lbl_now);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setBounds(709, 126, 57, 15);
-		frame.getContentPane().add(lblNewLabel_3);
+		JLabel lbl_now_count = new JLabel("New label");
+		lbl_now_count.setBounds(709, 126, 57, 15);
+		frame.getContentPane().add(lbl_now_count);
 		
-		JButton market_btn = new JButton("채용 시장 분석");
-		market_btn.setBounds(567, 151, 172, 23);
-		frame.getContentPane().add(market_btn);
+		JButton btn_market = new JButton("채용 시장 분석");
+		btn_market.setBounds(567, 151, 172, 23);
+		frame.getContentPane().add(btn_market);
 		
-		JLabel lblNewLabel_4 = new JLabel("이름 :");
-		lblNewLabel_4.setBounds(557, 184, 57, 15);
-		frame.getContentPane().add(lblNewLabel_4);
+		JLabel lbl_name = new JLabel("이름 :");
+		lbl_name.setBounds(557, 184, 57, 15);
+		frame.getContentPane().add(lbl_name);
 		
-		JLabel lblNewLabel_5 = new JLabel("아이디 :");
-		lblNewLabel_5.setBounds(557, 209, 57, 15);
-		frame.getContentPane().add(lblNewLabel_5);
+		JLabel lbl_ID = new JLabel("아이디 :");
+		lbl_ID.setBounds(557, 209, 57, 15);
+		frame.getContentPane().add(lbl_ID);
 		
-		JLabel lblNewLabel_6 = new JLabel("작성한 이력서 개수 :");
-		lblNewLabel_6.setForeground(Color.BLACK);
-		lblNewLabel_6.setBounds(557, 234, 121, 15);
-		frame.getContentPane().add(lblNewLabel_6);
+		JLabel lbl_resume = new JLabel("작성한 이력서 개수 :");
+		lbl_resume.setForeground(Color.BLACK);
+		lbl_resume.setBounds(557, 234, 121, 15);
+		frame.getContentPane().add(lbl_resume);
 		
-		JLabel lblNewLabel_7 = new JLabel("작성한 채용 게시글 개수 :");
-		lblNewLabel_7.setForeground(Color.BLACK);
-		lblNewLabel_7.setBounds(557, 259, 153, 15);
-		frame.getContentPane().add(lblNewLabel_7);
+		JLabel lbl_recruit = new JLabel("작성한 채용 게시글 개수 :");
+		lbl_recruit.setForeground(Color.BLACK);
+		lbl_recruit.setBounds(557, 259, 153, 15);
+		frame.getContentPane().add(lbl_recruit);
 		
-		JButton Logout_btn = new JButton("로그아웃");
-		Logout_btn.setBounds(557, 284, 89, 23);
-		frame.getContentPane().add(Logout_btn);
+		JButton btn_logout = new JButton("로그아웃");
+		btn_logout.setBounds(557, 284, 89, 23);
+		frame.getContentPane().add(btn_logout);
 		
-		JButton Edit_btn = new JButton("정보수정");
-		Edit_btn.addActionListener(new ActionListener() {
+		JButton btn_edit = new JButton("정보수정");
+		btn_edit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Edit_info window = new Edit_info();
 				window.frame.setVisible(true);
 			}
 		});
-		Edit_btn.setBounds(658, 284, 89, 23);
-		frame.getContentPane().add(Edit_btn);
+		btn_edit.setBounds(658, 284, 89, 23);
+		frame.getContentPane().add(btn_edit);
 		
-		JButton btnNewButton_2 = new JButton("이력서 / 채용 게시글 작성");
-		btnNewButton_2.setBounds(557, 329, 190, 23);
-		frame.getContentPane().add(btnNewButton_2);
+		JButton btn_write = new JButton("이력서 작성/채용 게시글 작성");
+		if(Main.mode == "개인") {
+			btn_write.setText("이력서 작성");
+			btn_write.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Resume window = new Resume();
+					window.frame.setVisible(true);
+				}
+			});
+		}
+		else {
+			btn_write.setText("채용 게시글/설명회 작성");
+			btn_write.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Upload_recruit window = new Upload_recruit();
+					window.setVisible(true);
+				}
+			});
+		}
 		
-		JButton btnNewButton_2_1 = new JButton("이력서 조회");
-		btnNewButton_2_1.setBounds(557, 362, 190, 23);
-		frame.getContentPane().add(btnNewButton_2_1);
+		btn_write.setBounds(557, 317, 190, 23);
+		frame.getContentPane().add(btn_write);
 		
-		JButton btnNewButton_2_2 = new JButton("기업 등록");
-		btnNewButton_2_2.setForeground(Color.BLACK);
-		btnNewButton_2_2.setBounds(557, 395, 190, 23);
-		frame.getContentPane().add(btnNewButton_2_2);
+		JButton btn_resume_search = new JButton("이력서 조회");
+		btn_resume_search.setBounds(557, 350, 190, 23);
+		frame.getContentPane().add(btn_resume_search);
 		
-		JLabel lblNewLabel_8 = new JLabel("채용 게시글");
-		lblNewLabel_8.setBounds(12, 173, 78, 15);
-		frame.getContentPane().add(lblNewLabel_8);
+		JButton btn_upload_business = new JButton("기업 등록");
+		btn_upload_business.setForeground(Color.BLACK);
+		btn_upload_business.setBounds(557, 383, 190, 23);
+		frame.getContentPane().add(btn_upload_business);
 		
-		JLabel lblNewLabel_8_1 = new JLabel("채용 게시글");
-		lblNewLabel_8_1.setBounds(12, 366, 78, 15);
-		frame.getContentPane().add(lblNewLabel_8_1);
+		JLabel lbl_post = new JLabel("채용 게시글");
+		lbl_post.setBounds(12, 173, 78, 15);
+		frame.getContentPane().add(lbl_post);
 		
-		JButton btnNewButton_3 = new JButton("New button");
-		btnNewButton_3.setBounds(51, 198, 112, 69);
-		frame.getContentPane().add(btnNewButton_3);
+		JLabel lbl_briefing = new JLabel("채용 설명회");
+		lbl_briefing.setBounds(12, 366, 78, 15);
+		frame.getContentPane().add(lbl_briefing);
 		
-		JButton btnNewButton_3_1 = new JButton("New button");
-		btnNewButton_3_1.setBounds(214, 198, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_1);
+		JButton btn_inquiry_1 = new JButton("New button");
+		btn_inquiry_1.setBounds(51, 198, 112, 69);
+		frame.getContentPane().add(btn_inquiry_1);
 		
-		JButton btnNewButton_3_2 = new JButton("New button");
-		btnNewButton_3_2.setBounds(374, 198, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_2);
+		JButton btn_inquiry_2 = new JButton("New button");
+		btn_inquiry_2.setBounds(214, 198, 112, 69);
+		frame.getContentPane().add(btn_inquiry_2);
 		
-		JButton btnNewButton_3_3 = new JButton("New button");
-		btnNewButton_3_3.setBounds(51, 284, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_3);
+		JButton btn_inquiry_3 = new JButton("New button");
+		btn_inquiry_3.setBounds(374, 198, 112, 69);
+		frame.getContentPane().add(btn_inquiry_3);
 		
-		JButton btnNewButton_3_1_1 = new JButton("New button");
-		btnNewButton_3_1_1.setBounds(214, 284, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_1_1);
+		JButton btn_inquiry_4 = new JButton("New button");
+		btn_inquiry_4.setBounds(51, 284, 112, 69);
+		frame.getContentPane().add(btn_inquiry_4);
 		
-		JButton btnNewButton_3_2_1 = new JButton("New button");
-		btnNewButton_3_2_1.setBounds(374, 284, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_2_1);
+		JButton btn_inquiry_5 = new JButton("New button");
+		btn_inquiry_5.setBounds(214, 284, 112, 69);
+		frame.getContentPane().add(btn_inquiry_5);
 		
-		JButton btnNewButton_3_4 = new JButton("New button");
-		btnNewButton_3_4.setBounds(51, 391, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_4);
+		JButton btn_inquiry_6 = new JButton("New button");
+		btn_inquiry_6.setBounds(374, 284, 112, 69);
+		frame.getContentPane().add(btn_inquiry_6);
 		
-		JButton btnNewButton_3_1_2 = new JButton("New button");
-		btnNewButton_3_1_2.setBounds(214, 391, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_1_2);
+		JButton btn_briefing_1 = new JButton("New button");
+		btn_briefing_1.setBounds(51, 391, 112, 69);
+		frame.getContentPane().add(btn_briefing_1);
 		
-		JButton btnNewButton_3_2_2 = new JButton("New button");
-		btnNewButton_3_2_2.setBounds(374, 391, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_2_2);
+		JButton btn_briefing_2 = new JButton("New button");
+		btn_briefing_2.setBounds(214, 391, 112, 69);
+		frame.getContentPane().add(btn_briefing_2);
 		
-		JButton btnNewButton_3_5 = new JButton("New button");
-		btnNewButton_3_5.setBounds(51, 478, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_5);
+		JButton btn_briefing_3 = new JButton("New button");
+		btn_briefing_3.setBounds(374, 391, 112, 69);
+		frame.getContentPane().add(btn_briefing_3);
 		
-		JButton btnNewButton_3_1_3 = new JButton("New button");
-		btnNewButton_3_1_3.setBounds(214, 478, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_1_3);
+		JButton btn_briefing_4 = new JButton("New button");
+		btn_briefing_4.setBounds(51, 478, 112, 69);
+		frame.getContentPane().add(btn_briefing_4);
 		
-		JButton btnNewButton_3_2_3 = new JButton("New button");
-		btnNewButton_3_2_3.setBounds(374, 478, 112, 69);
-		frame.getContentPane().add(btnNewButton_3_2_3);
+		JButton btn_briefing_5 = new JButton("New button");
+		btn_briefing_5.setBounds(214, 478, 112, 69);
+		frame.getContentPane().add(btn_briefing_5);
 		
-		JLabel lblNewLabel_9 = new JLabel("공고");
-		lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9.setBounds(85, 269, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9);
+		JButton btn_briefing_6 = new JButton("New button");
+		btn_briefing_6.setBounds(374, 478, 112, 69);
+		frame.getContentPane().add(btn_briefing_6);
 		
-		JLabel lblNewLabel_9_1 = new JLabel("공고");
-		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_1.setBounds(247, 269, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_1);
+		JLabel lbl_inquiry_1 = new JLabel("공고");
+		lbl_inquiry_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_inquiry_1.setBounds(85, 269, 42, 15);
+		frame.getContentPane().add(lbl_inquiry_1);
 		
-		JLabel lblNewLabel_9_2 = new JLabel("공고");
-		lblNewLabel_9_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_2.setBounds(409, 269, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_2);
+		JLabel lbl_inquiry_2 = new JLabel("공고");
+		lbl_inquiry_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_inquiry_2.setBounds(247, 269, 42, 15);
+		frame.getContentPane().add(lbl_inquiry_2);
 		
-		JLabel lblNewLabel_9_3 = new JLabel("공고");
-		lblNewLabel_9_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_3.setBounds(85, 353, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_3);
+		JLabel lbl_inquiry_3 = new JLabel("공고");
+		lbl_inquiry_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_inquiry_3.setBounds(409, 269, 42, 15);
+		frame.getContentPane().add(lbl_inquiry_3);
 		
-		JLabel lblNewLabel_9_1_1 = new JLabel("공고");
-		lblNewLabel_9_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_1_1.setBounds(247, 353, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_1_1);
+		JLabel lbl_inquiry_4 = new JLabel("공고");
+		lbl_inquiry_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_inquiry_4.setBounds(85, 353, 42, 15);
+		frame.getContentPane().add(lbl_inquiry_4);
 		
-		JLabel lblNewLabel_9_2_1 = new JLabel("공고");
-		lblNewLabel_9_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_2_1.setBounds(409, 353, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_2_1);
+		JLabel lbl_inquiry_5 = new JLabel("공고");
+		lbl_inquiry_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_inquiry_5.setBounds(247, 353, 42, 15);
+		frame.getContentPane().add(lbl_inquiry_5);
 		
-		JLabel lblNewLabel_9_4 = new JLabel("설명회");
-		lblNewLabel_9_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_4.setBounds(85, 462, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_4);
+		JLabel lbl_inquiry_6 = new JLabel("공고");
+		lbl_inquiry_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_inquiry_6.setBounds(409, 353, 42, 15);
+		frame.getContentPane().add(lbl_inquiry_6);
 		
-		JLabel lblNewLabel_9_1_2 = new JLabel("설명회");
-		lblNewLabel_9_1_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_1_2.setBounds(247, 462, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_1_2);
+		JLabel lbl_briefing_1 = new JLabel("설명회");
+		lbl_briefing_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_briefing_1.setBounds(85, 462, 42, 15);
+		frame.getContentPane().add(lbl_briefing_1);
 		
-		JLabel lblNewLabel_9_2_2 = new JLabel("설명회");
-		lblNewLabel_9_2_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_2_2.setBounds(409, 462, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_2_2);
+		JLabel lbl_briefing_2 = new JLabel("설명회");
+		lbl_briefing_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_briefing_2.setBounds(247, 462, 42, 15);
+		frame.getContentPane().add(lbl_briefing_2);
 		
-		JLabel lblNewLabel_9_2_2_1 = new JLabel("설명회");
-		lblNewLabel_9_2_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_2_2_1.setBounds(409, 553, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_2_2_1);
+		JLabel lbl_briefing_3 = new JLabel("설명회");
+		lbl_briefing_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_briefing_3.setBounds(409, 462, 42, 15);
+		frame.getContentPane().add(lbl_briefing_3);
 		
-		JLabel lblNewLabel_9_4_1 = new JLabel("설명회");
-		lblNewLabel_9_4_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_4_1.setBounds(85, 553, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_4_1);
+		JLabel lbl_briefing_4 = new JLabel("설명회");
+		lbl_briefing_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_briefing_4.setBounds(409, 553, 42, 15);
+		frame.getContentPane().add(lbl_briefing_4);
 		
-		JLabel lblNewLabel_9_1_2_1 = new JLabel("설명회");
-		lblNewLabel_9_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_9_1_2_1.setBounds(247, 553, 42, 15);
-		frame.getContentPane().add(lblNewLabel_9_1_2_1);
+		JLabel lbl_briefing_5 = new JLabel("설명회");
+		lbl_briefing_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_briefing_5.setBounds(85, 553, 42, 15);
+		frame.getContentPane().add(lbl_briefing_5);
+		
+		JLabel lbl_briefing_6 = new JLabel("설명회");
+		lbl_briefing_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_briefing_6.setBounds(247, 553, 42, 15);
+		frame.getContentPane().add(lbl_briefing_6);
 	}
 }

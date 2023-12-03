@@ -40,15 +40,21 @@ public class Upload_briefing extends JFrame {
 		
 		com_category.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JComboBox combo = (JComboBox)e.getSource();
+				JComboBox<String> combo = (JComboBox)e.getSource();
 				int selectedIndex = combo.getSelectedIndex();
 				
 				if(selectedIndex==0) {
 					dispose();
-					openWindow();
+					try {
+						Upload_recruit frame = new Upload_recruit();
+						frame.setVisible(true);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		});
+		
 		
 		JLabel lbl_name = new JLabel("기업명");
 		lbl_name.setBounds(20, 60, 150, 20);
@@ -93,15 +99,12 @@ public class Upload_briefing extends JFrame {
 		contentPane.add(btn_upload);
 		
 		JButton btn_close = new JButton("닫기");
+		btn_close.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		btn_close.setBounds(540, 230, 75, 30);
 		contentPane.add(btn_close);
     }
-	private void openWindow() {
-		try {
-			Upload_recruit frame = new Upload_recruit();
-			frame.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 }

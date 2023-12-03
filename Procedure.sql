@@ -49,10 +49,10 @@ CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_PERSONAL(
     완료 OUT NVARCHAR2)
 AS
     변환된_휴대폰 개인회원.휴대폰%TYPE;
-    삭제된_ID 개인회원.회원ID%TYPE;
+    ROW_COUNT NUMBER;
 BEGIN
-    SELECT 회원ID INTO 삭제된_ID FROM 개인_회원_정보_변경  WHERE 개인_회원_정보_변경.변경_열 = '탈퇴' AND 개인_회원_정보_변경.회원ID = 회원ID;
-    IF(NOT SQL%NOTFOUND) THEN
+    SELECT COUNT(회원ID) INTO ROW_COUNT FROM 개인_회원_정보_변경 WHERE 개인_회원_정보_변경.변경_열 = '탈퇴' AND 개인_회원_정보_변경.회원ID = 회원ID;
+    IF(ROW_COUNT <> 0) THEN
         RAISE_APPLICATION_ERROR(-20008, '이미 탈퇴한 회원입니다.');
     END IF;
     IF(LENGTH(휴대폰) = 11) THEN
@@ -73,7 +73,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20002, '회원ID의 형식이 올바르지 않거나 ID 길이가 6자를 넘지 않습니다.');
     END IF;
     
-     IF REGEXP_LIKE(회원ID,'\s') OR LENGTH(회원ID) <=8 OR NOT REGEXP_LIKE(회원ID,'[[:alpha:]]') OR NOT REGEXP_LIKE(회원ID,'[[:digit:]]') THEN
+     IF REGEXP_LIKE(비밀번호,'\s') OR LENGTH(비밀번호) <=8 OR NOT REGEXP_LIKE(비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(비밀번호,'[[:digit:]]') THEN
         RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
     END IF;
     
@@ -98,10 +98,10 @@ CREATE OR REPLACE PROCEDURE CREATE_ACCOUNT_BUSINESS(
     개인정보유효기간 IN 기업회원.개인정보_유효기간%TYPE)
 AS
     변환된_휴대폰 기업회원.휴대폰%TYPE;
-    삭제된_ID 기업회원.회원ID%TYPE;
+    ROW_COUNT NUMBER;
 BEGIN   
-    SELECT 회원ID INTO 삭제된_ID FROM 기업_회원_정보_변경 WHERE 기업_회원_정보_변경.변경_열 = '탈퇴' AND 기업_회원_정보_변경.회원ID = 회원ID;
-    IF(NOT SQL%NOTFOUND) THEN
+    SELECT COUNT(회원ID) INTO ROW_COUNT FROM 기업_회원_정보_변경 WHERE 기업_회원_정보_변경.변경_열 = '탈퇴' AND 기업_회원_정보_변경.회원ID = 회원ID;
+    IF(ROW_COUNT <> 0) THEN
         RAISE_APPLICATION_ERROR(-20008, '이미 탈퇴한 회원입니다.');
     END IF;
     IF(LENGTH(휴대폰) = 11) THEN
@@ -122,7 +122,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20002, '회원ID의 형식이 올바르지 않거나 ID 길이가 6자를 넘지 않습니다.');
     END IF;
     
-     IF REGEXP_LIKE(회원ID,'\s') OR LENGTH(회원ID) <=8 OR NOT REGEXP_LIKE(회원ID,'[[:alpha:]]') OR NOT REGEXP_LIKE(회원ID,'[[:digit:]]') THEN
+     IF REGEXP_LIKE(비밀번호,'\s') OR LENGTH(회원ID) <=8 OR NOT REGEXP_LIKE(회원ID,'[[:alpha:]]') OR NOT REGEXP_LIKE(회원ID,'[[:digit:]]') THEN
         RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
     END IF;
 END;

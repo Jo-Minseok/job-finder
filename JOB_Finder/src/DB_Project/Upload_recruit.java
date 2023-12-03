@@ -27,25 +27,6 @@ public class Upload_recruit extends JFrame {
 	private JTextField recruit_tf7;
 	private JTextField recruit_tf8;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Upload_recruit frame = new Upload_recruit();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public Upload_recruit() {
 		setTitle("채용 게시글 작성");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,6 +135,11 @@ public class Upload_recruit extends JFrame {
 		contentPane.add(bt_upload);
 		
 		JButton bt_close = new JButton("닫기");
+		bt_close.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		bt_close.setBounds(540, 430, 75, 30);
 		contentPane.add(bt_close);
 	}
