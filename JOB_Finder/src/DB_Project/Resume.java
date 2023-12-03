@@ -1,7 +1,15 @@
 package DB_Project;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class Resume{
 	public JFrame frame; 
@@ -17,53 +25,96 @@ public class Resume{
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		
-		JLabel la1 = new JLabel("이력서 명");
-		la1.setBounds(22, 0, 257, 44);
-		frame.getContentPane().add(la1);
+		JLabel lbl_resume = new JLabel("이력서 명");
+		lbl_resume.setBounds(22, 0, 257, 44);
+		frame.getContentPane().add(lbl_resume);
 		
-		JTextField tf1 = new JTextField();
-		tf1.setBounds(22, 40, 242, 34);
-		frame.getContentPane().add(tf1);
+		JTextField txt_resume = new JTextField();
+		txt_resume.setBounds(22, 40, 242, 34);
+		frame.getContentPane().add(txt_resume);
 		
-		JLabel la2 = new JLabel("최종 학력");
-		la2.setBounds(22, 74, 257, 44);
-		frame.getContentPane().add(la2);
+		JLabel lbl_graduate = new JLabel("최종 학력");
+		lbl_graduate.setBounds(22, 74, 257, 44);
+		frame.getContentPane().add(lbl_graduate);
 		
-		JTextField tf2 = new JTextField();
-		tf2.setBounds(22, 114, 242, 34);
-		frame.getContentPane().add(tf2);
+		JTextField txt_graduate = new JTextField();
+		txt_graduate.setBounds(22, 114, 242, 34);
+		frame.getContentPane().add(txt_graduate);
 		
-		JLabel la3 = new JLabel("토익 점수");
-		la3.setBounds(22, 148, 257, 44);
-		frame.getContentPane().add(la3);
+		JLabel lbl_toeic = new JLabel("토익 점수");
+		lbl_toeic.setBounds(22, 148, 257, 44);
+		frame.getContentPane().add(lbl_toeic);
 		
-		JTextField tf3 = new JTextField();
-		tf3.setBounds(22, 188, 242, 34);
-		frame.getContentPane().add(tf3);
+		JTextField txt_toeic = new JTextField();
+		txt_toeic.setBounds(22, 188, 242, 34);
+		frame.getContentPane().add(txt_toeic);
 		
-		JLabel la4 = new JLabel("해외 경험 횟수");
-		la4.setBounds(22, 222, 257, 44);
-		frame.getContentPane().add(la4);
+		JLabel lbl_foreign = new JLabel("해외 경험 횟수");
+		lbl_foreign.setBounds(22, 222, 257, 44);
+		frame.getContentPane().add(lbl_foreign);
 		
-		JTextField tf4 = new JTextField();
-		tf4.setBounds(22, 262, 242, 34);
-		frame.getContentPane().add(tf4);
+		JTextField txt_foreign = new JTextField();
+		txt_foreign.setBounds(22, 262, 242, 34);
+		frame.getContentPane().add(txt_foreign);
 
-		JButton bt1 = new JButton("닫기");
-		bt1.setBounds(538, 387, 92, 37);
-		frame.getContentPane().add(bt1);
+		JButton btn_exit = new JButton("닫기");
+		btn_exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		btn_exit.setBounds(538, 387, 92, 37);
+		frame.getContentPane().add(btn_exit);
 		
-		JButton bt2 = new JButton("경력 추가");
-		bt2.setBounds(297, 112, 107, 36);
-		frame.getContentPane().add(bt2);
+		JButton btn_career = new JButton("경력 추가");
+		btn_career.setBounds(297, 112, 107, 36);
+		frame.getContentPane().add(btn_career);
+		btn_career.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Career window = new Career();
+				window.frame.setVisible(true);
+			}
+		});
 		
-		JTextField tf5 = new JTextField();
-		tf5.setBounds(297, 150, 303, 146);
-		frame.getContentPane().add(tf5);
+		JTextArea txt_career = new JTextArea();
+		txt_career.setBounds(295, 158, 293, 138);
+		frame.getContentPane().add(txt_career);
 		
-		JButton bt3 = new JButton("삭제");
-		bt3.setBounds(530, 307, 70, 24);
-		frame.getContentPane().add(bt3);
+		JButton btn_regist = new JButton("등록");
+		btn_regist.setBounds(538, 340, 92, 37);
+		frame.getContentPane().add(btn_regist);
+		btn_regist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Main.DBConnection();
+					Main.con.setAutoCommit(false);
+					
+					String sql = "UPDATE  개인회원 SET 포인트 = 포인트 -300 WHERE 회원ID = ?";
+					Main.pstmt = Main.con.prepareStatement(sql);
+					Main.pstmt.setString(1,Main.ID);
+					Main.pstmt.executeUpdate();
+					
+					sql = "INSERT INTO 개인_포인트_수정_내역 VALUE (?, '사용', 300)";
+					Main.pstmt = Main.con.prepareStatement(sql);
+					Main.pstmt.setString(1, Main.ID);
+					Main.pstmt.executeUpdate();
+					
+					Main.con.commit();
+					JOptionPane.showMessageDialog(null, "포인트가 업데이트 되었습니다!","포인트 업데이트 성공", JOptionPane.INFORMATION_MESSAGE);
+				}
+				catch(SQLException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(),"게시글 업로드 실패", JOptionPane.ERROR_MESSAGE);
+					try {
+						Main.con.rollback();
+					} catch(SQLException ex1) {}
+				} finally {
+					Main.DBClose();
+					try {
+						Main.con.setAutoCommit(true);
+					}
+					catch(SQLException ex1) {}
+				}
+			}
+		});
 	}
-
 }
