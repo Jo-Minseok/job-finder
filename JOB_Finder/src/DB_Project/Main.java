@@ -65,4 +65,9 @@ public class Main {
 			JOptionPane.showMessageDialog(null, e.getMessage(),"DB 연결 오류", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	public static void Reset() {
+		mode = null;
+		ID = null;
+	}
 }

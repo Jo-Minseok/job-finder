@@ -41,9 +41,15 @@ BEGIN
         END IF;
     END IF;
     
+<<<<<<< Updated upstream
     IF UPDATING('ìƒë…„ì›”ì¼') THEN
         IF EXTRACT(YEAR FROM :NEW.ìƒë…„ì›”ì¼) > EXTRACT(YEAR FROM SYSDATE) - 20 THEN
             RAISE_APPLICATION_ERROR(-20004, 'ë¯¸ì„±ë…„ìžë¡œ ìˆ˜ì •ì´ ë¶ˆê°€ëŠ¥í•©ë‹ˆë‹¤. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||'ì´ì „ ë…„ìƒìœ¼ë¡œ ìˆ˜ì • ê°€ëŠ¥.');
+=======
+    IF UPDATING('»ý³â¿ùÀÏ') THEN
+        IF EXTRACT(YEAR FROM :NEW.»ý³â¿ùÀÏ) > EXTRACT(YEAR FROM SYSDATE) - 20 THEN
+            RAISE_APPLICATION_ERROR(-20004, '¹Ì¼º³âÀÚ·Î ¼öÁ¤ÀÌ ºÒ°¡´ÉÇÕ´Ï´Ù. '|| TO_CHAR(EXTRACT(YEAR FROM SYSDATE)-20) ||'ÀÌÀü ³â»ýÀ¸·Î ¼öÁ¤ °¡´É.');
+>>>>>>> Stashed changes
         END IF;
     END IF;
     
@@ -129,16 +135,26 @@ END;
 CREATE OR REPLACE TRIGGER ì±„ìš©ê²Œì‹œê¸€_TRIG AFTER INSERT ON ì±„ìš©_ê²Œì‹œê¸€
 FOR EACH ROW
 BEGIN
+<<<<<<< Updated upstream
     IF(:NEW.ë§ˆê°ì¼ < SYSDATE) THEN
         RAISE_APPLICATION_ERROR(-20008, 'í˜„ìž¬ ë‚ ì§œë³´ë‹¤ ì´ì „ ë‚ ë¡œ ë§ˆê°í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!' || SYSDATE || 'ì´í›„ë¡œ ë§žì¶°ì£¼ì„¸ìš”');
+=======
+    IF(:NEW.¸¶°¨ÀÏ > SYSDATE) THEN
+        RAISE_APPLICATION_ERROR(-20008, 'ÇöÀç ³¯Â¥º¸´Ù ÀÌÀü ³¯·Î ¸¶°¨ÇÒ ¼ö ¾ø½À´Ï´Ù!' || SYSDATE || 'ÀÌÈÄ·Î ¸ÂÃçÁÖ¼¼¿ä');
+>>>>>>> Stashed changes
     END IF;
 END;
 
 CREATE OR REPLACE TRIGGER ì±„ìš©ì„¤ëª…íšŒ_TRIG AFTER INSERT ON ì±„ìš©_ì„¤ëª…íšŒ
 FOR EACH ROW
 BEGIN
+<<<<<<< Updated upstream
     IF(:NEW.ì¼ì‹œ < SYSDATE) THEN
         RAISE_APPLICATION_ERROR(-20009, 'í˜„ìž¬ ë‚ ì§œë³´ë‹¤ ì´ì „ ë‚ ë¡œ ê°œìµœí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤!' || SYSDATE || 'ì´í›„ë¡œ ë§žì¶°ì£¼ì„¸ìš”');
+=======
+    IF(:NEW.ÀÏ½Ã > SYSDATE) THEN
+        RAISE_APPLICATION_ERROR(-20009, 'ÇöÀç ³¯Â¥º¸´Ù ÀÌÀü ³¯·Î °³ÃÖÇÒ ¼ö ¾ø½À´Ï´Ù!' || SYSDATE || 'ÀÌÈÄ·Î ¸ÂÃçÁÖ¼¼¿ä');
+>>>>>>> Stashed changes
     END IF;
 END;
 

@@ -12,7 +12,31 @@ DBMS_SCHEDULER.DROP_JOB('매일_자정_채용_게시글_삭제');
 DROP PROCEDURE DELETE_RESUME_DEADLINE;
 DROP PROCEDURE DELETE_POSITION_DEADLINE;
 DROP PROCEDURE DELETE_JOB_VACANCY;
-
+-------------------------------------- [Main Form] ---------------------------------------------
+CREATE OR REPLACE PROCEDURE MAIN_FIND(
+모드 IN NVARCHAR2,
+고객ID IN 개인회원.회원ID%TYPE,
+현재일 IN DATE,
+출력_이름 OUT 개인회원.이름%TYPE,
+출력_포인트 OUT NUMBER,
+출력_게시글_작성수 OUT NUMBER,
+제안_개수 OUT NUMBER,
+현재_게시글 OUT NUMBER)
+AS
+BEGIN
+    IF 모드 = '개인' THEN
+        BEGIN
+            SELECT 이름, 포인트, 이력서_작성수 INTO 출력_이름, 출력_포인트, 출력_게시글_작성수 FROM 개인회원 WHERE 회원ID = 고객ID;
+            SELECT COUNT(*) INTO 제안_개수 FROM 포지션_제안 WHERE 이력서_작성자 = 고객ID;
+        END;
+    ELSE
+        BEGIN
+            SELECT 이름, 포인트, 게시글_작성수 INTO 출력_이름, 출력_포인트, 출력_게시글_작성수 FROM 기업회원 WHERE 회원ID = 고객ID;
+            SELECT COUNT(*) INTO 제안_개수 FROM 지원 WHERE 게시글_번호 IN (SELECT 게시글_번호 FROM 채용_게시글 WHERE 작성자ID = 고객ID);
+        END;
+    END IF;
+    SELECT COUNT(*) INTO 현재_게시글 FROM 채용_게시글 WHERE 마감일 > 현재일;
+END;
 
 ------------------------------------- [ID/PW 찾기 FROM] -----------------------------------------
 -- 개인회원
@@ -147,6 +171,36 @@ BEGIN
     CLOSE CURSOR_COMPITION_RATE;
 END;
 
+CREATE OR REPLACE PROCEDURE POST_COUNT_PERSONAL
+AS
+    TMP_ID 개인회원.회원ID%TYPE;
+    CURSOR CURSOR_PERSONAL IS SELECT 회원ID FROM 개인회원;
+BEGIN
+    OPEN CURSOR_PERSONAL;
+    LOOP
+        FETCH CURSOR_PERSONAL INTO TMP_ID;
+        EXIT WHEN CURSOR_PERSONAL%NOTFOUND;
+        UPDATE 개인회원 SET 이력서_작성수 = (SELECT COUNT(*) FROM 이력서 WHERE 작성자ID = TMP_ID) WHERE 회원ID = TMP_ID;
+    END LOOP;
+    CLOSE CURSOR_PERSONAL;
+END;
+
+CREATE OR REPLACE PROCEDURE POST_COUNT_BUSINESS
+AS
+    TMP_ID 기업회원.회원ID%TYPE;
+    CURSOR CURSOR_PERSONAL IS SELECT 회원ID FROM 기업회원;
+BEGIN
+    OPEN CURSOR_PERSONAL;
+    LOOP
+        FETCH CURSOR_PERSONAL INTO TMP_ID;
+        EXIT WHEN CURSOR_PERSONAL%NOTFOUND;
+        UPDATE 기업회원 SET 게시글_작성수 = (SELECT COUNT(*) FROM 채용_게시글 WHERE 작성자ID = TMP_ID) WHERE 회원ID = TMP_ID;
+    END LOOP;
+    CLOSE CURSOR_PERSONAL;
+END;
+
+EXEC POST_COUNT_PERSONAL;
+EXEC POST_COUNT_BUSINESS;
 -----------------------------------------------------------------------------------------------
 ------------------------------------------- 스케줄러 -------------------------------------------
 -----------------------------------------------------------------------------------------------
