@@ -89,7 +89,8 @@ public class Corporate_inquiry extends JFrame {
 			Main.stmt = Main.con.createStatement();
 			Main.rs = Main.stmt.executeQuery(sql);
 			Main.rs.next();
-			
+			lbl_name.setText(Main.rs.getString(1));
+			lbl_;
 		}
 		catch(Exception ex) {
 			dispose();
