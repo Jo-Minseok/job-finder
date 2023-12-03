@@ -4,25 +4,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Edit_info { // 수정 버튼 기능 구현해야함
 
 	public JFrame frame;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
+	private JTextField txt_phone;
+	private JTextField txt_id;
+	private JTextField txt_pw;
+	private JTextField txt_birth;
+	private JTextField txt_corporate;
+	private JTextField txt_salary;
+	private JTextField txt_position;
+	private JComboBox<String> com_address = new JComboBox<>();
 
 	public Edit_info() {
 		initialize();
@@ -39,136 +48,293 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		lblPhonenumber.setBounds(30, 59, 190, 15);
 		frame.getContentPane().add(lblPhonenumber);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(30, 77, 190, 21);
-		frame.getContentPane().add(textField_2);
+		txt_phone = new JTextField();
+		txt_phone.setColumns(10);
+		txt_phone.setBounds(30, 77, 190, 21);
+		frame.getContentPane().add(txt_phone);
 		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(30, 10, 190, 15);
 		frame.getContentPane().add(lblId);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(30, 28, 190, 21);
-		frame.getContentPane().add(textField_3);
+		txt_id = new JTextField();
+		txt_id.setColumns(10);
+		txt_id.setBounds(30, 28, 190, 21);
+		frame.getContentPane().add(txt_id);
 		
 		JLabel lblPassword = new JLabel("PASSWORD");
 		lblPassword.setBounds(30, 108, 190, 15);
 		frame.getContentPane().add(lblPassword);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(30, 126, 190, 21);
-		frame.getContentPane().add(textField_4);
+		txt_pw = new JTextField();
+		txt_pw.setColumns(10);
+		txt_pw.setBounds(30, 126, 190, 21);
+		frame.getContentPane().add(txt_pw);
 		
 		JLabel lblBirthDay = new JLabel("BIRTH DAY");
 		lblBirthDay.setBounds(30, 157, 190, 15);
 		frame.getContentPane().add(lblBirthDay);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(30, 175, 190, 21);
-		frame.getContentPane().add(textField_5);
+		txt_birth = new JTextField();
+		txt_birth.setColumns(10);
+		txt_birth.setBounds(30, 175, 190, 21);
+		frame.getContentPane().add(txt_birth);
 		
 		JLabel lblGender = new JLabel("GENDER");
 		lblGender.setBounds(30, 206, 190, 15);
 		frame.getContentPane().add(lblGender);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(30, 224, 190, 21);
-		frame.getContentPane().add(textField_6);
-		
 		JLabel lblNewLabel_1 = new JLabel("ADDRESS");
 		lblNewLabel_1.setBounds(30, 255, 57, 15);
 		frame.getContentPane().add(lblNewLabel_1);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(30, 270, 111, 23);
-		frame.getContentPane().add(comboBox);
+		//JComboBox com_address = new JComboBox();
+		com_address.setBounds(30, 270, 111, 23);
+		frame.getContentPane().add(com_address);
+		AddressComboBox();
 		
 		JLabel lblNewLabel_2 = new JLabel("개인정보 유효 기간");
 		lblNewLabel_2.setBounds(30, 303, 111, 15);
 		frame.getContentPane().add(lblNewLabel_2);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(30, 320, 111, 23);
-		frame.getContentPane().add(comboBox_1);
+		JComboBox com_period = new JComboBox();
+		com_period.setModel(new DefaultComboBoxModel(new String[] {"1년", "3년", "5년"}));
+		com_period.setBounds(30, 320, 111, 23);
+		frame.getContentPane().add(com_period);
 		
 		JCheckBox chk_employed = new JCheckBox("무직");
 		chk_employed.setBounds(30, 368, 115, 23);
 		frame.getContentPane().add(chk_employed);		
 		
-		JLabel com_name = new JLabel("기업 이름");
-		com_name.setBounds(30, 419, 190, 15);
-		frame.getContentPane().add(com_name);
+		JLabel lbl_company = new JLabel("기업 이름");
+		lbl_company.setBounds(30, 419, 190, 15);
+		frame.getContentPane().add(lbl_company);
 		
-		textField_7 = new JTextField();
-		textField_7.setEnabled(false);
-		textField_7.setColumns(10);
-		textField_7.setBounds(30, 437, 190, 21);
-		frame.getContentPane().add(textField_7);
+		txt_corporate = new JTextField();
+		txt_corporate.setEnabled(false);
+		txt_corporate.setColumns(10);
+		txt_corporate.setBounds(30, 437, 190, 21);
+		frame.getContentPane().add(txt_corporate);
 		
-		JLabel income = new JLabel("연봉");
-		income.setBounds(30, 468, 190, 15);
-		frame.getContentPane().add(income);
+		JLabel lbl_salary = new JLabel("연봉");
+		lbl_salary.setBounds(30, 468, 190, 15);
+		frame.getContentPane().add(lbl_salary);
 		
-		textField_8 = new JTextField();
-		textField_8.setEnabled(false);
-		textField_8.setColumns(10);
-		textField_8.setBounds(30, 486, 190, 21);
-		frame.getContentPane().add(textField_8);
+		txt_salary = new JTextField();
+		txt_salary.setEnabled(false);
+		txt_salary.setColumns(10);
+		txt_salary.setBounds(30, 486, 190, 21);
+		frame.getContentPane().add(txt_salary);
 		
-		JLabel position = new JLabel("직책");
-		position.setBounds(30, 514, 190, 15);
-		frame.getContentPane().add(position);
+		JLabel lbl_position = new JLabel("직책");
+		lbl_position.setBounds(30, 514, 190, 15);
+		frame.getContentPane().add(lbl_position);
 		
-		textField_9 = new JTextField();
-		textField_9.setEnabled(false);
-		textField_9.setColumns(10);
-		textField_9.setBounds(30, 532, 190, 21);
-		frame.getContentPane().add(textField_9);
+		txt_position = new JTextField();
+		txt_position.setEnabled(false);
+		txt_position.setColumns(10);
+		txt_position.setBounds(30, 532, 190, 21);
+		frame.getContentPane().add(txt_position);
 		
-		JButton Edit_btn = new JButton("수정");
-		Edit_btn.setBounds(30, 581, 67, 29);
-		frame.getContentPane().add(Edit_btn);
+		JButton btn_edit = new JButton("수정");
+		btn_edit.setBounds(30, 581, 67, 29);
+		frame.getContentPane().add(btn_edit);
 		
-		JButton Exit_btn = new JButton("닫기");
-		Exit_btn.addActionListener(new ActionListener() {
+		JButton btn_exit = new JButton("닫기");
+		btn_exit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
 		});
-		Exit_btn.setBounds(355, 581, 67, 29);
-		frame.getContentPane().add(Exit_btn);
+		btn_exit.setBounds(355, 581, 67, 29);
+		frame.getContentPane().add(btn_exit);
 		
-		JButton btnNewButton = new JButton("회원 탈퇴");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btn_resign = new JButton("회원 탈퇴");
+		btn_resign.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Resign Resignwindow = new Resign();
 				Resignwindow.frame.setVisible(true);
 				frame.dispose();
 			}
 		});
-		btnNewButton.setBounds(331, 77, 91, 22);
-		frame.getContentPane().add(btnNewButton);
+		btn_resign.setBounds(331, 77, 91, 22);
+		frame.getContentPane().add(btn_resign);
 		
+		JComboBox com_gender = new JComboBox();
+		com_gender.setModel(new DefaultComboBoxModel(new String[] {"남", "여"}));
+		com_gender.setBounds(30, 222, 111, 23);
+		frame.getContentPane().add(com_gender);
+		
+//=============================================================
+//===========================기능 구현===========================
+//=============================================================
+		
+		btn_edit.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	if(Main.mode.equals("개인")) {  // 개인회원
+		        try {
+		        	Main.DBConnection();
+		        	String updateSQL = "UPDATE 개인회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
+
+		            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
+
+		        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		            java.util.Date parsedDate = dateFormat.parse(txt_birth.getText());
+		            java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
+		            
+		            pstmt.setString(1, txt_phone.getText());
+	                pstmt.setString(2, txt_pw.getText());
+	                pstmt.setDate(3, sqlDate);
+	                pstmt.setString(4, com_gender.getSelectedItem().toString());
+	                pstmt.setString(5, com_address.getSelectedItem().toString());
+	                String selectedPeriod = com_period.getSelectedItem().toString();
+		            int validityPeriod = switch (selectedPeriod) {
+		                case "1년" -> 1;
+		                case "3년" -> 3;
+		                case "5년" -> 5;
+		                default -> 0;
+		            };
+		            pstmt.setInt(6, validityPeriod);
+	                if (txt_corporate.getText().isEmpty()) {
+	                    pstmt.setNull(7, java.sql.Types.NVARCHAR);
+	                } else {
+	                    pstmt.setString(7, txt_corporate.getText());
+	                }
+	                if (txt_salary.getText().isEmpty()) {
+	                    pstmt.setNull(8, java.sql.Types.NVARCHAR);
+	                } else {
+	                    pstmt.setString(8, txt_salary.getText());
+	                }
+	                if (txt_position.getText().isEmpty()) {
+	                    pstmt.setNull(9, java.sql.Types.NVARCHAR);
+	                } else {
+	                    pstmt.setString(9, txt_position.getText());
+	                }
+	                pstmt.setString(10, txt_id.getText());
+
+		            int affectedRows = pstmt.executeUpdate();
+
+	                if (affectedRows > 0) {
+	                    JOptionPane.showMessageDialog(null, "회원 정보가 성공적으로 업데이트 되었습니다.");
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "업데이트된 회원 정보가 없습니다.");
+	                }
+
+		        } catch (SQLException ex) {
+		            JOptionPane.showMessageDialog(null, "SQL 오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, "오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		        } finally {
+		            Main.DBClose();
+		        }
+		    } /*else {  // 기업회원 
+		    	try {
+		        	Main.DBConnection();
+		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_BUSINESS(?, ?, ?, ?, ?, ?, ?, ?)}");
+	           
+		            
+		            // 기업명, ID, PW, NAME, 사업자등록번호, 휴대폰번호, 개인정보유효기간
+		            Main.cstmt.setString(1, txt_corporate.getText());
+		            Main.cstmt.setString(2, txt_name.getText());
+		            Main.cstmt.setString(3, txt_phone.getText());
+		            Main.cstmt.setString(4, txt_id.getText());
+		            Main.cstmt.setString(5, txt_pw.getText());
+		            
+		            String selectedPeriod = com_period.getSelectedItem().toString();
+		            int validityPeriod = switch (selectedPeriod) {
+		                case "1년" -> 1;
+		                case "3년" -> 3;
+		                case "5년" -> 5;
+		                default -> 0;
+		            };
+		            Main.cstmt.setInt(6, validityPeriod);		            
+
+		            Main.cstmt.setString(7, txt_companynumber.getText());
+		            Main.cstmt.registerOutParameter(8,Types.NVARCHAR);
+		            
+		            Main.cstmt.execute();
+		            String result = Main.cstmt.getString(8);
+		            
+		            if (result != null && !result.isEmpty()) {
+		                JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
+		            } else {
+		                JOptionPane.showMessageDialog(frame, "회원가입 처리 결과가 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
+		            }
+		            
+		            //JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
+		        } catch (SQLException ex) {
+		        	String errorMessage = ex.toString(); // toString()은 예외 이름과 메시지를 모두 포함합니다.
+		            JOptionPane.showMessageDialog(frame, errorMessage, "SQL 오류", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		            
+		        } catch (Exception ex) {
+		        	 String errorMessage = ex.toString(); // toString() 사용
+		             JOptionPane.showMessageDialog(frame, errorMessage, "일반 오류", JOptionPane.ERROR_MESSAGE);
+		             ex.printStackTrace();
+		        }
+		        finally {
+		            Main.DBClose();
+		        }
+		    }*/
+		  }
+		});
+		
+		// 무직 버튼
 		chk_employed.addItemListener(new ItemListener() {
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					textField_7.setEnabled(true); 
-					textField_8.setEnabled(true);
-					textField_9.setEnabled(true);
+					txt_corporate.setEnabled(false); 
+                	txt_salary.setEnabled(false);
+                	txt_position.setEnabled(false);
+                	
                 } else {
-                	textField_7.setEnabled(false); 
-                	textField_8.setEnabled(false);
-                	textField_9.setEnabled(false);
+                	txt_corporate.setEnabled(true); 
+					txt_salary.setEnabled(true);
+					txt_position.setEnabled(true);
                 }
 			}
 			
 		});
 	}
+	
+	// 지역 콤보박스 DB연결
+		public ArrayList<String> getRegionData(){
+			ArrayList<String> regionList = new ArrayList<>();
+			
+			try {	           
+	            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@minseok821lab.kro.kr:1521:orcl", "seok3764", "0424");
+
+	            String query = "SELECT \"지역명\" FROM \"SEOK3764\".\"지역\"";
+	            java.sql.Statement stmt = con.createStatement();
+	            ResultSet rs = stmt.executeQuery(query);
+
+	            while (rs.next()) {
+	                String regionName = rs.getString("지역명");
+	                regionList.add(regionName);
+	                //System.out.println("Retrieved Region: " + regionName);
+	            }
+
+	            rs.close();
+	            stmt.close();
+	            con.close();
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+
+	        return regionList;
+	    }
+		
+		// 지역 콤보박스 리스트 추가
+		public void AddressComboBox() {
+		    ArrayList<String> addressList = getRegionData();
+		    for (String address : addressList) {
+		        com_address.addItem(address);
+		        //System.out.println("Retrieved Region: " + address);
+		    }
+		}
 }
