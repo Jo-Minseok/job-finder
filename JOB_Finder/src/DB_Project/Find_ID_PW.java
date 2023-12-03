@@ -9,11 +9,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.sql.*;
-import javax.swing.JCheckBox;
 
 public class Find_ID_PW extends JFrame {
 
@@ -89,7 +89,7 @@ public class Find_ID_PW extends JFrame {
 		// PreparedStatement로
 		
 		btn_id_search.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
+			public void actionPerformed(ActionEvent e) {
 				try {
 					Main.DBConnection();
 					
@@ -172,21 +172,18 @@ public class Find_ID_PW extends JFrame {
 				try {
 					Main.DBConnection();
 					
-					String sql = "SELECT * FROM ";
+					String tablename = chk_business_id.isSelected() ? "기업회원" : "개인회원";
+					String sql = "SELECT * FROM " + tablename + " WHERE 회원ID = ? AND 이름 = ? AND 휴대폰 = ?";
 					
 					if(chk_business_id.isSelected()) { // 기업 회원
-						sql += "기업회원 ";
 						Main.cstmt = Main.con.prepareCall("{CALL PASSWORD_PROTECTION_BUSINESS(?, ?)}");
 					}
 					else { // 개인 회원
-						sql += "개인회원 ";
 						Main.cstmt = Main.con.prepareCall("{CALL PASSWORD_PROTECTION_PERSONAL(?, ?)}");
 					}
 					Main.cstmt.setString(1, txt_pw_id.getText());
 					Main.cstmt.registerOutParameter(2,Types.VARCHAR);
 					Main.cstmt.execute();
-					
-					sql += "WHERE 회원ID = ? AND 이름 = ? AND 휴대폰 = ?";
 					
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1, txt_pw_id.getText());
