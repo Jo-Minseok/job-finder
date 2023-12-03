@@ -1,4 +1,5 @@
 package DB_Project;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -89,7 +90,7 @@ public class Corporate_inquiry extends JFrame {
 			Main.stmt = Main.con.createStatement();
 			Main.rs = Main.stmt.executeQuery(sql);
 			Main.rs.next();
-			lbl_name.setText(lbl_name.getText() + Main.rs.getString(1));
+			lbl_name.setText(Main.rs.getString(1));
 			lbl_industry.setText(lbl_industry.getText() + Main.rs.getString(2));
 			lbl_category.setText(lbl_category.getText() + Main.rs.getString(3));
 			lbl_money.setText(lbl_money.getText() + Main.rs.getString(4));
@@ -100,7 +101,19 @@ public class Corporate_inquiry extends JFrame {
 			lbl_salary.setText(lbl_salary.getText() + Main.rs.getString(9));
 			lbl_local.setText(lbl_local.getText() + Main.rs.getString(10));
 			
-			sql = "SELECT 채용_게시글.게시글_번호 , 채용_게시글.모집인원, COUNT(지원.게시글_번호) FROM 채용_게시글, 기업회원, 지원 WHERE 지원.게시글_번호 = 채용_게시글.게시글_번호 AND 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = '" + Business + "'";
+			sql = "SELECT AVG(경쟁률) FROM 채용_게시글 WHERE 작성자ID IN (SELECT 회원ID FROM 기업회원 WHERE 기업명 = '"+ Business + "')";
+			Main.rs = Main.stmt.executeQuery(sql);
+			Main.rs.next();
+			lbl_rate.setText(lbl_rate.getText() + Main.rs.getInt(1));
+			if(Main.rs.getInt(1) < 50) {
+				lbl_rate.setForeground(Color.BLUE);
+			}
+			else if(Main.rs.getInt(1) <= 100) {
+				lbl_rate.setForeground(Color.GREEN);
+			}
+			else {
+				lbl_rate.setForeground(Color.RED);
+			}
 			
 		}
 		catch(Exception ex) {
