@@ -75,15 +75,22 @@ public class Resign {
 						tablename = "기업회원";
 					
 					String sql = "DELETE FROM " + tablename + " WHERE 회원ID = ? AND 휴대폰 = ?";
-					
+				
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1, txt_id.getText());
 					Main.pstmt.setString(2, txt_phone.getText());
 					
 					Main.rs = Main.pstmt.executeQuery();
 					
-					if(chk2.isSelected()) { 
-						// 탈퇴 후에, 동일ID로 재생설할 수 있게
+					if(!chk2.isSelected()) { 
+						// 탈퇴 후에, 동일ID로 재생성할 수 없게
+						String sql2 = "INSERT INTO 개인_회원_정보_변경 VALUES (?, ?, ?, ?)";
+						Main.pstmt = Main.con.prepareStatement(sql2);
+						Main.pstmt.setString(1, txt_id.getText());
+						Main.pstmt.setString(2, "탈퇴");
+						Main.pstmt.setNull(3, Types.NVARCHAR);
+						Main.pstmt.setNull(4, Types.NVARCHAR);
+						Main.pstmt.executeUpdate();
 					}
 						
 					if(Main.rs.next()) {
