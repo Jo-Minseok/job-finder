@@ -167,8 +167,6 @@ public class Register {
 		btn_cancle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				Login window = new Login();
-				window.frame.setVisible(true);
 			}
 		});
 		btn_cancle.setBounds(30, 627, 91, 35);
