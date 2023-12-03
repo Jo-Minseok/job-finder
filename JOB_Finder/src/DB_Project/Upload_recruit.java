@@ -216,13 +216,13 @@ public class Upload_recruit extends JFrame {
             while (Main.rs.next()) {
                 String regionName = Main.rs.getString("지역명");
                 regionList.add(regionName);
-                //System.out.println("Retrieved Region: " + regionName);
             }
-            Main.DBClose();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
+		finally {
+			Main.DBClose();
+		}
 
         return regionList;
     }
@@ -232,7 +232,6 @@ public class Upload_recruit extends JFrame {
 	    ArrayList<String> addressList = getRegionData();
 	    for (String address : addressList) {
 	        com_address.addItem(address);
-	        //System.out.println("Retrieved Region: " + address);
 	    }
 	}
 	
