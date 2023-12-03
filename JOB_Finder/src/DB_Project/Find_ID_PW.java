@@ -37,6 +37,7 @@ public class Find_ID_PW extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JLabel lbl_id_find = new JLabel("ID 찾기");
 		lbl_id_find.setBounds(25, 30, 40, 20);
@@ -54,7 +55,7 @@ public class Find_ID_PW extends JFrame {
 		lbl_id_result1.setBounds(210, 60, 80, 25);
 		contentPane.add(lbl_id_result1);
 		
-		JLabel lbl_id_result2 = new JLabel("\"\"");
+		JLabel lbl_id_result2 = new JLabel("");
 		lbl_id_result2.setBounds(290, 60, 150, 25);
 		contentPane.add(lbl_id_result2);
 		
@@ -92,20 +93,15 @@ public class Find_ID_PW extends JFrame {
 				try {
 					Main.DBConnection();
 					
-					String sql = "SELECT 회원ID FROM ";
-					if(chk_business_id.isSelected()) {
-						sql += "기업회원 ";
-					}
-					else {
-						sql += "개인회원 ";
-					}
-					sql += "WHERE 이름 = ? AND 휴대폰 = ?";
+					String tablename = chk_business_id.isSelected() ? "기업회원" : "개인회원";
+					String sql = "SELECT 회원ID FROM " + tablename + " WHERE 이름 = ? AND 휴대폰 = ?";
 					
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1, txt_id_name.getText());
 					Main.pstmt.setString(2, txt_id_phone.getText());
 					
 					Main.rs = Main.pstmt.executeQuery(); // 쿼리 실행 및 결과 조회
+					
 					if(Main.rs.next()) { // 결과가 있을 경우
 						String memberID = Main.rs.getString("회원ID");
 						lbl_id_result2.setText(memberID);						
@@ -146,7 +142,7 @@ public class Find_ID_PW extends JFrame {
 		lbl_pw_result1.setBounds(210, 250, 90, 25);
 		contentPane.add(lbl_pw_result1);
 		
-		JLabel lbl_pw_result2 = new JLabel("\"\"");
+		JLabel lbl_pw_result2 = new JLabel("");
 		lbl_pw_result2.setBounds(300, 250, 130, 25);
 		contentPane.add(lbl_pw_result2);
 		
@@ -174,9 +170,38 @@ public class Find_ID_PW extends JFrame {
 		btn_pw_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				try {
+					Main.DBConnection();
 					
+					String sql = "SELECT * FROM ";
 					
-		
+					if(chk_business_id.isSelected()) { // 기업 회원
+						sql += "기업회원 ";
+						Main.cstmt = Main.con.prepareCall("{CALL PASSWORD_PROTECTION_BUSINESS(?, ?)}");
+					}
+					else { // 개인 회원
+						sql += "개인회원 ";
+						Main.cstmt = Main.con.prepareCall("{CALL PASSWORD_PROTECTION_PERSONAL(?, ?)}");
+					}
+					Main.cstmt.setString(1, txt_pw_id.getText());
+					Main.cstmt.registerOutParameter(2,Types.VARCHAR);
+					Main.cstmt.execute();
+					
+					sql += "WHERE 회원ID = ? AND 이름 = ? AND 휴대폰 = ?";
+					
+					Main.pstmt = Main.con.prepareStatement(sql);
+					Main.pstmt.setString(1, txt_pw_id.getText());
+					Main.pstmt.setString(2, txt_pw_name.getText());
+					Main.pstmt.setString(3, txt_pw_phone.getText());
+					Main.rs = Main.pstmt.executeQuery();
+					
+					if(Main.rs.next()) { // 결과가 존재하면
+						String partPW = Main.cstmt.getString(2);
+						lbl_pw_result2.setText(partPW);	
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "해당 정보로 비밀번호를 찾을 수 없습니다.", "비밀번호 찾기 실패", JOptionPane.ERROR_MESSAGE);
+					}
+					
 				}
 				catch(Exception ex) {
 					JOptionPane.showMessageDialog(null,  ex.getMessage(), "비밀번호 찾기 실패", JOptionPane.ERROR_MESSAGE);
@@ -189,8 +214,15 @@ public class Find_ID_PW extends JFrame {
 		
 		contentPane.add(btn_pw_search);
 		
-		JButton btn_exit = new JButton("닫기");
-		btn_exit.setBounds(360, 396, 60, 25);
-		contentPane.add(btn_exit);
+		JButton btn_cancle = new JButton("닫기");
+		btn_cancle.setBounds(360, 396, 60, 25);
+		
+		btn_cancle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				dispose();
+			}
+		});
+		
+		contentPane.add(btn_cancle);
 	}
 }
