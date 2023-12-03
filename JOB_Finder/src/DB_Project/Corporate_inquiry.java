@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -84,9 +85,15 @@ public class Corporate_inquiry extends JFrame {
 		
 		try {
 			Main.DBConnection();
-		}
-		catch(SQLException ex) {
+			String sql = "SELECT * FROM 기업 WHERE 이름 = '" + Business + "'";
+			Main.stmt = Main.con.createStatement();
+			Main.rs = Main.stmt.executeQuery(sql);
+			Main.rs.next();
 			
+		}
+		catch(Exception ex) {
+			dispose();
+			JOptionPane.showMessageDialog(null, "기업이 존재하지 않습니다.","검색 실패", JOptionPane.ERROR_MESSAGE);
 		}
 		finally {
 			Main.DBClose();
