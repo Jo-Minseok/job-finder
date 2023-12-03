@@ -128,6 +128,7 @@ public class Upload_briefing extends JFrame {
 					Main.stmt = Main.con.createStatement();
 					Main.stmt.executeUpdate(sql);
 					Main.con.commit();
+					JOptionPane.showMessageDialog(null, "업로드를 성공하였습니다!","게시글 업로드 성공", JOptionPane.INFORMATION_MESSAGE);
 				}
 				catch(SQLException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(),"게시글 업로드 실패", JOptionPane.ERROR_MESSAGE);
@@ -141,7 +142,7 @@ public class Upload_briefing extends JFrame {
 					try {
 						Main.con.setAutoCommit(true);
 					}
-					catch(SQLException ex2) {}
+					catch(SQLException ex1) {}
 				}
 			}
 		});
