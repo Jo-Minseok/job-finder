@@ -93,10 +93,16 @@ public class Career  {
 		            Main.pstmt.setInt(6, Integer.parseInt(txt_salary.getText()));
 
 		            Main.pstmt.executeUpdate();
+		            Main.con.commit();
 		            
 		            JOptionPane.showMessageDialog(null, "경력 정보가 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
 		            
 		        } catch (Exception ex) {
+		            try {
+		                Main.con.rollback(); 
+		            } catch (Exception exRollback) {	
+		            	
+		            }
 		            JOptionPane.showMessageDialog(null, "경력 정보 저장 실패: " + ex.getMessage(), "저장 실패", JOptionPane.ERROR_MESSAGE);
 		        } finally {
 		            Main.DBClose();
