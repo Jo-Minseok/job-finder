@@ -1,25 +1,29 @@
 package DB_Project;
 
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 public class Career  {
 
 	public JFrame frame;
 	//private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField tf1;
-	private JTextField tf2;
-	private JTextField tf3;
-	private JTextField tf4;
+	private JTextField txt_company;
+	private JTextField txt_year;
+	private JTextField txt_position;
+	private JTextField txt_salary;
+	private String resumeName;
 	
-	public Career() {
+	public Career(String resumeName) {
+		this.resumeName = resumeName;
 		initialize();
 	}
 
@@ -33,48 +37,81 @@ public class Career  {
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lb1 = new JLabel("기업명");
-		lb1.setBounds(25, 25, 100, 20);
-		contentPane.add(lb1);
+		JLabel lbl_company = new JLabel("기업명");
+		lbl_company.setBounds(25, 25, 100, 20);
+		contentPane.add(lbl_company);
 		
-		JLabel lb2 = new JLabel("년수");
-		lb2.setBounds(25, 55, 100, 20);
-		contentPane.add(lb2);
+		JLabel lbl_year = new JLabel("년수");
+		lbl_year.setBounds(25, 55, 100, 20);
+		contentPane.add(lbl_year);
 		
-		JLabel lb3 = new JLabel("직급");
-		lb3.setBounds(25, 85, 100, 20);
-		contentPane.add(lb3);
+		JLabel lbl_position = new JLabel("직급");
+		lbl_position.setBounds(25, 85, 100, 20);
+		contentPane.add(lbl_position);
 		
-		JLabel lb4 = new JLabel("연봉");
-		lb4.setBounds(25, 115, 100, 20);
-		contentPane.add(lb4);
+		JLabel lbl_salary = new JLabel("연봉");
+		lbl_salary.setBounds(25, 115, 100, 20);
+		contentPane.add(lbl_salary);
 		
-		tf1 = new JTextField();
-		tf1.setBounds(105, 25, 170, 25);
-		contentPane.add(tf1);
-		tf1.setColumns(10);
+		txt_company = new JTextField();
+		txt_company.setBounds(105, 25, 170, 25);
+		contentPane.add(txt_company);
+		txt_company.setColumns(10);
 		
-		tf2 = new JTextField();
-		tf2.setColumns(10);
-		tf2.setBounds(105, 55, 170, 25);
-		contentPane.add(tf2);
+		txt_year = new JTextField();
+		txt_year.setColumns(10);
+		txt_year.setBounds(105, 55, 170, 25);
+		contentPane.add(txt_year);
 		
-		tf3 = new JTextField();
-		tf3.setColumns(10);
-		tf3.setBounds(105, 85, 170, 25);
-		contentPane.add(tf3);
+		txt_position = new JTextField();
+		txt_position.setColumns(10);
+		txt_position.setBounds(105, 85, 170, 25);
+		contentPane.add(txt_position);
 		
-		tf4 = new JTextField();
-		tf4.setColumns(10);
-		tf4.setBounds(105, 115, 170, 25);
-		contentPane.add(tf4);
+		txt_salary = new JTextField();
+		txt_salary.setColumns(10);
+		txt_salary.setBounds(105, 115, 170, 25);
+		contentPane.add(txt_salary);
 		
-		JButton bt1 = new JButton("작성");
-		bt1.setBounds(12, 175, 70, 24);
-		contentPane.add(bt1);
+		JButton btn_regist = new JButton("작성");
+		btn_regist.setBounds(12, 175, 70, 24);
+		contentPane.add(btn_regist);
+		btn_regist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Main.DBConnection();
+					Main.con.setAutoCommit(false);
+					
+					String sql = "INSERT INTO 이력서_경력 (회원 ID, 이력서명, 경력_위치, 년수, 직급, 연봉) VALUES (?, ?, ?, ?, ?, ?)";
+					Main.pstmt = Main.con.prepareStatement(sql);
+					
+					Main.pstmt.setString(1, Main.ID);
+		            Main.pstmt.setString(2, Career.this.resumeName);
+		            Main.pstmt.setString(3, txt_company.getText());
+		            Main.pstmt.setInt(4, Integer.parseInt(txt_year.getText()));
+		            Main.pstmt.setString(5, txt_position.getText());
+		            Main.pstmt.setInt(6, Integer.parseInt(txt_salary.getText()));
+
+		            Main.pstmt.executeUpdate();
+		            
+		            JOptionPane.showMessageDialog(null, "경력 정보가 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
+		            
+		        } catch (Exception ex) {
+		            JOptionPane.showMessageDialog(null, "경력 정보 저장 실패: " + ex.getMessage(), "저장 실패", JOptionPane.ERROR_MESSAGE);
+		        } finally {
+		            Main.DBClose();
+		            frame.dispose();
+		        }
+			}
+		});
 		
-		JButton bt2 = new JButton("닫기");
-		bt2.setBounds(227, 175, 70, 24);
-		contentPane.add(bt2);
+		JButton btn_exit = new JButton("닫기");
+		btn_exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		});
+		btn_exit.setBounds(227, 175, 70, 24);
+		contentPane.add(btn_exit);
 	}
 }
