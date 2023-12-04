@@ -67,15 +67,14 @@ public class Resign {
 				try {
 					Main.DBConnection();
 					
-					String tablename;
-					
+					String tablename, table2;
 					if(Main.mode == "개인")
 						tablename = "개인회원";
 					else
 						tablename = "기업회원";
 					
+					// DELETE
 					String sql = "DELETE FROM " + tablename + " WHERE 회원ID = ? AND 휴대폰 = ?";
-				
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1, txt_id.getText());
 					Main.pstmt.setString(2, txt_phone.getText());
@@ -84,7 +83,13 @@ public class Resign {
 					
 					if(!chk2.isSelected()) { 
 						// 탈퇴 후에, 동일ID로 재생성할 수 없게
-						String sql2 = "INSERT INTO 개인_회원_정보_변경 VALUES (?, ?, ?, ?)";
+						if(Main.mode == "개인")
+							table2 = "개인_회원_정보_변경";
+						else
+							table2 = "기업_회원_정보_변경";
+						
+						String sql2 = "INSERT INTO " + table2 + " VALUES (?, ?, ?, ?)";
+						
 						Main.pstmt = Main.con.prepareStatement(sql2);
 						Main.pstmt.setString(1, txt_id.getText());
 						Main.pstmt.setString(2, "탈퇴");
