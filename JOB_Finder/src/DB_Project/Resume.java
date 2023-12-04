@@ -21,15 +21,7 @@ public class Resume{
     private JTextArea txt_career;
     private JTextArea txt_certifi;
     
-	public Resume(String company, String year, String position, String salary) {
-		
-		// Career
-		this.company = company;
-        this.year = year;
-        this.position = position;
-        this.salary = salary;
-        // Certificate
-        
+	public Resume() {
 		initialize();
 	}
 	private void initialize() {

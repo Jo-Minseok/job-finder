@@ -84,9 +84,9 @@ public class Mainpage {
 	private JLabel lbl_Rate_1;
 	private JLabel lbl_Rate_2;
 	private JLabel lbl_Rate_3;
-	private JLabel lbl_Rate_4;
-	private JLabel lbl_Rate_5;
 	private JLabel lbl_Rate_6;
+	private JLabel lbl_Rate_5;
+	private JLabel lbl_Rate_4;
 	
 	private JButton btn_briefing_1;
 	private JButton btn_briefing_2;
@@ -136,7 +136,12 @@ public class Mainpage {
 		JButton btn_search = new JButton("조회");
 		btn_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Corporate_inquiry window = new Corporate_inquiry(txt_business.getText());
+				if(txt_business.getText().trim().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "기업 이름을 입력하세요!","기업명 입력 요망", JOptionPane.WARNING_MESSAGE);
+				}
+				else {
+					Corporate_inquiry window = new Corporate_inquiry(txt_business.getText());
+				}
 			}
 		});
 		btn_search.setBounds(343, 125, 78, 23);
@@ -243,7 +248,7 @@ public class Mainpage {
 		btn_inquiry_1 = new JButton("New button");
 		btn_inquiry_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany();
+				OpenCompany(Recruit_List[up_page-1][0].Post_number);
 			}
 		});
 		btn_inquiry_1.setBounds(51, 204, 112, 69);
@@ -252,7 +257,7 @@ public class Mainpage {
 		btn_inquiry_2 = new JButton("New button");
 		btn_inquiry_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany();
+				OpenCompany(Recruit_List[up_page-1][1].Post_number);
 			}
 		});
 		btn_inquiry_2.setBounds(214, 204, 112, 69);
@@ -261,7 +266,7 @@ public class Mainpage {
 		btn_inquiry_3 = new JButton("New button");
 		btn_inquiry_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany();
+				OpenCompany(Recruit_List[up_page-1][2].Post_number);
 			}
 		});
 		btn_inquiry_3.setBounds(374, 204, 112, 69);
@@ -270,7 +275,7 @@ public class Mainpage {
 		btn_inquiry_4 = new JButton("New button");
 		btn_inquiry_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany();
+				OpenCompany(Recruit_List[up_page-1][3].Post_number);
 			}
 		});
 		btn_inquiry_4.setBounds(51, 315, 112, 69);
@@ -279,7 +284,7 @@ public class Mainpage {
 		btn_inquiry_5 = new JButton("New button");
 		btn_inquiry_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany();
+				OpenCompany(Recruit_List[up_page-1][4].Post_number);
 			}
 		});
 		btn_inquiry_5.setBounds(214, 315, 112, 69);
@@ -288,33 +293,63 @@ public class Mainpage {
 		btn_inquiry_6 = new JButton("New button");
 		btn_inquiry_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany();
+				OpenCompany(Recruit_List[up_page-1][5].Post_number);
 			}
 		});
 		btn_inquiry_6.setBounds(374, 315, 112, 69);
 		frame.getContentPane().add(btn_inquiry_6);
 		
 		btn_briefing_1 = new JButton("New button");
+		btn_briefing_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OpenBriefing();
+			}
+		});
 		btn_briefing_1.setBounds(51, 506, 112, 69);
 		frame.getContentPane().add(btn_briefing_1);
 		
 		btn_briefing_2 = new JButton("New button");
+		btn_briefing_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OpenBriefing();
+			}
+		});
 		btn_briefing_2.setBounds(214, 506, 112, 69);
 		frame.getContentPane().add(btn_briefing_2);
 		
 		btn_briefing_3 = new JButton("New button");
+		btn_briefing_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OpenBriefing();
+			}
+		});
 		btn_briefing_3.setBounds(374, 506, 112, 69);
 		frame.getContentPane().add(btn_briefing_3);
 		
 		btn_briefing_4 = new JButton("New button");
+		btn_briefing_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OpenBriefing();
+			}
+		});
 		btn_briefing_4.setBounds(51, 593, 112, 69);
 		frame.getContentPane().add(btn_briefing_4);
 		
 		btn_briefing_5 = new JButton("New button");
+		btn_briefing_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OpenBriefing();
+			}
+		});
 		btn_briefing_5.setBounds(214, 593, 112, 69);
 		frame.getContentPane().add(btn_briefing_5);
 		
 		btn_briefing_6 = new JButton("New button");
+		btn_briefing_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OpenBriefing();
+			}
+		});
 		btn_briefing_6.setBounds(374, 593, 112, 69);
 		frame.getContentPane().add(btn_briefing_6);
 		
@@ -363,20 +398,20 @@ public class Mainpage {
 		lbl_Rate_3.setBounds(374, 290, 112, 15);
 		frame.getContentPane().add(lbl_Rate_3);
 		
-		lbl_Rate_4 = new JLabel("경쟁률");
-		lbl_Rate_4.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_Rate_4.setBounds(374, 397, 112, 15);
-		frame.getContentPane().add(lbl_Rate_4);
+		lbl_Rate_6 = new JLabel("경쟁률");
+		lbl_Rate_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_Rate_6.setBounds(374, 397, 112, 15);
+		frame.getContentPane().add(lbl_Rate_6);
 		
 		lbl_Rate_5 = new JLabel("경쟁률");
 		lbl_Rate_5.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_Rate_5.setBounds(214, 397, 112, 15);
 		frame.getContentPane().add(lbl_Rate_5);
 		
-		lbl_Rate_6 = new JLabel("경쟁률");
-		lbl_Rate_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_Rate_6.setBounds(51, 397, 112, 15);
-		frame.getContentPane().add(lbl_Rate_6);
+		lbl_Rate_4 = new JLabel("경쟁률");
+		lbl_Rate_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_Rate_4.setBounds(51, 397, 112, 15);
+		frame.getContentPane().add(lbl_Rate_4);
 		
 		lbl_briefing_1 = new JLabel("설명회");
 		lbl_briefing_1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -416,52 +451,10 @@ public class Mainpage {
 		lbl_Count.setBounds(557, 300, 190, 15);
 		frame.getContentPane().add(lbl_Count);
 		
-		btn_previous = new JButton("<");
-		btn_previous.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(down_page != 0) {
-					down_page--;
-				}
-				briefing_load_page(down_page);
-				if(down_page == 0) {
-					btn_previous.setEnabled(false);
-				}
-			}
-		});
-		btn_previous.setEnabled(false);
-		btn_previous.setBounds(180, 697, 42, 23);
-		frame.getContentPane().add(btn_previous);
-		
-		btn_home = new JButton("HOME");
-		btn_home.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btn_previous.setEnabled(false);
-				down_page = 0;
-				briefing_load_page(down_page);
-			}
-		});
-		btn_home.setBounds(234, 697, 69, 23);
-		frame.getContentPane().add(btn_home);
-		
-		JButton btn_next = new JButton(">");
-		btn_next.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btn_previous.setEnabled(true);
-				if(down_page != max_briefing_page-2){
-					down_page++;
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "마지막 페이지입니다!", "알림", JOptionPane.INFORMATION_MESSAGE);
-				}
-				briefing_load_page(down_page);
-			}
-		});
-		btn_next.setBounds(315, 697, 42, 23);
-		frame.getContentPane().add(btn_next);
-		
 		btn_previous_1 = new JButton("<");
 		btn_previous_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				btn_next_1.setEnabled(true);
 				if(up_page != 0) {
 					up_page--;
 				}
@@ -475,10 +468,12 @@ public class Mainpage {
 		btn_previous_1.setBounds(180, 437, 42, 23);
 		frame.getContentPane().add(btn_previous_1);
 		
-		btn_home_1 = new JButton("HOME");
+		ImageIcon icon = new ImageIcon("img/HOME.png");
+		btn_home_1 = new JButton(icon);
 		btn_home_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btn_previous_1.setEnabled(false);
+				btn_next_1.setEnabled(true);
 				up_page = 0;
 				recruit_load_page(up_page);
 			}
@@ -496,11 +491,56 @@ public class Mainpage {
 					up_page++;
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "마지막 페이지입니다!", "알림", JOptionPane.INFORMATION_MESSAGE);
+					btn_next_1.setEnabled(false);
 				}
 				recruit_load_page(up_page);
 			}
 		});
+		
+		btn_previous = new JButton("<");
+		btn_previous.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btn_next.setEnabled(true);
+				if(down_page != 0) {
+					down_page--;
+				}
+				briefing_load_page(down_page);
+				if(down_page == 0) {
+					btn_previous.setEnabled(false);
+				}
+			}
+		});
+		btn_previous.setEnabled(false);
+		btn_previous.setBounds(180, 697, 42, 23);
+		frame.getContentPane().add(btn_previous);
+		
+		btn_home = new JButton(icon);
+		btn_home.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btn_previous.setEnabled(false);
+				btn_next.setEnabled(true);
+				down_page = 0;
+				briefing_load_page(down_page);
+			}
+		});
+		btn_home.setBounds(234, 697, 69, 23);
+		frame.getContentPane().add(btn_home);
+		
+		btn_next = new JButton(">");
+		btn_next.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btn_previous.setEnabled(true);
+				if(down_page != max_briefing_page-2){
+					down_page++;
+				}
+				else {
+					btn_next.setEnabled(false);
+				}
+				briefing_load_page(down_page);
+			}
+		});
+		btn_next.setBounds(315, 697, 42, 23);
+		frame.getContentPane().add(btn_next);
 		
 		try {
 			Main.DBConnection();
@@ -610,26 +650,32 @@ public class Mainpage {
 				case 0:
 					btn_inquiry_1.setVisible(false);
 					lbl_inquiry_1.setVisible(false);
+					lbl_Rate_1.setVisible(false);
 					break;
 				case 1:
 					btn_inquiry_2.setVisible(false);
 					lbl_inquiry_2.setVisible(false);
+					lbl_Rate_2.setVisible(false);
 					break;
 				case 2:
 					btn_inquiry_3.setVisible(false);
 					lbl_inquiry_3.setVisible(false);
+					lbl_Rate_3.setVisible(false);
 					break;
 				case 3:
 					btn_inquiry_4.setVisible(false);
 					lbl_inquiry_4.setVisible(false);
+					lbl_Rate_4.setVisible(false);
 					break;
 				case 4:
 					btn_inquiry_5.setVisible(false);
 					lbl_inquiry_5.setVisible(false);
+					lbl_Rate_5.setVisible(false);
 					break;
 				case 5:
 					btn_inquiry_6.setVisible(false);
 					lbl_inquiry_6.setVisible(false);
+					lbl_Rate_6.setVisible(false);
 					break;
 				}
 			}
@@ -638,6 +684,7 @@ public class Mainpage {
 				case 0:
 					btn_inquiry_1.setVisible(true);
 					lbl_inquiry_1.setVisible(true);
+					lbl_Rate_1.setVisible(true);
 					btn_inquiry_1.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_1.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_1.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
@@ -645,6 +692,7 @@ public class Mainpage {
 				case 1:
 					btn_inquiry_2.setVisible(true);
 					lbl_inquiry_2.setVisible(true);
+					lbl_Rate_2.setVisible(true);
 					btn_inquiry_2.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_2.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_2.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
@@ -652,6 +700,7 @@ public class Mainpage {
 				case 2:
 					btn_inquiry_3.setVisible(true);
 					lbl_inquiry_3.setVisible(true);
+					lbl_Rate_3.setVisible(true);
 					btn_inquiry_3.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_3.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_3.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
@@ -659,6 +708,7 @@ public class Mainpage {
 				case 3:
 					btn_inquiry_4.setVisible(true);
 					lbl_inquiry_4.setVisible(true);
+					lbl_Rate_4.setVisible(true);
 					btn_inquiry_4.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_4.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_4.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
@@ -666,6 +716,7 @@ public class Mainpage {
 				case 4:
 					btn_inquiry_5.setVisible(true);
 					lbl_inquiry_5.setVisible(true);
+					lbl_Rate_5.setVisible(true);
 					btn_inquiry_5.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_5.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_5.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
@@ -673,6 +724,7 @@ public class Mainpage {
 				case 5:
 					btn_inquiry_6.setVisible(true);
 					lbl_inquiry_6.setVisible(true);
+					lbl_Rate_6.setVisible(true);
 					btn_inquiry_6.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_6.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_6.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
@@ -761,8 +813,13 @@ public class Mainpage {
 		}
 	}
 	
-	private void OpenCompany() {
-		Job_posting window = new Job_posting();
+	private void OpenCompany(int Post_ID) {
+		Job_posting window = new Job_posting(Post_ID);
+		window.frame.setVisible(true);
+	}
+	
+	private void OpenBriefing() {
+		Job_description window = new Job_description();
 		window.frame.setVisible(true);
 	}
 }

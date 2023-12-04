@@ -11,8 +11,10 @@ import java.awt.event.ActionEvent;
 public class Job_posting {
 
 	public JFrame frame;
-
-	public Job_posting() {
+	private int Post_ID;
+	
+	public Job_posting(int Post_ID) {
+		this.Post_ID = Post_ID;
 		initialize();
 	}
 
@@ -23,94 +25,94 @@ public class Job_posting {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("회사명");
-		lblNewLabel.setBounds(12, 10, 57, 15);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel lbl_name = new JLabel("회사명");
+		lbl_name.setBounds(12, 10, 57, 15);
+		frame.getContentPane().add(lbl_name);
 		
-		JLabel lblNewLabel_1 = new JLabel("직종");
-		lblNewLabel_1.setBounds(12, 35, 57, 15);
-		frame.getContentPane().add(lblNewLabel_1);
+		JLabel lbl_category = new JLabel("직종");
+		lbl_category.setBounds(12, 35, 57, 15);
+		frame.getContentPane().add(lbl_category);
 		
-		JLabel lblNewLabel_2 = new JLabel("채용분류");
-		lblNewLabel_2.setBounds(12, 60, 57, 15);
-		frame.getContentPane().add(lblNewLabel_2);
+		JLabel lbl_job_category = new JLabel("채용분류");
+		lbl_job_category.setBounds(12, 60, 57, 15);
+		frame.getContentPane().add(lbl_job_category);
 		
-		JLabel lblNewLabel_3 = new JLabel("고용형태");
-		lblNewLabel_3.setBounds(12, 85, 57, 15);
-		frame.getContentPane().add(lblNewLabel_3);
+		JLabel lbl_type = new JLabel("고용형태");
+		lbl_type.setBounds(12, 85, 57, 15);
+		frame.getContentPane().add(lbl_type);
 		
-		JLabel lblNewLabel_4 = new JLabel("급여");
-		lblNewLabel_4.setBounds(12, 110, 57, 15);
-		frame.getContentPane().add(lblNewLabel_4);
+		JLabel lbl_salary = new JLabel("급여");
+		lbl_salary.setBounds(12, 110, 57, 15);
+		frame.getContentPane().add(lbl_salary);
 		
-		JLabel lblNewLabel_5 = new JLabel("지역");
-		lblNewLabel_5.setBounds(12, 135, 57, 15);
-		frame.getContentPane().add(lblNewLabel_5);
+		JLabel lbl_address = new JLabel("지역");
+		lbl_address.setBounds(12, 135, 57, 15);
+		frame.getContentPane().add(lbl_address);
 		
-		JLabel lblNewLabel_6 = new JLabel("근무시간");
-		lblNewLabel_6.setBounds(12, 160, 57, 15);
-		frame.getContentPane().add(lblNewLabel_6);
+		JLabel lbl_time = new JLabel("근무시간");
+		lbl_time.setBounds(12, 160, 57, 15);
+		frame.getContentPane().add(lbl_time);
 		
-		JLabel lblNewLabel_7 = new JLabel("모집인원");
-		lblNewLabel_7.setBounds(12, 185, 57, 15);
-		frame.getContentPane().add(lblNewLabel_7);
+		JLabel lbl_count = new JLabel("모집인원");
+		lbl_count.setBounds(12, 185, 57, 15);
+		frame.getContentPane().add(lbl_count);
 		
-		JLabel lblNewLabel_8 = new JLabel("직책");
-		lblNewLabel_8.setBounds(12, 210, 57, 15);
-		frame.getContentPane().add(lblNewLabel_8);
+		JLabel lbl_position = new JLabel("직책");
+		lbl_position.setBounds(12, 210, 57, 15);
+		frame.getContentPane().add(lbl_position);
 		
-		JLabel lblNewLabel_9 = new JLabel("마감일");
-		lblNewLabel_9.setBounds(12, 235, 57, 15);
-		frame.getContentPane().add(lblNewLabel_9);
+		JLabel lbl_date = new JLabel("마감일");
+		lbl_date.setBounds(12, 235, 57, 15);
+		frame.getContentPane().add(lbl_date);
 		
-		JLabel lblNewLabel_10 = new JLabel("New label");
-		lblNewLabel_10.setBounds(81, 10, 144, 15);
-		frame.getContentPane().add(lblNewLabel_10);
+		JLabel lbl_name_data = new JLabel("New label");
+		lbl_name_data.setBounds(81, 10, 144, 15);
+		frame.getContentPane().add(lbl_name_data);
 		
-		JLabel lblNewLabel_11 = new JLabel("New label");
-		lblNewLabel_11.setBounds(81, 35, 144, 15);
-		frame.getContentPane().add(lblNewLabel_11);
+		JLabel lbl_category_data = new JLabel("New label");
+		lbl_category_data.setBounds(81, 35, 144, 15);
+		frame.getContentPane().add(lbl_category_data);
 		
-		JLabel lblNewLabel_12 = new JLabel("New label");
-		lblNewLabel_12.setBounds(81, 60, 144, 15);
-		frame.getContentPane().add(lblNewLabel_12);
+		JLabel lbl_job_category_data = new JLabel("New label");
+		lbl_job_category_data.setBounds(81, 60, 144, 15);
+		frame.getContentPane().add(lbl_job_category_data);
 		
-		JLabel lblNewLabel_13 = new JLabel("New label");
-		lblNewLabel_13.setBounds(81, 85, 144, 15);
-		frame.getContentPane().add(lblNewLabel_13);
+		JLabel lbl_type_data = new JLabel("New label");
+		lbl_type_data.setBounds(81, 85, 144, 15);
+		frame.getContentPane().add(lbl_type_data);
 		
-		JLabel lblNewLabel_10_1 = new JLabel("New label");
-		lblNewLabel_10_1.setBounds(81, 110, 144, 15);
-		frame.getContentPane().add(lblNewLabel_10_1);
+		JLabel lbl_salary_data = new JLabel("New label");
+		lbl_salary_data.setBounds(81, 110, 144, 15);
+		frame.getContentPane().add(lbl_salary_data);
 		
-		JLabel lblNewLabel_11_1 = new JLabel("New label");
-		lblNewLabel_11_1.setBounds(81, 135, 144, 15);
-		frame.getContentPane().add(lblNewLabel_11_1);
+		JLabel lbl_address_data = new JLabel("New label");
+		lbl_address_data.setBounds(81, 135, 144, 15);
+		frame.getContentPane().add(lbl_address_data);
 		
-		JLabel lblNewLabel_12_1 = new JLabel("New label");
-		lblNewLabel_12_1.setBounds(81, 160, 144, 15);
-		frame.getContentPane().add(lblNewLabel_12_1);
+		JLabel lbl_time_data = new JLabel("New label");
+		lbl_time_data.setBounds(81, 160, 144, 15);
+		frame.getContentPane().add(lbl_time_data);
 		
-		JLabel lblNewLabel_10_2 = new JLabel("New label");
-		lblNewLabel_10_2.setBounds(81, 185, 144, 15);
-		frame.getContentPane().add(lblNewLabel_10_2);
+		JLabel lbl_count_data = new JLabel("New label");
+		lbl_count_data.setBounds(81, 185, 144, 15);
+		frame.getContentPane().add(lbl_count_data);
 		
-		JLabel lblNewLabel_11_2 = new JLabel("New label");
-		lblNewLabel_11_2.setBounds(81, 210, 144, 15);
-		frame.getContentPane().add(lblNewLabel_11_2);
+		JLabel lbl_position_data = new JLabel("New label");
+		lbl_position_data.setBounds(81, 210, 144, 15);
+		frame.getContentPane().add(lbl_position_data);
 		
-		JLabel lblNewLabel_12_2 = new JLabel("New label");
-		lblNewLabel_12_2.setBounds(81, 235, 144, 15);
-		frame.getContentPane().add(lblNewLabel_12_2);
+		JLabel lbl_date_data = new JLabel("New label");
+		lbl_date_data.setBounds(81, 235, 144, 15);
+		frame.getContentPane().add(lbl_date_data);
 		
-		JButton btnNewButton = new JButton("닫기");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btn_close = new JButton("닫기");
+		btn_close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
 		});
-		btnNewButton.setBounds(168, 279, 85, 23);
-		frame.getContentPane().add(btnNewButton);
+		btn_close.setBounds(168, 279, 85, 23);
+		frame.getContentPane().add(btn_close);
 	}
 
 }
