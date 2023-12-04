@@ -111,7 +111,6 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		frame.getContentPane().add(lbl_company);
 		
 		txt_corporate = new JTextField();
-		txt_corporate.setEnabled(false);
 		txt_corporate.setColumns(10);
 		txt_corporate.setBounds(30, 437, 190, 21);
 		frame.getContentPane().add(txt_corporate);
@@ -121,7 +120,6 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		frame.getContentPane().add(lbl_salary);
 		
 		txt_salary = new JTextField();
-		txt_salary.setEnabled(false);
 		txt_salary.setColumns(10);
 		txt_salary.setBounds(30, 486, 190, 21);
 		frame.getContentPane().add(txt_salary);
@@ -131,7 +129,6 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		frame.getContentPane().add(lbl_position);
 		
 		txt_position = new JTextField();
-		txt_position.setEnabled(false);
 		txt_position.setColumns(10);
 		txt_position.setBounds(30, 532, 190, 21);
 		frame.getContentPane().add(txt_position);
@@ -168,13 +165,21 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 //=============================================================
 //===========================기능 구현===========================
 //=============================================================
+		if(Main.mode.equals("기업")) {
+			chk_employed.setEnabled(false);
+	        txt_corporate.setEnabled(false);
+	        txt_salary.setEnabled(false);
+	        txt_position.setEnabled(false);
+	        com_gender.setEnabled(false);
+	        com_address.setEnabled(false);
+		}		
 		
 		btn_edit.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(Main.mode.equals("개인")) {  // 개인회원
 		        try {
 		        	Main.DBConnection();
-		        	String updateSQL = "UPDATE 개인회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
+		        	String updateSQL = "UPDATE 기업회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
 
 		            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
 
@@ -229,55 +234,49 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		        } finally {
 		            Main.DBClose();
 		        }
-		    } /*else {  // 기업회원 
+		    } else {  // 기업회원 
 		    	try {
 		        	Main.DBConnection();
-		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_BUSINESS(?, ?, ?, ?, ?, ?, ?, ?)}");
-	           
+		        	String updateSQL = "UPDATE 기업회원 SET 휴대폰 = ?, 비밀번호 = ?, 개인정보_유효기간 = ? WHERE 회원ID = ?";
+
+
+		            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
+
+		        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		            java.util.Date parsedDate = dateFormat.parse(txt_birth.getText());
+		            java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
 		            
-		            // 기업명, ID, PW, NAME, 사업자등록번호, 휴대폰번호, 개인정보유효기간
-		            Main.cstmt.setString(1, txt_corporate.getText());
-		            Main.cstmt.setString(2, txt_name.getText());
-		            Main.cstmt.setString(3, txt_phone.getText());
-		            Main.cstmt.setString(4, txt_id.getText());
-		            Main.cstmt.setString(5, txt_pw.getText());
 		            
-		            String selectedPeriod = com_period.getSelectedItem().toString();
+		            pstmt.setString(1, txt_phone.getText());
+	                pstmt.setString(2, txt_pw.getText());
+	                String selectedPeriod = com_period.getSelectedItem().toString();
 		            int validityPeriod = switch (selectedPeriod) {
 		                case "1년" -> 1;
 		                case "3년" -> 3;
 		                case "5년" -> 5;
 		                default -> 0;
 		            };
-		            Main.cstmt.setInt(6, validityPeriod);		            
+		            pstmt.setInt(3, validityPeriod);
+		            pstmt.setString(4, txt_id.getText());
+		            
+		            int affectedRows = pstmt.executeUpdate();
 
-		            Main.cstmt.setString(7, txt_companynumber.getText());
-		            Main.cstmt.registerOutParameter(8,Types.NVARCHAR);
-		            
-		            Main.cstmt.execute();
-		            String result = Main.cstmt.getString(8);
-		            
-		            if (result != null && !result.isEmpty()) {
-		                JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
-		            } else {
-		                JOptionPane.showMessageDialog(frame, "회원가입 처리 결과가 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
-		            }
-		            
-		            //JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
+	                if (affectedRows > 0) {
+	                    JOptionPane.showMessageDialog(null, "회원 정보가 성공적으로 업데이트 되었습니다.");
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "업데이트된 회원 정보가 없습니다.");
+	                }
+
 		        } catch (SQLException ex) {
-		        	String errorMessage = ex.toString(); // toString()은 예외 이름과 메시지를 모두 포함합니다.
-		            JOptionPane.showMessageDialog(frame, errorMessage, "SQL 오류", JOptionPane.ERROR_MESSAGE);
+		            JOptionPane.showMessageDialog(null, "SQL 오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
 		            ex.printStackTrace();
-		            
 		        } catch (Exception ex) {
-		        	 String errorMessage = ex.toString(); // toString() 사용
-		             JOptionPane.showMessageDialog(frame, errorMessage, "일반 오류", JOptionPane.ERROR_MESSAGE);
-		             ex.printStackTrace();
-		        }
-		        finally {
+		            JOptionPane.showMessageDialog(null, "오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            ex.printStackTrace();
+		        } finally {
 		            Main.DBClose();
 		        }
-		    }*/
+		    }
 		  }
 		});
 		
