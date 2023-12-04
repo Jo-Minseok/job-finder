@@ -169,7 +169,7 @@ END;
 CREATE OR REPLACE TRIGGER 채용설명회_TRIG AFTER INSERT ON 채용_설명회
 FOR EACH ROW
 BEGIN
-    IF(:NEW.일시 > SYSDATE) THEN
+    IF(:NEW.일시 < SYSDATE) THEN
         RAISE_APPLICATION_ERROR(-20009, '현재 날짜보다 이전 날로 개최할 수 없습니다!' || SYSDATE || '이후로 맞춰주세요');
     END IF;
 END;

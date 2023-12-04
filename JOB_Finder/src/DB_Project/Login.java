@@ -26,6 +26,7 @@ public class Login {
 
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("JOB FINDER LOGIN");
 		frame.getContentPane().setEnabled(false);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,20 +35,20 @@ public class Login {
 		frame.setLocationRelativeTo(null);
 		
 		txt_password = new JPasswordField();
-		txt_password.setBounds(142, 133, 134, 21);
+		txt_password.setBounds(152, 145, 134, 21);
 		frame.getContentPane().add(txt_password);
 		
 		txt_ID = new JTextField();
-		txt_ID.setBounds(142, 91, 134, 21);
+		txt_ID.setBounds(152, 103, 134, 21);
 		frame.getContentPane().add(txt_ID);
 		txt_ID.setColumns(10);
 		
 		JLabel label_password = new JLabel("PASSWORD");
-		label_password.setBounds(37, 137, 67, 15);
+		label_password.setBounds(47, 149, 93, 15);
 		frame.getContentPane().add(label_password);
 		
 		JLabel label_id = new JLabel("ID");
-		label_id.setBounds(63, 94, 19, 15);
+		label_id.setBounds(73, 106, 19, 15);
 		frame.getContentPane().add(label_id);
 		
 		JButton btn_exit = new JButton("종료");
@@ -56,15 +57,15 @@ public class Login {
 				System.exit(0);
 			}
 		});
-		btn_exit.setBounds(327, 197, 67, 23);
+		btn_exit.setBounds(327, 212, 67, 23);
 		frame.getContentPane().add(btn_exit);
 		
 		JCheckBox chk_business = new JCheckBox("기업회원");
-		chk_business.setBounds(152, 160, 115, 23);
+		chk_business.setBounds(162, 172, 115, 23);
 		frame.getContentPane().add(chk_business);
 		
 		JButton btn_login = new JButton("LOGIN");
-		btn_login.setBounds(314, 109, 80, 23);
+		btn_login.setBounds(324, 121, 80, 23);
 		btn_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -113,7 +114,7 @@ public class Login {
 				window.frame.setVisible(true);
 			}
 		});
-		btn_register.setBounds(25, 197, 97, 23);
+		btn_register.setBounds(25, 212, 97, 23);
 		frame.getContentPane().add(btn_register);
 		
 		JButton btn_find = new JButton("ID/PW 찾기");
@@ -124,12 +125,12 @@ public class Login {
 				window.setVisible(true);
 			}
 		});
-		btn_find.setBounds(170, 197, 97, 23);
+		btn_find.setBounds(170, 212, 97, 23);
 		frame.getContentPane().add(btn_find);
 		
 		JLabel lbl_logo = new JLabel("");
-		lbl_logo.setIcon(new ImageIcon("C:\\Users\\this0\\OneDrive\\Desktop\\캡처12.PNG"));
-		lbl_logo.setBounds(124, 10, 164, 59);
+		lbl_logo.setIcon(new ImageIcon("img/Login.png"));
+		lbl_logo.setBounds(37, 10, 357, 71);
 		frame.getContentPane().add(lbl_logo);
 	}
 }
