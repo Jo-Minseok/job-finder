@@ -16,14 +16,12 @@ public class Certificate {
 
 	public JFrame frame;
 	private JTextField txt_certifi;
-	private String resumeName;
 
-	public Certificate(String resumeName) {
-		this.resumeName = resumeName;
-		initialize();
+	public Certificate(Resume resume) {
+		initialize(resume);
 	}
 
-	private void initialize() {
+	private void initialize(Resume resume) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 364, 171);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,33 +42,12 @@ public class Certificate {
 		frame.getContentPane().add(btn_regist);
 		btn_regist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Main.DBConnection();
-					Main.con.setAutoCommit(false);
-					
-					String sql = "INSERT INTO 이력서_자격증 (이력서_작성자, 이력서명, 자격증명) VALUES (?, ?, ?)";
-					Main.pstmt = Main.con.prepareStatement(sql);
-					
-					Main.pstmt.setString(1, Main.ID);
-		            Main.pstmt.setString(2, Certificate.this.resumeName);
-		            Main.pstmt.setString(3, txt_certifi.getText());
-
-		            Main.pstmt.executeUpdate();
-		            Main.con.commit();
-		            
-		            JOptionPane.showMessageDialog(null, "자격증이 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
-		            
-		        }  catch (Exception ex) {
-		            try {
-		                Main.con.rollback(); 
-		            } catch (Exception exRollback) {	
-		            	
-		            }
-		            JOptionPane.showMessageDialog(null, "자격증 정보 저장 실패: " + ex.getMessage(), "저장 실패", JOptionPane.ERROR_MESSAGE);
-		        } finally {
-		            Main.DBClose();
-		            frame.dispose();
-		        }
+				String certifi = txt_certifi.getText();
+				
+				String certificateinfo = "자격증 명: " + certifi;
+				
+				resume.updateCertificateinfo(certificateinfo);
+	            frame.dispose();
 			}
 		});
 		
