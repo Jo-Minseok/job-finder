@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.sql.*;
-import java.util.Date;
 
 public class Point {
 
@@ -59,12 +58,12 @@ public class Point {
 
 			String tablename1;
 
-			if(Main.mode == "개인")
+			if(Main.mode.equals("개인"))
 				tablename1 = "개인회원";
 			else
 				tablename1 = "기업회원";
 			
-			String sql_inquiry = "SELECT 이름, 포인트 FROM " + tablename1 + "WHERE 회원ID = ?";
+			String sql_inquiry = "SELECT 이름, 포인트 FROM " + tablename1 + " WHERE 회원ID = ?";
 			
 			Main.pstmt = Main.con.prepareStatement(sql_inquiry);
 			Main.pstmt.setString(1, Main.ID);
@@ -74,32 +73,35 @@ public class Point {
 			String name = "";
 			if(Main.rs.next()) {
 				name = Main.rs.getString(1);
-				point_present = Integer.parseInt(Main.rs.getString(2));
+				point_present = Main.rs.getInt(2);
 			}
+			else
+				JOptionPane.showMessageDialog(null, "포인트 조회를 실패했습니다.", "불러오기 실패", JOptionPane.ERROR_MESSAGE);
 			lbl_present.setText("현재 " + name + " 회원님의 포인트 : " + point_present); 
 			
 			// 2. 포인트 획득/사용 조회 sql_point
 			
 			String tablename2;
 			
-			if(Main.mode == "개인")
+			if(Main.mode.equals("개인"))
 				tablename2 = "개인_포인트_수정_내역";
 			else
 				tablename2 = "기업_포인트_수정_내역";
 			
 			String sql_point = "SELECT SUM(포인트) FROM " + tablename2 + " WHERE 회원ID = ? AND 내역 = ?";
 
-			// 2-1. 개인(기업)_포인트_수정_내역에서 "획득" 포인트 조회
+			// 2-1. 개인(기업)_포인트_수정_내역에서 "추가" 포인트 조회
 			
 			Main.pstmt = Main.con.prepareStatement(sql_point);
 			Main.pstmt.setString(1,  Main.ID);
-			Main.pstmt.setString(2, "획득");
+			Main.pstmt.setString(2, "추가");
 			Main.rs = Main.pstmt.executeQuery();
 
 			int total_point_earned = 0; // 총 획득한 포인트 = DB에 기록된 획득 포인트
 			if(Main.rs.next()) {
 				total_point_earned = Main.rs.getInt(1);
 			}
+			
 			lbl_earned.setText(lbl_earned.getText() + total_point_earned);
 			
 			// 2-2. 개인(기업)_포인트_수정_내역에서 "사용" 포인트 조회
@@ -113,12 +115,13 @@ public class Point {
 			if(Main.rs.next()) {
 				total_point_used = Main.rs.getInt(1);
 			}
+			
 			lbl_used.setText(lbl_used.getText() + total_point_used);
 			
 			
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(null, "포인트 로드를 실패했습니다.", "DB 접속 실패", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "불러오기 실패", JOptionPane.ERROR_MESSAGE);
 		}
 		finally {
 			Main.DBClose();
@@ -147,10 +150,11 @@ public class Point {
 					else
 						tablename1 = "기업회원";
 					
-					String sql_inquiry = "SELECT 포인트 FROM " + tablename1 + "WHERE 회원ID = ?";
+					String sql_inquiry = "SELECT 포인트 FROM " + tablename1 + " WHERE 회원ID = ?";
 					
 					Main.pstmt = Main.con.prepareStatement(sql_inquiry);
 					Main.pstmt.setString(1, Main.ID);
+					Main.rs = Main.pstmt.executeQuery();
 					
 					int point_present = 0;
 					if(Main.rs.next()) {
@@ -170,29 +174,11 @@ public class Point {
 					Main.pstmt.setString(2, Main.ID);
 					Main.pstmt.executeUpdate();
 					
-					// 3. 개인(기업)_회원_정보_변경에 추가 sql_charge
-					
-					String tablename2;
-					
-					if(Main.mode == "개인")
-						tablename2 = "개인_포인트_수정_내역";
-					else
-						tablename2 = "기업_포인트_수정_내역";
-					
-					String sql_charge = "INSERT INTO " + tablename2 + " VALUES (?, ?, ?)";
-					
-					Main.pstmt = Main.con.prepareStatement(sql_charge);
-					Main.pstmt.setString(1,  Main.ID);
-					Main.pstmt.setString(2, "획득");
-					Main.pstmt.setInt(3, point_charge);
-					Main.pstmt.executeUpdate();
-					
-					if(Main.rs.next()) {
-						JOptionPane.showMessageDialog(null, "충전이 완료되었습니다.", "충전 성공", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "충전이 완료되었습니다.", "충전 성공", JOptionPane.INFORMATION_MESSAGE);
 						
-						// 충전 후 포인트 UI 종료
-						frame.dispose();
-					}
+					// 3. 충전 후 포인트 UI 종료
+					
+					frame.dispose();
 				}
 				catch (Exception ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "포인트 충전 실패", JOptionPane.ERROR_MESSAGE);
