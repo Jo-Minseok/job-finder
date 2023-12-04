@@ -250,6 +250,7 @@ public class Register {
 		         
 		        finally {
 		            Main.DBClose();
+		            frame.dispose();
 		        }
 		    } else {  // 기업회원 
 		    	try {
@@ -298,6 +299,7 @@ public class Register {
 		        }
 		        finally {
 		            Main.DBClose();
+		            frame.dispose();
 		        }
 		    }
 		  }
