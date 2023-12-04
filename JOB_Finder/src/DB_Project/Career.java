@@ -12,22 +12,18 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class Career  {
-
 	public JFrame frame;
-	//private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txt_company;
 	private JTextField txt_year;
 	private JTextField txt_position;
 	private JTextField txt_salary;
-	private String resumeName;
 	
-	public Career(String resumeName) {
-		this.resumeName = resumeName;
-		initialize();
+	public Career(Resume resume) {		
+		initialize(resume);
 	}
 
-	private void initialize() {
+	private void initialize(Resume resume) {
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 325, 250);
@@ -78,36 +74,14 @@ public class Career  {
 		contentPane.add(btn_regist);
 		btn_regist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Main.DBConnection();
-					Main.con.setAutoCommit(false);
-					
-					String sql = "INSERT INTO 이력서_경력 (회원 ID, 이력서명, 경력_위치, 년수, 직급, 연봉) VALUES (?, ?, ?, ?, ?, ?)";
-					Main.pstmt = Main.con.prepareStatement(sql);
-					
-					Main.pstmt.setString(1, Main.ID);
-		            Main.pstmt.setString(2, Career.this.resumeName);
-		            Main.pstmt.setString(3, txt_company.getText());
-		            Main.pstmt.setInt(4, Integer.parseInt(txt_year.getText()));
-		            Main.pstmt.setString(5, txt_position.getText());
-		            Main.pstmt.setInt(6, Integer.parseInt(txt_salary.getText()));
-
-		            Main.pstmt.executeUpdate();
-		            Main.con.commit();
-		            
-		            JOptionPane.showMessageDialog(null, "경력 정보가 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
-		            
-		        } catch (Exception ex) {
-		            try {
-		                Main.con.rollback(); 
-		            } catch (Exception exRollback) {	
-		            	
-		            }
-		            JOptionPane.showMessageDialog(null, "경력 정보 저장 실패: " + ex.getMessage(), "저장 실패", JOptionPane.ERROR_MESSAGE);
-		        } finally {
-		            Main.DBClose();
-		            frame.dispose();
-		        }
+				 String company = txt_company.getText();
+	             String year = txt_year.getText();
+	             String position = txt_position.getText();
+	             String salary = txt_salary.getText();
+	             String careerinfo = "회사명: " + company + ", 년수: " + year + ", 직급: " + position + ", 연봉: " + salary;
+	             
+	             resume.updateCareerinfo(careerinfo);
+	             frame.dispose();
 			}
 		});
 		
