@@ -162,6 +162,12 @@ public class Mainpage {
 		frame.getContentPane().add(lbl_now);
 		
 		JButton btn_market = new JButton("채용 시장 분석");
+		btn_market.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Market_trends window = new Market_trends();
+				window.frame.setVisible(true);
+			}
+		});
 		btn_market.setBounds(557, 151, 190, 23);
 		frame.getContentPane().add(btn_market);
 		
