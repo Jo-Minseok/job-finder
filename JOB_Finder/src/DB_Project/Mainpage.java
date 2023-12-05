@@ -235,8 +235,15 @@ public class Mainpage {
 		frame.getContentPane().add(btn_write);
 		
 		JButton btn_resume_search = new JButton("이력서 조회");
+		btn_resume_search.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Resume_inquiry window = new Resume_inquiry();
+				window.setVisible(true);
+			}
+		});
 		btn_resume_search.setBounds(557, 404, 190, 23);
 		frame.getContentPane().add(btn_resume_search);
+		
 		
 		JButton btn_upload_business = new JButton("기업 등록");
 		btn_upload_business.setForeground(Color.BLACK);
