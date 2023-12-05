@@ -248,7 +248,7 @@ public class Mainpage {
 		btn_inquiry_1 = new JButton("New button");
 		btn_inquiry_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany(Recruit_List[up_page-1][0].Post_number);
+				OpenCompany(Recruit_List[up_page][0].Post_number);
 			}
 		});
 		btn_inquiry_1.setBounds(51, 204, 112, 69);
@@ -257,7 +257,7 @@ public class Mainpage {
 		btn_inquiry_2 = new JButton("New button");
 		btn_inquiry_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany(Recruit_List[up_page-1][1].Post_number);
+				OpenCompany(Recruit_List[up_page][1].Post_number);
 			}
 		});
 		btn_inquiry_2.setBounds(214, 204, 112, 69);
@@ -266,7 +266,7 @@ public class Mainpage {
 		btn_inquiry_3 = new JButton("New button");
 		btn_inquiry_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany(Recruit_List[up_page-1][2].Post_number);
+				OpenCompany(Recruit_List[up_page][2].Post_number);
 			}
 		});
 		btn_inquiry_3.setBounds(374, 204, 112, 69);
@@ -275,7 +275,7 @@ public class Mainpage {
 		btn_inquiry_4 = new JButton("New button");
 		btn_inquiry_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany(Recruit_List[up_page-1][3].Post_number);
+				OpenCompany(Recruit_List[up_page][3].Post_number);
 			}
 		});
 		btn_inquiry_4.setBounds(51, 315, 112, 69);
@@ -284,7 +284,7 @@ public class Mainpage {
 		btn_inquiry_5 = new JButton("New button");
 		btn_inquiry_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany(Recruit_List[up_page-1][4].Post_number);
+				OpenCompany(Recruit_List[up_page][4].Post_number);
 			}
 		});
 		btn_inquiry_5.setBounds(214, 315, 112, 69);
@@ -293,7 +293,7 @@ public class Mainpage {
 		btn_inquiry_6 = new JButton("New button");
 		btn_inquiry_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenCompany(Recruit_List[up_page-1][5].Post_number);
+				OpenCompany(Recruit_List[up_page][5].Post_number);
 			}
 		});
 		btn_inquiry_6.setBounds(374, 315, 112, 69);

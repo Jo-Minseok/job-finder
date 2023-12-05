@@ -31,6 +31,7 @@ public class Main {
 		}
 		catch(ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "드라이버 적재 실패","DB 오픈 실패", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	}
 	
@@ -40,6 +41,7 @@ public class Main {
 		}
 		catch(SQLException e) {
 			JOptionPane.showMessageDialog(null, "연결 실패","DB 오픈 실패", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	}
 	
