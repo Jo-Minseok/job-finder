@@ -302,7 +302,7 @@ public class Mainpage {
 		btn_briefing_1 = new JButton("New button");
 		btn_briefing_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenBriefing();
+				OpenBriefing(Briefing_List[down_page][0].Company,Briefing_List[down_page][0].Name);
 			}
 		});
 		btn_briefing_1.setBounds(51, 506, 112, 69);
@@ -311,7 +311,7 @@ public class Mainpage {
 		btn_briefing_2 = new JButton("New button");
 		btn_briefing_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenBriefing();
+				OpenBriefing(Briefing_List[down_page][1].Company,Briefing_List[down_page][1].Name);
 			}
 		});
 		btn_briefing_2.setBounds(214, 506, 112, 69);
@@ -320,7 +320,7 @@ public class Mainpage {
 		btn_briefing_3 = new JButton("New button");
 		btn_briefing_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenBriefing();
+				OpenBriefing(Briefing_List[down_page][2].Company,Briefing_List[down_page][2].Name);
 			}
 		});
 		btn_briefing_3.setBounds(374, 506, 112, 69);
@@ -329,7 +329,7 @@ public class Mainpage {
 		btn_briefing_4 = new JButton("New button");
 		btn_briefing_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenBriefing();
+				OpenBriefing(Briefing_List[down_page][3].Company,Briefing_List[down_page][3].Name);
 			}
 		});
 		btn_briefing_4.setBounds(51, 593, 112, 69);
@@ -338,7 +338,7 @@ public class Mainpage {
 		btn_briefing_5 = new JButton("New button");
 		btn_briefing_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenBriefing();
+				OpenBriefing(Briefing_List[down_page][4].Company,Briefing_List[down_page][4].Name);
 			}
 		});
 		btn_briefing_5.setBounds(214, 593, 112, 69);
@@ -347,7 +347,7 @@ public class Mainpage {
 		btn_briefing_6 = new JButton("New button");
 		btn_briefing_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OpenBriefing();
+				OpenBriefing(Briefing_List[down_page][5].Company,Briefing_List[down_page][5].Name);
 			}
 		});
 		btn_briefing_6.setBounds(374, 593, 112, 69);
@@ -818,8 +818,8 @@ public class Mainpage {
 		window.frame.setVisible(true);
 	}
 	
-	private void OpenBriefing() {
-		Job_description window = new Job_description();
+	private void OpenBriefing(String Company_name, String Briefing_name) {
+		Job_description window = new Job_description(Company_name,Briefing_name);
 		window.frame.setVisible(true);
 	}
 }

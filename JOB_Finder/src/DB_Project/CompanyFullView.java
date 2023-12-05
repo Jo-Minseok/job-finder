@@ -11,8 +11,12 @@ import javax.swing.JTable;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 
 public class CompanyFullView {
 
@@ -26,50 +30,68 @@ public class CompanyFullView {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 590, 620);
+		frame.setBounds(100, 100, 590, 652);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		String[] head = new String[] {"기업명", "매출", "게시글 등록 날짜", "지원 경쟁률"};
+		String[] head = new String[] {"기업명", "매출", "급여", "지원 경쟁률"};
 		// Object부분은 예시로 넣음
-		Object[][] data = new Object[][] {
-			{"동의대", "200", "2023-11-27","30%"},
-			{"동서대", "150", "2023-11-29","40%"},
-			{"부경대", "300", "2023-11-01","10%"},
-			{"부산대", "500", "2022-11-27","35%"}
-		};
+		Object[][] data = null;
+		try {
+			Main.DBConnection();
+			String sql = "SELECT 기업명, 매출액, 급여, 경쟁률 FROM 채용_게시글, 기업, 기업회원 WHERE 기업회원.기업명 = 기업.이름 AND 채용_게시글.작성자ID = 기업회원.회원ID";
+			Main.stmt = Main.con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+			Main.rs = Main.stmt.executeQuery(sql);
+			Main.rs.last();
+			int row_count = Main.rs.getRow();
+			Main.rs.beforeFirst();
+			data = new Object[row_count][4];
+			row_count = 0;
+			while(Main.rs.next()) {
+				data[row_count][0] = Main.rs.getString("기업명");
+				data[row_count][1] = Main.rs.getLong("매출액");
+				data[row_count][2] = Main.rs.getLong("급여");
+				data[row_count][3] = Main.rs.getInt("경쟁률") + "%";
+				row_count++;
+			}
+		}
+		catch(SQLException ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(),"데이터 로드 실패", JOptionPane.ERROR_MESSAGE);
+		}
+		finally {
+			Main.DBClose();
+		}
+		JRadioButton radio_name = new JRadioButton("이름 순");
+		radio_name.setBounds(12, 68, 121, 23);
+		frame.getContentPane().add(radio_name);
 		
-		JRadioButton Name_radio = new JRadioButton("이름 순");
-		Name_radio.setBounds(8, 35, 65, 23);
-		frame.getContentPane().add(Name_radio);
+		JRadioButton radio_sale = new JRadioButton("매출액 순");
+		radio_sale.setBounds(144, 68, 121, 23);
+		frame.getContentPane().add(radio_sale);
 		
-		JRadioButton Sale_radio = new JRadioButton("매출 순");
-		Sale_radio.setBounds(87, 35, 65, 23);
-		frame.getContentPane().add(Sale_radio);
+		JRadioButton radio_latest = new JRadioButton("급여 순");
+		radio_latest.setBounds(269, 68, 121, 23);
+		frame.getContentPane().add(radio_latest);
 		
-		JRadioButton Latest_radio = new JRadioButton("게시글 등록 최신 순");
-		Latest_radio.setBounds(169, 35, 138, 23);
-		frame.getContentPane().add(Latest_radio);
+		JRadioButton radio_competition = new JRadioButton("지원 경쟁률 순");
+		radio_competition.setBounds(400, 68, 121, 23);
+		frame.getContentPane().add(radio_competition);
 		
-		JRadioButton Competitiobn_radio = new JRadioButton("지원 경쟁률 순");
-		Competitiobn_radio.setBounds(321, 35, 121, 23);
-		frame.getContentPane().add(Competitiobn_radio);
-		
-		JButton Exit_btn = new JButton("닫기");
-		Exit_btn.addActionListener(new ActionListener() {
+		JButton btn_close = new JButton("닫기");
+		btn_close.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
 		});
-		Exit_btn.setBounds(489, 10, 73, 32);
-		frame.getContentPane().add(Exit_btn);
+		btn_close.setBounds(489, 26, 73, 32);
+		frame.getContentPane().add(btn_close);
 		
 		ButtonGroup buttonGroup = new ButtonGroup();
-		buttonGroup.add(Name_radio);
-		buttonGroup.add(Sale_radio);
-		buttonGroup.add(Latest_radio);
-		buttonGroup.add(Competitiobn_radio);
+		buttonGroup.add(radio_name);
+		buttonGroup.add(radio_sale);
+		buttonGroup.add(radio_latest);
+		buttonGroup.add(radio_competition);
 		
 		table = new JTable(data, head);
 		sorter = new TableRowSorter<>(table.getModel());
@@ -80,19 +102,20 @@ public class CompanyFullView {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
-		scrollPane.setBounds(8, 78, 554, 493);
+		scrollPane.setBounds(12, 111, 554, 493);
 		//table.setPreferredScrollableViewportSize(new Dimension(700, 600));
 		//table.setFillsViewportHeight(true);
 		frame.getContentPane().add(scrollPane);
 		
-		JLabel lblNewLabel = new JLabel("기업 전체 조회");
-		lblNewLabel.setBounds(8, 10, 94, 15);
-		frame.getContentPane().add(lblNewLabel);
+		JLabel lbl_Company = new JLabel("기업 전체 조회");
+		lbl_Company.setHorizontalAlignment(SwingConstants.CENTER);
+		lbl_Company.setBounds(8, 10, 94, 15);
+		frame.getContentPane().add(lbl_Company);
 		
-		Name_radio.addActionListener(e -> sortColumn(0));
-		Sale_radio.addActionListener(e -> sortColumn(1));
-        Latest_radio.addActionListener(e -> sortColumn(2));
-        Competitiobn_radio.addActionListener(e -> sortColumn(3));
+		radio_name.addActionListener(e -> sortColumn(0));
+		radio_sale.addActionListener(e -> sortColumn(1));
+        radio_latest.addActionListener(e -> sortColumn(2));
+        radio_competition.addActionListener(e -> sortColumn(3));
 	}
 	
 	private void sortColumn(int column) {

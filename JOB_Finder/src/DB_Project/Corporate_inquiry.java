@@ -36,39 +36,39 @@ public class Corporate_inquiry extends JFrame {
 		contentPane.add(lbl_name);
 		
 		JLabel lbl_industry = new JLabel("산업 : ");
-		lbl_industry.setBounds(25, 85, 226, 20);
+		lbl_industry.setBounds(25, 85, 323, 20);
 		contentPane.add(lbl_industry);
 		
 		JLabel lbl_category = new JLabel("기업 구분 : ");
-		lbl_category.setBounds(25, 120, 226, 20);
+		lbl_category.setBounds(25, 120, 323, 20);
 		contentPane.add(lbl_category);
 		
 		JLabel lbl_money = new JLabel("자본금 : ");
-		lbl_money.setBounds(25, 155, 226, 20);
+		lbl_money.setBounds(25, 155, 323, 20);
 		contentPane.add(lbl_money);
 		
 		JLabel lbl_ceo = new JLabel("대표자 : ");
-		lbl_ceo.setBounds(25, 190, 226, 20);
+		lbl_ceo.setBounds(25, 190, 323, 20);
 		contentPane.add(lbl_ceo);
 		
 		JLabel lbl_count = new JLabel("사원 수 : ");
-		lbl_count.setBounds(25, 220, 226, 20);
+		lbl_count.setBounds(25, 220, 323, 20);
 		contentPane.add(lbl_count);
 		
 		JLabel lbl_date = new JLabel("설립일 : ");
-		lbl_date.setBounds(25, 250, 226, 20);
+		lbl_date.setBounds(25, 250, 323, 20);
 		contentPane.add(lbl_date);
 		
 		JLabel lbl_take = new JLabel("매출액 : ");
-		lbl_take.setBounds(25, 280, 226, 20);
+		lbl_take.setBounds(25, 280, 323, 20);
 		contentPane.add(lbl_take);
 		
 		JLabel lbl_salary = new JLabel("대졸 초임 : ");
-		lbl_salary.setBounds(25, 310, 226, 20);
+		lbl_salary.setBounds(25, 310, 323, 20);
 		contentPane.add(lbl_salary);
 		
 		JLabel lbl_local = new JLabel("지역 : ");
-		lbl_local.setBounds(25, 340, 226, 20);
+		lbl_local.setBounds(25, 340, 323, 20);
 		contentPane.add(lbl_local);
 		
 		JButton btn_close = new JButton("닫기");
@@ -81,7 +81,7 @@ public class Corporate_inquiry extends JFrame {
 		contentPane.add(btn_close);
 		
 		JLabel lbl_rate = new JLabel("평균 경쟁률 :");
-		lbl_rate.setBounds(25, 372, 226, 15);
+		lbl_rate.setBounds(25, 372, 323, 15);
 		contentPane.add(lbl_rate);
 		
 		try {
@@ -117,7 +117,7 @@ public class Corporate_inquiry extends JFrame {
 			this.setVisible(true);
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(null, "기업이 존재하지 않습니다.","검색 실패", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "기업 또는 게시글이 존재하지 않습니다.","검색 실패", JOptionPane.ERROR_MESSAGE);
 		}
 		finally {
 			Main.DBClose();
