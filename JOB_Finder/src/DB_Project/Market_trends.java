@@ -22,26 +22,7 @@ public class Market_trends extends JFrame {
 	private JTextField tf2;
 	private JTextField tf_start;
 	private JTextField tf_end;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Market_trends frame = new Market_trends();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public Market_trends() {
 		setTitle("시장 동향");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -12,26 +12,7 @@ public class Resume_inquiry extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Resume_inquiry frame = new Resume_inquiry();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public Resume_inquiry() {
 		setTitle("이력서 조회");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
