@@ -152,9 +152,16 @@ public class Resume{
 						Main.pstmt.setString(1, Main.ID);
 			            Main.pstmt.setString(2, txt_resume.getText());
 			            Main.pstmt.setString(3, Resume.this.company);
-			            Main.pstmt.setInt(4, Integer.parseInt(Resume.this.year));
+			            try {
+			                int year = Integer.parseInt(Resume.this.year);
+			                Main.pstmt.setInt(4, year);
+			            } catch (NumberFormatException e1) {
+			                // 숫자가 아닐 때 뜸
+			                System.out.println("년수는 숫자로 입력해야 합니다: " + e1.getMessage());
+			                System.out.println("Resume.this.year의 값: " + Resume.this.year);
+			            }
 			            Main.pstmt.setString(5, Resume.this.position);
-			            Main.pstmt.setInt(6, Integer.parseInt(Resume.this.salary));
+			            Main.pstmt.setInt(6, Integer.parseInt(Resume.this.salary));	            
 	
 			            Main.pstmt.executeUpdate();
 					}
