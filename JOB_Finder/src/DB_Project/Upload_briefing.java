@@ -26,7 +26,7 @@ public class Upload_briefing extends JFrame {
 
 	public Upload_briefing() {
 		setTitle("설명회 게시글 작성");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 545, 411);
 		setResizable(false);
 		contentPane = new JPanel();

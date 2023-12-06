@@ -43,7 +43,7 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		frame.setBounds(100, 100, 450, 659);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblPhonenumber = new JLabel("PHONE_NUMBER");

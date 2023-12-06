@@ -27,7 +27,7 @@ public class Resume{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("이력서 작성");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100,100,669,480 );
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);

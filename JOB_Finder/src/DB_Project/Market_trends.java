@@ -38,7 +38,7 @@ public class Market_trends {
 		frame = new JFrame();
 		frame.setTitle("채용 시장 트랜드");
 		frame.setBounds(100, 100, 785, 745);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
 		

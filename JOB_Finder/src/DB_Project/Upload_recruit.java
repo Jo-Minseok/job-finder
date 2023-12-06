@@ -25,7 +25,7 @@ public class Upload_recruit extends JFrame {
 
 	public Upload_recruit() {
 		setTitle("채용 게시글 작성");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 631);
 		setResizable(false);
 		contentPane = new JPanel();

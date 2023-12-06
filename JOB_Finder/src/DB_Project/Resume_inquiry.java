@@ -24,7 +24,7 @@ public class Resume_inquiry extends JFrame {
 	
 	public Resume_inquiry() {
 		setTitle("이력서 조회");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 850, 480);
 		setResizable(false);
 		contentPane = new JPanel();

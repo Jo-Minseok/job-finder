@@ -25,7 +25,7 @@ public class Job_posting {
 		frame.setBounds(100, 100, 281, 351);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lbl_name = new JLabel("회사명");

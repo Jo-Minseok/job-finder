@@ -34,7 +34,7 @@ public class CompanyFullView {
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 590, 652);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		String[] head = new String[] {"기업명", "매출", "급여", "지원 경쟁률"};

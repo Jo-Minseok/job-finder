@@ -11,7 +11,7 @@ public class Business{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("기업 등록");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);

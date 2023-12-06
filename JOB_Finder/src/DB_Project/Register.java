@@ -56,7 +56,7 @@ public class Register {
 		frame.setTitle("회원가입");
 		frame.setBounds(100, 100, 450, 745);
 		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
 		

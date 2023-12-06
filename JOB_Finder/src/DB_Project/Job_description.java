@@ -32,7 +32,7 @@ public class Job_description {
 		frame.setBounds(100, 100, 450, 225);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lbl_company = new JLabel("<기업명>");
