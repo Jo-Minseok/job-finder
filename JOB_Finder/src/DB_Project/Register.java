@@ -394,26 +394,24 @@ public class Register {
 		ArrayList<String> regionList = new ArrayList<>();
 		
 		try {	           
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@minseok821lab.kro.kr:1521:orcl", "seok3764", "0424");
+            Main.DBConnection();
 
             String query = "SELECT \"지역명\" FROM \"SEOK3764\".\"지역\"";
-            java.sql.Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            Main.stmt = Main.con.createStatement();
+            Main.rs = Main.stmt.executeQuery(query);
 
-            while (rs.next()) {
-                String regionName = rs.getString("지역명");
+            while (Main.rs.next()) {
+                String regionName = Main.rs.getString("지역명");
                 regionList.add(regionName);
                 //System.out.println("Retrieved Region: " + regionName);
             }
 
-            rs.close();
-            stmt.close();
-            con.close();
-
         } catch (SQLException e) {
-            e.printStackTrace();
+        	JOptionPane.showMessageDialog(null, e.getMessage(), "오류",JOptionPane.ERROR_MESSAGE);
         }
-
+		finally {
+			Main.DBClose();
+		}
         return regionList;
     }
 	

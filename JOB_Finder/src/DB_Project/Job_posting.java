@@ -20,7 +20,7 @@ import java.awt.Font;
 public class Job_posting {
 
 	public JFrame frame;
-	private int Post_ID;
+	public int Post_ID;
 	
 	public Job_posting(int Post_ID) {
 		this.Post_ID = Post_ID;
@@ -125,23 +125,8 @@ public class Job_posting {
 		JButton btn_apply = new JButton("지원");
 		btn_apply.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					
-					Main.DBConnection();
-					String sql = "INSERT INTO 지원 VALUES (?,?,?,?,?)";
-					Main.pstmt = Main.con.prepareStatement(sql);
-					Main.pstmt.setInt(1, Post_ID);
-					Main.pstmt.setString(2,Main.ID);
-					Main.pstmt.setString(3, "이력서명");
-					Main.pstmt.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
-					Main.pstmt.setString(5, "N");
-				}
-				catch(SQLException ex) {
-					
-				}
-				finally {
-					Main.DBClose();
-				}
+				Resume_Apply window = new Resume_Apply(Job_posting.this);
+				window.frame.setVisible(true);
 			}
 		});
 		btn_apply.setBounds(174, 343, 85, 23);

@@ -14,6 +14,22 @@ DROP PROCEDURE DELETE_RESUME_DEADLINE;
 DROP PROCEDURE DELETE_POSITION_DEADLINE;
 DROP PROCEDURE DELETE_JOB_VACANCY;
 
+------------------------------------- [Edit_Info] ----------------------------------------------
+CREATE OR REPLACE PROCEDURE RECALCULATE(
+최근_회사 NVARCHAR2,
+옛날_회사 NVARCHAR2,
+최근_직책 NVARCHAR2,
+옛날_직책 NVARCHAR2,
+최근_연봉 NUMBER,
+옛날_연봉 NUMBER)
+AS
+TMP_연봉 NUMBER;
+BEGIN
+        SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름 = 최근_회사;
+        UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = 최근_회사 AND 직책= 최근_직책;
+        SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름= 옛날_회사 AND 직책= 옛날_직책;
+        UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = 옛날_회사 AND 직책= 옛날_직책;
+END;
 -------------------------------------- [Main Form] ---------------------------------------------
 CREATE OR REPLACE PROCEDURE MAIN_FIND(
 모드 IN NVARCHAR2,
@@ -204,6 +220,7 @@ END;
 EXEC COMPITITION_RATE;
 EXEC POST_COUNT_PERSONAL;
 EXEC POST_COUNT_BUSINESS;
+COMMIT;
 -----------------------------------------------------------------------------------------------
 ------------------------------------------- 스케줄러 -------------------------------------------
 -----------------------------------------------------------------------------------------------
