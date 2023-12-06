@@ -108,7 +108,7 @@ public class Corporate_inquiry extends JFrame {
 			Main.rs = Main.stmt.executeQuery(sql);
 			Main.rs.next();
 			lbl_rate.setText(lbl_rate.getText() + Main.rs.getInt(1) + "%");
-			if(Main.rs.getInt(1) < 50) {
+			if(Main.rs.getInt(1) <= 50) {
 				lbl_rate.setForeground(Color.BLUE);
 			}
 			else if(Main.rs.getInt(1) <= 100) {

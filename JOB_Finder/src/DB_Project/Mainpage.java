@@ -148,6 +148,16 @@ public class Mainpage {
 		btn_search.setBounds(343, 125, 78, 23);
 		frame.getContentPane().add(btn_search);
 		
+		JButton btn_Point = new JButton("포인트");
+		btn_Point.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Point window = new Point();
+				window.frame.setVisible(true);
+			}
+		});
+		btn_Point.setBounds(557, 328, 190, 23);
+		frame.getContentPane().add(btn_Point);
+		
 		JButton btn_all = new JButton("전체");
 		btn_all.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -187,7 +197,7 @@ public class Mainpage {
 		frame.getContentPane().add(lbl_post_count);
 		
 		JButton btn_logout = new JButton("로그아웃");
-		btn_logout.setBounds(557, 338, 89, 23);
+		btn_logout.setBounds(557, 360, 89, 23);
 		frame.getContentPane().add(btn_logout);
 		btn_logout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -205,7 +215,7 @@ public class Mainpage {
 				window.frame.setVisible(true);
 			}
 		});
-		btn_edit.setBounds(658, 338, 89, 23);
+		btn_edit.setBounds(658, 360, 89, 23);
 		frame.getContentPane().add(btn_edit);
 		
 		JButton btn_write = new JButton("이력서 작성/채용 게시글 작성");
@@ -232,7 +242,7 @@ public class Mainpage {
 			});
 		}
 		
-		btn_write.setBounds(557, 371, 190, 23);
+		btn_write.setBounds(557, 393, 190, 23);
 		frame.getContentPane().add(btn_write);
 		
 		JButton btn_resume_search = new JButton("이력서 조회");
@@ -242,13 +252,13 @@ public class Mainpage {
 				window.setVisible(true);
 			}
 		});
-		btn_resume_search.setBounds(557, 404, 190, 23);
+		btn_resume_search.setBounds(557, 426, 190, 23);
 		frame.getContentPane().add(btn_resume_search);
 		
 		
 		JButton btn_upload_business = new JButton("기업 등록");
 		btn_upload_business.setForeground(Color.BLACK);
-		btn_upload_business.setBounds(557, 437, 190, 23);
+		btn_upload_business.setBounds(557, 459, 190, 23);
 		frame.getContentPane().add(btn_upload_business);
 		
 		lbl_post = new JLabel("채용 게시글");
@@ -701,6 +711,15 @@ public class Mainpage {
 					lbl_Rate_1.setVisible(true);
 					btn_inquiry_1.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_1.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
+					if(Recruit_List[page][i].Rate<= 50) {
+						lbl_Rate_1.setForeground(Color.BLUE);
+					}
+					else if(Recruit_List[page][i].Rate <= 100) {
+						lbl_Rate_1.setForeground(Color.GREEN);
+					}
+					else {
+						lbl_Rate_1.setForeground(Color.RED);
+					}
 					lbl_Rate_1.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
 					break;
 				case 1:
@@ -710,6 +729,15 @@ public class Mainpage {
 					btn_inquiry_2.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_2.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_2.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
+					if(Recruit_List[page][i].Rate<= 50) {
+						lbl_Rate_2.setForeground(Color.BLUE);
+					}
+					else if(Recruit_List[page][i].Rate <= 100) {
+						lbl_Rate_2.setForeground(Color.GREEN);
+					}
+					else {
+						lbl_Rate_2.setForeground(Color.RED);
+					}
 					break;
 				case 2:
 					btn_inquiry_3.setVisible(true);
@@ -718,6 +746,15 @@ public class Mainpage {
 					btn_inquiry_3.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_3.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_3.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
+					if(Recruit_List[page][i].Rate<= 50) {
+						lbl_Rate_3.setForeground(Color.BLUE);
+					}
+					else if(Recruit_List[page][i].Rate <= 100) {
+						lbl_Rate_3.setForeground(Color.GREEN);
+					}
+					else {
+						lbl_Rate_3.setForeground(Color.RED);
+					}
 					break;
 				case 3:
 					btn_inquiry_4.setVisible(true);
@@ -726,6 +763,15 @@ public class Mainpage {
 					btn_inquiry_4.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_4.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_4.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
+					if(Recruit_List[page][i].Rate<= 50) {
+						lbl_Rate_4.setForeground(Color.BLUE);
+					}
+					else if(Recruit_List[page][i].Rate <= 100) {
+						lbl_Rate_4.setForeground(Color.GREEN);
+					}
+					else {
+						lbl_Rate_4.setForeground(Color.RED);
+					}
 					break;
 				case 4:
 					btn_inquiry_5.setVisible(true);
@@ -734,6 +780,15 @@ public class Mainpage {
 					btn_inquiry_5.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_5.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_5.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
+					if(Recruit_List[page][i].Rate<= 50) {
+						lbl_Rate_5.setForeground(Color.BLUE);
+					}
+					else if(Recruit_List[page][i].Rate <= 100) {
+						lbl_Rate_5.setForeground(Color.GREEN);
+					}
+					else {
+						lbl_Rate_5.setForeground(Color.RED);
+					}
 					break;
 				case 5:
 					btn_inquiry_6.setVisible(true);
@@ -742,6 +797,15 @@ public class Mainpage {
 					btn_inquiry_6.setText(Recruit_List[page][i].Company);
 					lbl_inquiry_6.setText("마감일: " + Recruit_List[page][i].Deadline.toString());
 					lbl_Rate_6.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
+					if(Recruit_List[page][i].Rate<= 50) {
+						lbl_Rate_6.setForeground(Color.BLUE);
+					}
+					else if(Recruit_List[page][i].Rate <= 100) {
+						lbl_Rate_6.setForeground(Color.GREEN);
+					}
+					else {
+						lbl_Rate_6.setForeground(Color.RED);
+					}
 					break;
 				}
 			}
