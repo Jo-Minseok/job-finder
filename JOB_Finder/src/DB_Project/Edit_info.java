@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
 
-public class Edit_info { // 수정 버튼 기능 구현해야함
+public class Edit_info {
 
 	public JFrame frame;
 	private JTextField txt_id;
@@ -32,10 +32,46 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 	private JTextField txt_corporate;
 	private JTextField txt_salary;
 	private JTextField txt_position;
+	private JFormattedTextField txt_phone;
+	private JComboBox com_gender;
+	private JComboBox com_period;
 	private JComboBox<String> com_address = new JComboBox<>();
 
-	public Edit_info() {
+	public Edit_info() {		
 		initialize();
+		Load_info();
+	}
+
+	private void Load_info() {
+		try {
+			Main.DBConnection();
+			
+			String sql = "SELECT 휴대폰, 비밀번호, 생년월일, 성별, 거주_지역, 개인정보_유효기간, 기업_이름, 연봉, 직책 FROM 개인회원 WHERE 회원ID = ?";
+			Main.pstmt = Main.con.prepareStatement(sql);
+			Main.pstmt.setString(1, Main.ID);
+			Main.rs = Main.pstmt.executeQuery();
+			
+			
+			if(Main.rs.next()) {
+				
+				txt_phone.setText(Main.rs.getString("휴대폰"));
+				txt_pw.setText(Main.rs.getString("비밀번호"));
+				txt_birth.setText(Main.rs.getString("생년월일"));
+				com_gender.setSelectedItem(Main.rs.getString("성별"));
+				com_address.setSelectedItem(Main.rs.getString("거주_지역"));
+				com_period.setSelectedItem(Main.rs.getString("개인정보_유효기간"));
+				txt_corporate.setText(Main.rs.getString("기업_이름"));
+				txt_salary.setText(Main.rs.getString("연봉"));
+				txt_position.setText(Main.rs.getString("직책"));
+				
+				txt_id.setText(Main.ID);
+				txt_id.setEnabled(false);
+			}
+		} catch(SQLException ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "데이터 로드 실패", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			Main.DBClose();
+		}
 	}
 
 	private void initialize() {
@@ -95,7 +131,7 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		lblNewLabel_2.setBounds(30, 303, 111, 15);
 		frame.getContentPane().add(lblNewLabel_2);
 		
-		JComboBox com_period = new JComboBox();
+		com_period = new JComboBox();
 		com_period.setModel(new DefaultComboBoxModel(new String[] {"1년", "3년", "5년"}));
 		com_period.setBounds(30, 320, 111, 23);
 		frame.getContentPane().add(com_period);
@@ -155,7 +191,7 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		btn_resign.setBounds(337, 503, 85, 29);
 		frame.getContentPane().add(btn_resign);
 		
-		JComboBox com_gender = new JComboBox();
+		com_gender = new JComboBox();
 		com_gender.setModel(new DefaultComboBoxModel(new String[] {"남", "여"}));
 		com_gender.setBounds(30, 222, 111, 23);
 		frame.getContentPane().add(com_gender);
@@ -164,9 +200,11 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		try {
 			formatter = new MaskFormatter("###-####-####");
 			formatter.setPlaceholderCharacter('_');
+			formatter.install(txt_phone);
 		}
 		catch(Exception ex) {}
-		JFormattedTextField txt_phone = new JFormattedTextField(formatter);
+		
+		txt_phone = new JFormattedTextField(formatter);
 		txt_phone.setColumns(15);
 		txt_phone.setBounds(30, 77, 190, 21);
 		frame.getContentPane().add(txt_phone);
@@ -188,7 +226,7 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		    	if(Main.mode.equals("개인")) {  // 개인회원
 		        try {
 		        	Main.DBConnection();
-		        	String updateSQL = "UPDATE 기업회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
+		        	String updateSQL = "UPDATE 개인회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
 
 		            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
 
