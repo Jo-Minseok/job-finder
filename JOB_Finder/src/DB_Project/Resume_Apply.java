@@ -30,6 +30,7 @@ public class Resume_Apply {
 
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setTitle("지원");
 		frame.setBounds(100, 100, 450, 160);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
