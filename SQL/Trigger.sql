@@ -42,10 +42,7 @@ END BEFORE STATEMENT;
 AFTER STATEMENT IS
     BEGIN
     IF 변경사안 = '기업_이름' OR 변경사안 = '연봉' OR 변경사안 = '직책' THEN
-        SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름 = :NEW.기업_이름;
-        UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = :NEW.기업_이름 AND 직책= :NEW.직책;
-        SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름= :OLD.기업_이름 AND 직책= :OLD.직책;
-        UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = :OLD.기업_이름 AND 직책= :OLD.직책;
+
     END IF;
 END AFTER STATEMENT;
 END 연봉_재연산_TRIG;

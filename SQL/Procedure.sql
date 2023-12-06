@@ -13,7 +13,6 @@ DBMS_SCHEDULER.DROP_JOB('매일_자정_채용_게시글_삭제');
 DROP PROCEDURE DELETE_RESUME_DEADLINE;
 DROP PROCEDURE DELETE_POSITION_DEADLINE;
 DROP PROCEDURE DELETE_JOB_VACANCY;
-
 ------------------------------------- [Edit_Info] ----------------------------------------------
 CREATE OR REPLACE PROCEDURE RECALCULATE(
 최근_회사 NVARCHAR2,
