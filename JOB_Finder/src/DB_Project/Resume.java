@@ -24,6 +24,13 @@ public class Resume{
 	public Resume() {
 		initialize();
 	}
+	
+	public void Careerinfo(String companyinfo, String yearinfo, String positioninfo, String salaryinfo) {
+		this.company = companyinfo;
+		this.year = yearinfo;
+		this.position = positioninfo;
+		this.salary = salaryinfo;
+	}
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("이력서 작성");
@@ -74,10 +81,6 @@ public class Resume{
 		btn_exit.setBounds(538, 387, 92, 37);
 		frame.getContentPane().add(btn_exit);
 		
-		txt_career = new JTextArea();
-		txt_career.setBounds(291, 86, 293, 74);
-		frame.getContentPane().add(txt_career);
-		
 		JButton btn_regist = new JButton("등록");
 		btn_regist.setBounds(538, 340, 92, 37);
 		frame.getContentPane().add(btn_regist);
@@ -95,6 +98,7 @@ public class Resume{
 		txt_certifi = new JTextArea();
 		txt_certifi.setBounds(291, 222, 293, 74);
 		frame.getContentPane().add(txt_certifi);
+		txt_certifi.setEnabled(false);
 		
 		JButton btn_career = new JButton("경력 추가");
 		btn_career.setBounds(293, 40, 107, 36);
@@ -103,9 +107,13 @@ public class Resume{
 			public void actionPerformed(ActionEvent e) {
 				Career window = new Career(Resume.this);
 				window.frame.setVisible(true);
-			}
+			}			
 		});	
 		
+		txt_career = new JTextArea();
+		txt_career.setBounds(291, 86, 293, 74);
+		frame.getContentPane().add(txt_career);
+		txt_career.setEnabled(false);
 		
 		btn_regist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -122,7 +130,8 @@ public class Resume{
 		            Main.pstmt.setInt(4, Integer.parseInt(txt_toeic.getText()));
 		            Main.pstmt.setInt(5, Integer.parseInt(txt_foreign.getText()));
 		            Main.pstmt.executeUpdate();	            
-					
+		            Main.con.commit();
+		            
 					sql = "UPDATE 개인회원 SET 포인트 = 포인트 -300 WHERE 회원ID = ?";
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1,Main.ID);
@@ -147,22 +156,15 @@ public class Resume{
 					
 		            // Career
 					if(txt_career != null && !txt_career.getText().trim().isEmpty()) {
-			            sql = "INSERT INTO 이력서_경력 (회원 ID, 이력서명, 경력_위치, 년수, 직급, 연봉) VALUES (?, ?, ?, ?, ?, ?)";
+			            sql = "INSERT INTO 이력서_경력 (회원ID, 이력서명, 경력_위치, 년수, 직급, 연봉) VALUES (?, ?, ?, ?, ?, ?)";
 						Main.pstmt = Main.con.prepareStatement(sql);
 						
 						Main.pstmt.setString(1, Main.ID);
 			            Main.pstmt.setString(2, txt_resume.getText());
-			            Main.pstmt.setString(3, Resume.this.company);
-			            try {
-			                int year = Integer.parseInt(Resume.this.year);
-			                Main.pstmt.setInt(4, year);
-			            } catch (NumberFormatException e1) {
-			                // 숫자가 아닐 때 뜸
-			                System.out.println("년수는 숫자로 입력해야 합니다: " + e1.getMessage());
-			                System.out.println("Resume.this.year의 값: " + Resume.this.year);
-			            }
+			            Main.pstmt.setString(3, Resume.this.company);			         
+			            Main.pstmt.setInt(4, Integer.parseInt(Resume.this.year));			            
 			            Main.pstmt.setString(5, Resume.this.position);
-			            Main.pstmt.setInt(6, Integer.parseInt(Resume.this.salary));	            
+			            Main.pstmt.setInt(6, Integer.parseInt(Resume.this.salary));	 		            
 	
 			            Main.pstmt.executeUpdate();
 					}
@@ -170,6 +172,12 @@ public class Resume{
 		            Main.con.commit();
 		            
 					JOptionPane.showMessageDialog(null, "이력서가 저장되었습니다.", "저장 성공", JOptionPane.INFORMATION_MESSAGE);
+					txt_resume.setText("");
+					txt_graduate.setText("");
+					txt_toeic.setText("");
+					txt_foreign.setText("");
+					txt_certifi.setText("");
+					txt_career.setText("");
 				}
 				catch(SQLException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(),"이력서 저장 실패", JOptionPane.ERROR_MESSAGE);
