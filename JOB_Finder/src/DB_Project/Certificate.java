@@ -23,7 +23,9 @@ public class Certificate {
 
 	private void initialize(Resume resume) {
 		frame = new JFrame();
+		frame.setTitle("이력서 - 자격증 등록");
 		frame.setBounds(100, 100, 364, 171);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

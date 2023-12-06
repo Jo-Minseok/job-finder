@@ -22,6 +22,8 @@ public class Corporate_inquiry extends JFrame {
 		setTitle("기업 조회");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 376, 467);
+		setResizable(false);
+		
 		contentPane = new JPanel();
 		contentPane.setToolTipText("");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,6 +93,7 @@ public class Corporate_inquiry extends JFrame {
 			Main.rs = Main.stmt.executeQuery(sql);
 			Main.rs.next();
 			lbl_name.setText(Main.rs.getString(1));
+			setTitle(getTitle() + " - [" + Main.rs.getString(1)+ "]");
 			lbl_industry.setText(lbl_industry.getText() + Main.rs.getString(2));
 			lbl_category.setText(lbl_category.getText() + Main.rs.getString(3));
 			lbl_money.setText(lbl_money.getText() + Main.rs.getString(4));

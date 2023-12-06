@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.JFormattedTextField;
 
 public class Register {
 
@@ -52,7 +53,9 @@ public class Register {
 	}
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("회원가입");
 		frame.setBounds(100, 100, 450, 745);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);

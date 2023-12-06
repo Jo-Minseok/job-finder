@@ -25,7 +25,9 @@ public class Resign {
 
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("회원 탈퇴");
 		frame.setBounds(100, 100, 520, 400);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);

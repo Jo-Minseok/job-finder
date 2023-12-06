@@ -113,6 +113,7 @@ public class Mainpage {
 		frame = new JFrame();
 		frame.setTitle("JOB FINDER MAIN PAGE");
 		frame.setBounds(100, 100, 806, 782);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);

@@ -30,6 +30,8 @@ public class CompanyFullView {
 
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("기업 전체 조회");
+		frame.setResizable(false);
 		frame.setBounds(100, 100, 590, 652);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,29 +65,20 @@ public class CompanyFullView {
 			Main.DBClose();
 		}
 		JRadioButton radio_name = new JRadioButton("이름 순");
-		radio_name.setBounds(12, 68, 121, 23);
+		radio_name.setBounds(12, 35, 121, 23);
 		frame.getContentPane().add(radio_name);
 		
 		JRadioButton radio_sale = new JRadioButton("매출액 순");
-		radio_sale.setBounds(144, 68, 121, 23);
+		radio_sale.setBounds(144, 35, 121, 23);
 		frame.getContentPane().add(radio_sale);
 		
 		JRadioButton radio_latest = new JRadioButton("급여 순");
-		radio_latest.setBounds(269, 68, 121, 23);
+		radio_latest.setBounds(269, 35, 121, 23);
 		frame.getContentPane().add(radio_latest);
 		
 		JRadioButton radio_competition = new JRadioButton("지원 경쟁률 순");
-		radio_competition.setBounds(400, 68, 121, 23);
+		radio_competition.setBounds(400, 35, 121, 23);
 		frame.getContentPane().add(radio_competition);
-		
-		JButton btn_close = new JButton("닫기");
-		btn_close.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-			}
-		});
-		btn_close.setBounds(489, 26, 73, 32);
-		frame.getContentPane().add(btn_close);
 		
 		ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(radio_name);
@@ -102,15 +95,10 @@ public class CompanyFullView {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
-		scrollPane.setBounds(12, 111, 554, 493);
+		scrollPane.setBounds(12, 64, 554, 539);
 		//table.setPreferredScrollableViewportSize(new Dimension(700, 600));
 		//table.setFillsViewportHeight(true);
 		frame.getContentPane().add(scrollPane);
-		
-		JLabel lbl_Company = new JLabel("기업 전체 조회");
-		lbl_Company.setHorizontalAlignment(SwingConstants.CENTER);
-		lbl_Company.setBounds(8, 10, 94, 15);
-		frame.getContentPane().add(lbl_Company);
 		
 		radio_name.addActionListener(e -> sortColumn(0));
 		radio_sale.addActionListener(e -> sortColumn(1));

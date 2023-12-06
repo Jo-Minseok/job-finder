@@ -23,6 +23,7 @@ public class Job_posting {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 281, 351);
+		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -122,6 +123,7 @@ public class Job_posting {
 			Main.rs = Main.stmt.executeQuery(sql);
 			if(Main.rs.next()) {
 				lbl_name_data.setText(Main.rs.getString("기업명"));
+				frame.setTitle("채용 게시글 조회 - [" + Main.rs.getString("기업명") + "]");
 				lbl_category_data.setText(Main.rs.getString("직종"));
 				lbl_job_category_data.setText(Main.rs.getString("채용_분류"));
 				lbl_type_data.setText(Main.rs.getString("고용형태"));

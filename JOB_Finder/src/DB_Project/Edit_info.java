@@ -39,7 +39,9 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("회원 정보 수정");
 		frame.setBounds(100, 100, 450, 659);
+		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);

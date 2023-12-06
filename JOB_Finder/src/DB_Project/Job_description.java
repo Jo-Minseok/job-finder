@@ -30,6 +30,7 @@ public class Job_description {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 225);
+		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -85,6 +86,7 @@ public class Job_description {
 			Main.rs = Main.stmt.executeQuery(sql);
 			if(Main.rs.next()) {
 				lbl_company.setText(Company_name);
+				frame.setTitle("채용 설명회 - [" + Company_name + "]");
 				lbl_briefing_name.setText(Briefing_name);
 				lbl_count_data.setText(String.valueOf(Main.rs.getInt("회차")));
 				lbl_date_data.setText(String.valueOf(Main.rs.getDate("일시")));

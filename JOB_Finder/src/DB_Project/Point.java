@@ -24,6 +24,7 @@ public class Point {
 		frame = new JFrame();
 		frame.setTitle("포인트");
 		frame.setBounds(100, 100, 290, 260);
+		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setLocationRelativeTo(null);

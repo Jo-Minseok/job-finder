@@ -36,6 +36,7 @@ public class Market_trends {
 
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("채용 시장 트랜드");
 		frame.setBounds(100, 100, 785, 745);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
@@ -154,7 +155,4 @@ public class Market_trends {
 		}
 		
 		// 그래프 부분
-		public class PostChart extends Apllication{
-			@Override
-		}
 }
