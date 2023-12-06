@@ -3,6 +3,7 @@
 -----------------------------------------------------------------------------------------------
 DROP TRIGGER 개인_회원정보수정_TRIG_AFTER;
 DROP TRIGGER 개인_회원정보수정_TRIG_BEFORE;
+DROP TRIGGER 연봉_재연산_TRIG;
 
 DROP TRIGGER 기업_회원정보수정_TRIG;
 DROP TRIGGER 채용게시글_TRIG;
@@ -17,9 +18,42 @@ DROP SEQUENCE POST_NUMBER_SEQ;
 DROP TRIGGER POST_NUMBER_TRIG;
 
 -- 회원 정보 수정 평균 연봉 재연산 및 정보 변경 내역 저장
-CREATE OR REPLACE TRIGGER 개인_회원정보수정_TRIG_AFTER AFTER UPDATE ON 개인회원
+CREATE OR REPLACE TRIGGER 연봉_재연산_TRIG FOR UPDATE ON 개인회원 COMPOUND TRIGGER
+    TMP_연봉 NUMBER;
+    변경사안 NVARCHAR2(100);
+    
+BEFORE STATEMENT IS
+BEGIN
+    IF UPDATING('기업_이름') THEN
+    BEGIN
+        변경사안 := '기업_이름';
+    END;
+    ELSIF UPDATING('연봉') THEN
+    BEGIN
+        변경사안 := '연봉';
+    END;
+    ELSIF UPDATING('직책') THEN
+        BEGIN
+            변경사안 := '직책';
+    END;
+    END IF;
+END BEFORE STATEMENT;
+
+AFTER STATEMENT IS
+    BEGIN
+    IF 변경사안 = '기업_이름' OR 변경사안 = '연봉' OR 변경사안 = '직책' THEN
+        SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름 = :NEW.기업_이름;
+        UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = :NEW.기업_이름 AND 직책= :NEW.직책;
+        SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름= :OLD.기업_이름 AND 직책= :OLD.직책;
+        UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = :OLD.기업_이름 AND 직책= :OLD.직책;
+    END IF;
+END AFTER STATEMENT;
+END 연봉_재연산_TRIG;
+
+CREATE OR REPLACE TRIGGER 연봉_재연산_TRIG AFTER UPDATE ON 개인회원
 FOR EACH ROW
 DECLARE
+PRAGMA AUTONOMOUS_TRANSACTION;
 TMP_연봉 NUMBER;
 BEGIN
     IF UPDATING('기업_이름') OR UPDATING('연봉') OR UPDATING('직책') THEN
@@ -30,7 +64,7 @@ BEGIN
             UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = :OLD.기업_이름 AND 직책= :OLD.직책;
         END;
     END IF;
-END 개인_회원정보수정_TRIG;
+END 연봉_재연산_TRIG;
     
 CREATE OR REPLACE TRIGGER 개인_회원정보수정_TRIG_BEFORE BEFORE UPDATE ON 개인회원
 FOR EACH ROW
@@ -161,7 +195,7 @@ END;
 CREATE OR REPLACE TRIGGER 채용게시글_TRIG AFTER INSERT ON 채용_게시글
 FOR EACH ROW
 BEGIN
-    IF(:NEW.마감일 > SYSDATE) THEN
+    IF(:NEW.마감일 < SYSDATE) THEN
         RAISE_APPLICATION_ERROR(-20008, '현재 날짜보다 이전 날로 마감할 수 없습니다!' || SYSDATE || '이후로 맞춰주세요');
     END IF;
 END;
