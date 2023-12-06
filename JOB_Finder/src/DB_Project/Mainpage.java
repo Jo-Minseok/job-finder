@@ -18,7 +18,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -254,12 +256,6 @@ public class Mainpage {
 		});
 		btn_resume_search.setBounds(557, 426, 190, 23);
 		frame.getContentPane().add(btn_resume_search);
-		
-		
-		JButton btn_upload_business = new JButton("기업 등록");
-		btn_upload_business.setForeground(Color.BLACK);
-		btn_upload_business.setBounds(557, 459, 190, 23);
-		frame.getContentPane().add(btn_upload_business);
 		
 		lbl_post = new JLabel("채용 게시글");
 		lbl_post.setBounds(12, 179, 474, 15);
@@ -584,15 +580,15 @@ public class Mainpage {
 			Main.cstmt.execute();
 			lbl_name.setText(lbl_name.getText() + Main.cstmt.getString(4));
 			lbl_point.setText(lbl_point.getText() + Main.cstmt.getInt(5));
-			lbl_now.setText("현재 모집중인 공고 개수 : " + Main.cstmt.getInt(8));
+			lbl_now.setText("현재 모집중인 공고 개수 : " + Main.cstmt.getInt(8)+ "개");
 			
 			if(Main.mode == "개인") {
-				lbl_post_count.setText("작성한 이력서 개수: " + Main.cstmt.getInt(6));
-				lbl_Count.setText("제안 받은 포지션 개수: " + Main.cstmt.getInt(7));
+				lbl_post_count.setText("작성한 이력서 개수: " + Main.cstmt.getInt(6)+ "개");
+				lbl_Count.setText("제안 받은 포지션 개수: " + Main.cstmt.getInt(7)+ "개");
 			}
 			else {
-				lbl_post_count.setText("작성한 채용 게시글 개수: " + Main.cstmt.getInt(6));
-				lbl_Count.setText("지원 받은 이력서 개수: " + Main.cstmt.getInt(7));
+				lbl_post_count.setText("작성한 채용 게시글 개수: " + Main.cstmt.getInt(6)+ "개");
+				lbl_Count.setText("지원 받은 이력서 개수: " + Main.cstmt.getInt(7)+ "개") ;
 			}
 			
 		}
@@ -704,6 +700,8 @@ public class Mainpage {
 				}
 			}
 			else {
+				Date modifiedDateA = subtractDays(Recruit_List[page][i].Deadline,3);
+				LocalDate currentDate = LocalDate.now();
 				switch(i){
 				case 0:
 					btn_inquiry_1.setVisible(true);
@@ -719,6 +717,11 @@ public class Mainpage {
 					}
 					else {
 						lbl_Rate_1.setForeground(Color.RED);
+					}
+					modifiedDateA = subtractDays(Recruit_List[page][i].Deadline,3);
+					currentDate = LocalDate.now();
+					if(!modifiedDateA.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate)) {
+						lbl_inquiry_1.setForeground(Color.RED);
 					}
 					lbl_Rate_1.setText("경쟁률: " + Recruit_List[page][i].Rate + "%");
 					break;
@@ -738,6 +741,11 @@ public class Mainpage {
 					else {
 						lbl_Rate_2.setForeground(Color.RED);
 					}
+					modifiedDateA = subtractDays(Recruit_List[page][i].Deadline,3);
+					currentDate = LocalDate.now();
+					if(!modifiedDateA.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate)) {
+						lbl_inquiry_2.setForeground(Color.RED);
+					}
 					break;
 				case 2:
 					btn_inquiry_3.setVisible(true);
@@ -754,6 +762,11 @@ public class Mainpage {
 					}
 					else {
 						lbl_Rate_3.setForeground(Color.RED);
+					}
+					modifiedDateA = subtractDays(Recruit_List[page][i].Deadline,3);
+					currentDate = LocalDate.now();
+					if(!modifiedDateA.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate)) {
+						lbl_inquiry_3.setForeground(Color.RED);
 					}
 					break;
 				case 3:
@@ -772,6 +785,11 @@ public class Mainpage {
 					else {
 						lbl_Rate_4.setForeground(Color.RED);
 					}
+					modifiedDateA = subtractDays(Recruit_List[page][i].Deadline,3);
+					currentDate = LocalDate.now();
+					if(!modifiedDateA.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate)) {
+						lbl_inquiry_4.setForeground(Color.RED);
+					}
 					break;
 				case 4:
 					btn_inquiry_5.setVisible(true);
@@ -789,6 +807,11 @@ public class Mainpage {
 					else {
 						lbl_Rate_5.setForeground(Color.RED);
 					}
+					modifiedDateA = subtractDays(Recruit_List[page][i].Deadline,3);
+					currentDate = LocalDate.now();
+					if(!modifiedDateA.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate)) {
+						lbl_inquiry_5.setForeground(Color.RED);
+					}
 					break;
 				case 5:
 					btn_inquiry_6.setVisible(true);
@@ -805,6 +828,11 @@ public class Mainpage {
 					}
 					else {
 						lbl_Rate_6.setForeground(Color.RED);
+					}
+					modifiedDateA = subtractDays(Recruit_List[page][i].Deadline,3);
+					currentDate = LocalDate.now();
+					if(!modifiedDateA.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().isAfter(currentDate)) {
+						lbl_inquiry_6.setForeground(Color.RED);
 					}
 					break;
 				}
@@ -899,5 +927,10 @@ public class Mainpage {
 	private void OpenBriefing(String Company_name, String Briefing_name) {
 		Job_description window = new Job_description(Company_name,Briefing_name);
 		window.frame.setVisible(true);
+	}
+	
+	private Date subtractDays(Date date,int days) {
+		long milliseconds = date.getTime() - (days*24*60*60*1000L);
+		return new Date(milliseconds);
 	}
 }

@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -14,20 +15,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.sql.*;
+import javax.swing.JFormattedTextField;
 
 public class Find_ID_PW extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txt_id_name;
-	private JTextField txt_id_phone;
 	private JTextField txt_pw_id;
 	private JTextField txt_pw_name;
-	private JTextField txt_pw_phone;
 
-	/**
-	 * Create the frame.
-	 */
 	public Find_ID_PW() {
 		setTitle("ID/PW 찾기");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -65,11 +62,6 @@ public class Find_ID_PW extends JFrame {
 		contentPane.add(txt_id_name);
 		txt_id_name.setColumns(10);
 		
-		txt_id_phone = new JTextField();
-		txt_id_phone.setColumns(10);
-		txt_id_phone.setBounds(25, 130, 150, 25);
-		contentPane.add(txt_id_phone);
-		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(15, 190, 405, 5);
 		contentPane.add(separator);
@@ -85,6 +77,26 @@ public class Find_ID_PW extends JFrame {
 		chk_business_pw.setBounds(230, 295, 115, 20);
 		contentPane.add(chk_business_pw);
 	
+		MaskFormatter formatter = null;
+		try {
+			formatter = new MaskFormatter("###-####-####");
+			formatter.setPlaceholderCharacter('_');
+		}
+		catch(Exception ex) {}
+		JFormattedTextField txt_id_phone = new JFormattedTextField(formatter);
+		txt_id_phone.setColumns(15);
+		txt_id_phone.setBounds(25, 134, 150, 21);
+		contentPane.add(txt_id_phone);
+		
+		MaskFormatter formatter2 = null;
+		try {
+			formatter = new MaskFormatter("###-####-####");
+			formatter.setPlaceholderCharacter('_');
+		}
+		catch(Exception ex) {}
+		JFormattedTextField txt_pw_phone = new JFormattedTextField(formatter2);
+		txt_pw_phone.setBounds(25, 377, 150, 25);
+		contentPane.add(txt_pw_phone);
 	
 		// 기능구현1 = 아이디 검색
 		// PreparedStatement
@@ -157,11 +169,6 @@ public class Find_ID_PW extends JFrame {
 		txt_pw_name.setBounds(25, 325, 150, 25);
 		contentPane.add(txt_pw_name);
 		
-		txt_pw_phone = new JTextField();
-		txt_pw_phone.setColumns(10);
-		txt_pw_phone.setBounds(25, 380, 150, 25);
-		contentPane.add(txt_pw_phone);
-		
 		JButton btn_pw_search = new JButton("검색");
 		btn_pw_search.setBounds(230, 325, 75, 25);
 		
@@ -214,7 +221,6 @@ public class Find_ID_PW extends JFrame {
 		
 		JButton btn_cancle = new JButton("닫기");
 		btn_cancle.setBounds(360, 396, 60, 25);
-		
 		btn_cancle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				dispose();

@@ -96,12 +96,12 @@ public class Corporate_inquiry extends JFrame {
 			setTitle(getTitle() + " - [" + Main.rs.getString(1)+ "]");
 			lbl_industry.setText(lbl_industry.getText() + Main.rs.getString(2));
 			lbl_category.setText(lbl_category.getText() + Main.rs.getString(3));
-			lbl_money.setText(lbl_money.getText() + Main.rs.getString(4));
+			lbl_money.setText(lbl_money.getText() + Main.Won(Main.rs.getLong(4)));
 			lbl_ceo.setText(lbl_ceo.getText() + Main.rs.getString(5));
 			lbl_count.setText(lbl_count.getText() + Main.rs.getString(6));
 			lbl_date.setText(lbl_date.getText() + Main.rs.getDate(7));
-			lbl_take.setText(lbl_take.getText() + Main.rs.getString(8));
-			lbl_salary.setText(lbl_salary.getText() + Main.rs.getString(9));
+			lbl_take.setText(lbl_take.getText() + Main.Won(Main.rs.getLong(8)));
+			lbl_salary.setText(lbl_salary.getText() + Main.Won(Main.rs.getLong(9)));
 			lbl_local.setText(lbl_local.getText() + Main.rs.getString(10));
 			
 			sql = "SELECT AVG(경쟁률) FROM 채용_게시글 WHERE 작성자ID IN (SELECT 회원ID FROM 기업회원 WHERE 기업명 = '"+ Business + "')";

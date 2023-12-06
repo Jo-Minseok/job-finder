@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -12,12 +13,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 import java.sql.*;
+import javax.swing.JFormattedTextField;
 
 public class Resign {
 
 	public JFrame frame;
 	private JTextField txt_id;
-	private JTextField txt_phone;
 
 	public Resign() {
 		initialize();
@@ -37,6 +38,8 @@ public class Resign {
 		frame.getContentPane().add(lbl_ID);
 		
 		txt_id = new JTextField();
+		txt_id.setEditable(false);
+		txt_id.setText(Main.ID);
 		txt_id.setBounds(12, 35, 240, 21);
 		frame.getContentPane().add(txt_id);
 		txt_id.setColumns(10);
@@ -44,11 +47,6 @@ public class Resign {
 		JLabel lbl_phone = new JLabel("PHONE_NUMBER");
 		lbl_phone.setBounds(12, 66, 116, 15);
 		frame.getContentPane().add(lbl_phone);
-		
-		txt_phone = new JTextField();
-		txt_phone.setBounds(12, 91, 240, 21);
-		frame.getContentPane().add(txt_phone);
-		txt_phone.setColumns(10);
 		
 		JCheckBox chk1 = new JCheckBox("(필수) 탈퇴 후, JOB Finder 서비스의 이용이 불가한 것에 동의합니다.");
 		chk1.setBounds(12, 161, 480, 23);
@@ -61,6 +59,16 @@ public class Resign {
 		JButton btn_resign = new JButton("회원 탈퇴");
 		btn_resign.setFont(new Font("굴림", Font.BOLD, 18));
 		btn_resign.setBounds(12, 294, 116, 57);
+		MaskFormatter formatter = null;
+		try {
+			formatter = new MaskFormatter("###-####-####");
+			formatter.setPlaceholderCharacter('_');
+		}
+		catch(Exception ex) {}
+		JFormattedTextField txt_phonenumber = new JFormattedTextField(formatter);
+		txt_phonenumber.setColumns(15);
+		txt_phonenumber.setBounds(12, 91, 240, 21);
+		frame.getContentPane().add(txt_phonenumber);
 		
 		// 기능 구현 : 회원 탈퇴
 		
@@ -79,7 +87,7 @@ public class Resign {
 					String sql = "DELETE FROM " + tablename + " WHERE 회원ID = ? AND 휴대폰 = ?";
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1, txt_id.getText());
-					Main.pstmt.setString(2, txt_phone.getText());
+					Main.pstmt.setString(2, txt_phonenumber.getText());
 					
 					Main.rs = Main.pstmt.executeQuery();
 					

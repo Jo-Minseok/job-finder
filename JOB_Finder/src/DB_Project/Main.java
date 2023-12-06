@@ -73,43 +73,27 @@ public class Main {
 		ID = null;
 	}
 	
-	public static String Won(long amount) {
-        long hundred_million = amount / 100000000;                // 억
-        long ten_million = (amount % 100000000) / 10000000;        // 천만
-        long million = (amount % 10000000) / 1000000;            // 백만
-
-        StringBuilder format = new StringBuilder();
-        boolean isAnyPreviousUnitPresent = false;
-
-        if (hundred_million > 0) {
-            format.append(hundred_million).append("억");
-            isAnyPreviousUnitPresent = true;
-        }
+	public static String Won(long money) {
+        String[] num = {"","1","2","3","4","5","6","7","8","9"};
+        String[] num2 = {"","십","백","천"};
+        String[] num3 = {"","만","억","조","경"};
         
-        if (ten_million > 0) {
-            format.append(ten_million);
-            if (!isAnyPreviousUnitPresent) {
-                format.append("천만원");
-            } else {
-                format.append("천");
-            }
-        }
+        StringBuffer result = new StringBuffer();
+        int leng = String.valueOf(money).length();
+        int initInt = 0;
         
-        if (million > 0) {
-            format.append(million);
-            if (!isAnyPreviousUnitPresent) {
-                format.append("백만원");
-            } else {
-                format.append("백");
-            }
+        for(int i=leng-1;i>=0;i--) {
+        	initInt=Integer.parseInt(String.valueOf(String.valueOf(money).charAt(leng-i-1)));
+        	if(initInt>0) {
+        		result.append(num[initInt]);
+        		result.append(num2[i%4]);
+        	}
+        	if(i%4==0) {
+        		result.append(num3[i/4]);
+        		result.append(" ");
+        	}
         }
-
-        if (hundred_million > 0 && ten_million == 0 && million == 0) {
-            format.append("원");
-        } else if (format.length() > 0 && !format.toString().endsWith("원")) {
-            format.append("만원");
-        }
-
-        return format.toString().trim();
+        result.append("원");
+        return result.toString();
     }
 }

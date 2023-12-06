@@ -20,11 +20,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+import javax.swing.JFormattedTextField;
 
 public class Edit_info { // 수정 버튼 기능 구현해야함
 
 	public JFrame frame;
-	private JTextField txt_phone;
 	private JTextField txt_id;
 	private JTextField txt_pw;
 	private JTextField txt_birth;
@@ -49,11 +50,6 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		JLabel lblPhonenumber = new JLabel("PHONE_NUMBER");
 		lblPhonenumber.setBounds(30, 59, 190, 15);
 		frame.getContentPane().add(lblPhonenumber);
-		
-		txt_phone = new JTextField();
-		txt_phone.setColumns(10);
-		txt_phone.setBounds(30, 77, 190, 21);
-		frame.getContentPane().add(txt_phone);
 		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(30, 10, 190, 15);
@@ -136,7 +132,7 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 		frame.getContentPane().add(txt_position);
 		
 		JButton btn_edit = new JButton("수정");
-		btn_edit.setBounds(30, 581, 67, 29);
+		btn_edit.setBounds(337, 542, 85, 29);
 		frame.getContentPane().add(btn_edit);
 		
 		JButton btn_exit = new JButton("닫기");
@@ -145,7 +141,7 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 				frame.dispose();
 			}
 		});
-		btn_exit.setBounds(355, 581, 67, 29);
+		btn_exit.setBounds(337, 581, 85, 29);
 		frame.getContentPane().add(btn_exit);
 		
 		JButton btn_resign = new JButton("회원 탈퇴");
@@ -156,13 +152,24 @@ public class Edit_info { // 수정 버튼 기능 구현해야함
 				frame.dispose();
 			}
 		});
-		btn_resign.setBounds(331, 77, 91, 22);
+		btn_resign.setBounds(337, 503, 85, 29);
 		frame.getContentPane().add(btn_resign);
 		
 		JComboBox com_gender = new JComboBox();
 		com_gender.setModel(new DefaultComboBoxModel(new String[] {"남", "여"}));
 		com_gender.setBounds(30, 222, 111, 23);
 		frame.getContentPane().add(com_gender);
+		
+		MaskFormatter formatter = null;
+		try {
+			formatter = new MaskFormatter("###-####-####");
+			formatter.setPlaceholderCharacter('_');
+		}
+		catch(Exception ex) {}
+		JFormattedTextField txt_phone = new JFormattedTextField(formatter);
+		txt_phone.setColumns(15);
+		txt_phone.setBounds(30, 77, 190, 21);
+		frame.getContentPane().add(txt_phone);
 		
 //=============================================================
 //===========================기능 구현===========================

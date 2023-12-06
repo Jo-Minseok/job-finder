@@ -171,7 +171,7 @@ public class Upload_recruit extends JFrame {
 				}
 			}
 		});
-		btn_upload.setBounds(540, 390, 75, 30);
+		btn_upload.setBounds(547, 501, 75, 30);
 		contentPane.add(btn_upload);
 		
 		JButton btn_close = new JButton("닫기");
@@ -180,7 +180,7 @@ public class Upload_recruit extends JFrame {
 				dispose();
 			}
 		});
-		btn_close.setBounds(540, 430, 75, 30);
+		btn_close.setBounds(547, 541, 75, 30);
 		contentPane.add(btn_close);
 		
 		JLabel lbl_human = new JLabel("모집인원");

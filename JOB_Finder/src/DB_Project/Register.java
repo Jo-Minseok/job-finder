@@ -23,13 +23,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
 
 public class Register {
 
 	public JFrame frame;
 	private JTextField txt_name;
-	private JTextField txt_phone;
 	private JTextField txt_id;
 	private JTextField txt_pw;
 	private JTextField txt_birth;
@@ -72,11 +72,6 @@ public class Register {
 		JLabel lblPhonenumber = new JLabel("PHONE_NUMBER");
 		lblPhonenumber.setBounds(30, 59, 190, 15);
 		frame.getContentPane().add(lblPhonenumber);
-		
-		txt_phone = new JTextField();
-		txt_phone.setColumns(10);
-		txt_phone.setBounds(30, 77, 190, 21);
-		frame.getContentPane().add(txt_phone);
 		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(30, 108, 190, 15);
@@ -189,6 +184,17 @@ public class Register {
 		txt_companynumber.setBounds(30, 589, 190, 21);
 		frame.getContentPane().add(txt_companynumber);
 		
+		MaskFormatter formatter = null;
+		try {
+			formatter = new MaskFormatter("###-####-####");
+			formatter.setPlaceholderCharacter('_');
+		}
+		catch(Exception ex) {}
+		JFormattedTextField txt_phone = new JFormattedTextField(formatter);
+		txt_phone.setColumns(15);
+		txt_phone.setBounds(30, 77, 190, 21);
+		frame.getContentPane().add(txt_phone);
+		
 //=============================================================
 //===========================기능 구현===========================
 //=============================================================
@@ -242,9 +248,9 @@ public class Register {
 		            Main.cstmt.execute();
 		            String result = Main.cstmt.getString(12);
 		            JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
+		            frame.dispose();
 		        } catch (SQLException ex) {
 		            JOptionPane.showMessageDialog(frame, "SQL 예외가 발생했습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
-		            ex.printStackTrace();
 		        } catch (ParseException ex) {
 		            JOptionPane.showMessageDialog(frame, "날짜 형식이 올바르지 않습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
 		        } catch (Exception ex) {
@@ -253,7 +259,6 @@ public class Register {
 		         
 		        finally {
 		            Main.DBClose();
-		            frame.dispose();
 		        }
 		    } else {  // 기업회원 
 		    	try {
@@ -285,6 +290,7 @@ public class Register {
 		            
 		            if (result != null && !result.isEmpty()) {
 		                JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
+			            frame.dispose();
 		            } else {
 		                JOptionPane.showMessageDialog(frame, "회원가입 처리 결과가 없습니다.", "오류", JOptionPane.ERROR_MESSAGE);
 		            }
@@ -293,16 +299,13 @@ public class Register {
 		        } catch (SQLException ex) {
 		        	String errorMessage = ex.toString(); // toString()은 예외 이름과 메시지를 모두 포함합니다.
 		            JOptionPane.showMessageDialog(frame, errorMessage, "SQL 오류", JOptionPane.ERROR_MESSAGE);
-		            ex.printStackTrace();
 		            
 		        } catch (Exception ex) {
 		        	 String errorMessage = ex.toString(); // toString() 사용
 		             JOptionPane.showMessageDialog(frame, errorMessage, "일반 오류", JOptionPane.ERROR_MESSAGE);
-		             ex.printStackTrace();
 		        }
 		        finally {
 		            Main.DBClose();
-		            frame.dispose();
 		        }
 		    }
 		  }

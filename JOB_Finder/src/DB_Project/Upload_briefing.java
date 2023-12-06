@@ -27,7 +27,7 @@ public class Upload_briefing extends JFrame {
 	public Upload_briefing() {
 		setTitle("설명회 게시글 작성");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 545, 411);
+		setBounds(100, 100, 545, 373);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -147,7 +147,7 @@ public class Upload_briefing extends JFrame {
 				}
 			}
 		});
-		btn_upload.setBounds(439, 205, 75, 30);
+		btn_upload.setBounds(442, 246, 75, 30);
 		contentPane.add(btn_upload);
 		
 		JButton btn_close = new JButton("닫기");
@@ -156,7 +156,7 @@ public class Upload_briefing extends JFrame {
 				dispose();
 			}
 		});
-		btn_close.setBounds(439, 246, 75, 30);
+		btn_close.setBounds(442, 287, 75, 30);
 		contentPane.add(btn_close);
 		
 		JLabel lbl_name = new JLabel("설명회명");
