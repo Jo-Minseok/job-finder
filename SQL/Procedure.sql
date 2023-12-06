@@ -167,7 +167,7 @@ BEGIN
     LOOP
         FETCH CURSOR_COMPITION_RATE INTO POST_NUMBER, APPLY_COUNT;
         EXIT WHEN CURSOR_COMPITION_RATE%NOTFOUND;
-        UPDATE 채용_게시글 SET 경쟁률 = (SELECT 모집인원 FROM 채용_게시글 WHERE 게시글_번호 = POST_NUMBER)/APPLY_COUNT * 100 WHERE 게시글_번호 = POST_NUMBER;
+        UPDATE 채용_게시글 SET 경쟁률 = APPLY_COUNT/(SELECT 모집인원 FROM 채용_게시글 WHERE 게시글_번호 = POST_NUMBER) * 100 WHERE 게시글_번호 = POST_NUMBER;
     END LOOP;
     CLOSE CURSOR_COMPITION_RATE;
 END;
@@ -200,6 +200,7 @@ BEGIN
     CLOSE CURSOR_PERSONAL;
 END;
 
+EXEC COMPITITION_RATE;
 EXEC POST_COUNT_PERSONAL;
 EXEC POST_COUNT_BUSINESS;
 -----------------------------------------------------------------------------------------------

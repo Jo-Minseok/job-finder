@@ -72,4 +72,44 @@ public class Main {
 		mode = null;
 		ID = null;
 	}
+	
+	public static String Won(long amount) {
+        long hundred_million = amount / 100000000;                // 억
+        long ten_million = (amount % 100000000) / 10000000;        // 천만
+        long million = (amount % 10000000) / 1000000;            // 백만
+
+        StringBuilder format = new StringBuilder();
+        boolean isAnyPreviousUnitPresent = false;
+
+        if (hundred_million > 0) {
+            format.append(hundred_million).append("억");
+            isAnyPreviousUnitPresent = true;
+        }
+        
+        if (ten_million > 0) {
+            format.append(ten_million);
+            if (!isAnyPreviousUnitPresent) {
+                format.append("천만원");
+            } else {
+                format.append("천");
+            }
+        }
+        
+        if (million > 0) {
+            format.append(million);
+            if (!isAnyPreviousUnitPresent) {
+                format.append("백만원");
+            } else {
+                format.append("백");
+            }
+        }
+
+        if (hundred_million > 0 && ten_million == 0 && million == 0) {
+            format.append("원");
+        } else if (format.length() > 0 && !format.toString().endsWith("원")) {
+            format.append("만원");
+        }
+
+        return format.toString().trim();
+    }
 }
