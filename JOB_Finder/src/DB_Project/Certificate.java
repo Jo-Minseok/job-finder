@@ -23,10 +23,9 @@ public class Certificate {
 
 	private void initialize(Resume resume) {
 		frame = new JFrame();
-		frame.setTitle("이력서 - 자격증 등록");
 		frame.setBounds(100, 100, 364, 171);
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lbl_certifi = new JLabel("자격증 명");
@@ -46,7 +45,7 @@ public class Certificate {
 			public void actionPerformed(ActionEvent e) {
 				String certifi = txt_certifi.getText();
 				
-				String certificateinfo = "자격증 명: " + certifi;
+				String certificateinfo = certifi;
 				
 				resume.updateCertificateinfo(certificateinfo);
 	            frame.dispose();
