@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 import javax.swing.JFormattedTextField;
+import java.awt.Font;
 
 public class Edit_info {
 
@@ -65,7 +66,7 @@ public class Edit_info {
 				txt_position.setText(Main.rs.getString("직책"));
 				
 				txt_id.setText(Main.ID);
-				txt_id.setEnabled(false);
+				txt_id.setEditable(false);
 			}
 		} catch(SQLException ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "데이터 로드 실패", JOptionPane.ERROR_MESSAGE);
@@ -181,6 +182,7 @@ public class Edit_info {
 		frame.getContentPane().add(btn_exit);
 		
 		JButton btn_resign = new JButton("회원 탈퇴");
+		btn_resign.setFont(new Font("굴림", Font.PLAIN, 11));
 		btn_resign.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Resign Resignwindow = new Resign();

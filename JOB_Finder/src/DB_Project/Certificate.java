@@ -23,7 +23,8 @@ public class Certificate {
 
 	private void initialize(Resume resume) {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 364, 171);
+		frame.setTitle("이력서 - 자격증");
+		frame.setBounds(100, 100, 364, 135);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
@@ -39,7 +40,7 @@ public class Certificate {
 		txt_certifi.setColumns(10);
 		
 		JButton btn_regist = new JButton("작성");
-		btn_regist.setBounds(12, 83, 97, 39);
+		btn_regist.setBounds(13, 51, 97, 39);
 		frame.getContentPane().add(btn_regist);
 		btn_regist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -58,7 +59,7 @@ public class Certificate {
 				frame.dispose();
 			}
 		});
-		btn_exit.setBounds(235, 83, 97, 39);
+		btn_exit.setBounds(236, 51, 97, 39);
 		frame.getContentPane().add(btn_exit);
 	}
 }

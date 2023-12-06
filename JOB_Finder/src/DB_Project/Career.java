@@ -24,6 +24,7 @@ public class Career  {
 
 	private void initialize(Resume resume) {
 		frame = new JFrame();
+		frame.setTitle("이력서 - 경력");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 325, 250);
 		frame.setLocationRelativeTo(null);
