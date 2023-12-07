@@ -145,6 +145,9 @@ public class Upload_recruit extends JFrame {
 					Main.stmt = Main.con.createStatement();
 					Main.stmt.executeUpdate(sql);
 					
+					String call_business = "{call POST_COUNT_BUSINESS()}";
+					Main.stmt.execute(call_business);
+					
 					sql = "UPDATE 기업회원 SET 포인트 = 포인트 - 1000 WHERE 회원ID = '" + Main.ID +"'";
 					Main.stmt = Main.con.createStatement();
 					Main.stmt.executeUpdate(sql);
@@ -154,6 +157,7 @@ public class Upload_recruit extends JFrame {
 					Main.stmt.executeUpdate(sql);
 					Main.con.commit();
 					JOptionPane.showMessageDialog(null, "업로드를 성공하였습니다!","게시글 업로드 성공", JOptionPane.INFORMATION_MESSAGE);
+					
 				}
 				catch(SQLException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(),"게시글 업로드 실패", JOptionPane.ERROR_MESSAGE);
