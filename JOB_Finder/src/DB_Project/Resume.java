@@ -2,7 +2,7 @@ package DB_Project;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -168,6 +168,9 @@ public class Resume{
 	
 			            Main.pstmt.executeUpdate();
 					}
+					
+					CallableStatement cstmt = Main.con.prepareCall("{call POST_COUNT_PERSONAL}");
+					cstmt.execute();
 
 		            Main.con.commit();
 		            
