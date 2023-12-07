@@ -275,7 +275,7 @@ public class Edit_info {
 		            cstmt.setString(2,"옛날_회사");
 		            cstmt.setString(3,"최근_직책");
 		            cstmt.setString(4,"옛날_직책");
-		            cstmt.setString(5, Main.rs.getString("연봉"));
+		            cstmt.setString(5, "연봉");
 		            cstmt.setString(6, txt_salary.getText());
 		            
 		            Main.con.commit();
