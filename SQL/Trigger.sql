@@ -1,23 +1,4 @@
------------------------------------------------------------------------------------------------
--------------------------------------------- 트리거 --------------------------------------------
------------------------------------------------------------------------------------------------
-DROP TRIGGER 개인_회원정보수정_TRIG_AFTER;
-DROP TRIGGER 개인_회원정보수정_TRIG_BEFORE;
-DROP TRIGGER 연봉_재연산_TRIG;
-
-DROP TRIGGER 기업_회원정보수정_TRIG;
-DROP TRIGGER 채용게시글_TRIG;
-DROP TRIGGER 채용설명회_TRIG;
-DROP TRIGGER 개인_포인트_변경_TRIG;
-DROP TRIGGER 기업_포인트_변경_TRIG;
-DROP TRIGGER 개인_회원_탈퇴_TRIG;
-DROP TRIGGER 기업_회원_탈퇴_TRIG;
-
--- 시퀀스
-DROP SEQUENCE POST_NUMBER_SEQ;
-DROP TRIGGER POST_NUMBER_TRIG;
-
--- 회원 정보 수정 평균 연봉 재연산 및 정보 변경 내역 저장
+-- 삽질했던것
 CREATE OR REPLACE TRIGGER 연봉_재연산_TRIG FOR UPDATE ON 개인회원 COMPOUND TRIGGER
     TMP_연봉 NUMBER;
     변경사안 NVARCHAR2(100);
@@ -62,7 +43,25 @@ BEGIN
         END;
     END IF;
 END 연봉_재연산_TRIG;
-    
+
+-----------------------------------------------------------------------------------------------
+-------------------------------------------- 트리거 --------------------------------------------
+-----------------------------------------------------------------------------------------------
+DROP TRIGGER 개인_회원정보수정_TRIG_AFTER;
+DROP TRIGGER 개인_회원정보수정_TRIG_BEFORE;
+DROP TRIGGER 연봉_재연산_TRIG;
+
+DROP TRIGGER 기업_회원정보수정_TRIG;
+DROP TRIGGER 채용게시글_TRIG;
+DROP TRIGGER 채용설명회_TRIG;
+DROP TRIGGER 개인_포인트_변경_TRIG;
+DROP TRIGGER 기업_포인트_변경_TRIG;
+
+-- 시퀀스
+DROP SEQUENCE POST_NUMBER_SEQ;
+DROP TRIGGER POST_NUMBER_TRIG;
+
+-- 회원 정보 수정
 CREATE OR REPLACE TRIGGER 개인_회원정보수정_TRIG_BEFORE BEFORE UPDATE ON 개인회원
 FOR EACH ROW
 BEGIN
@@ -223,19 +222,6 @@ BEGIN
     ELSIF(:NEW.포인트 > :OLD.포인트) THEN
         INSERT INTO 기업_포인트_수정_내역 VALUES (:NEW.회원ID,'추가',:NEW.포인트 - :OLD.포인트);
     END IF;
-END;
-
--- 회원 탈퇴
-CREATE OR REPLACE TRIGGER 개인_회원_탈퇴_TRIG AFTER DELETE ON 개인회원
-FOR EACH ROW
-BEGIN
-    INSERT INTO 개인_회원_정보_변경 VALUES (:OLD.회원ID,'탈퇴',NULL);
-END;
-
-CREATE OR REPLACE TRIGGER 기업_회원_탈퇴_TRIG AFTER DELETE ON 기업회원
-FOR EACH ROW
-BEGIN
-    INSERT INTO 기업_회원_정보_변경 VALUES (:OLD.회원ID,'탈퇴',NULL);
 END;
 ----------------------------------------------------------------------- 시퀀스 ------------------------------------------------------------
 CREATE SEQUENCE POST_NUMBER_SEQ

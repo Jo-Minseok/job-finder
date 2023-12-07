@@ -76,6 +76,7 @@ public class Resign {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Main.DBConnection();
+					Main.con.setAutoCommit(false);
 					
 					String tablename, table2;
 					if(Main.mode == "개인")
@@ -88,7 +89,6 @@ public class Resign {
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1, txt_id.getText());
 					Main.pstmt.setString(2, txt_phonenumber.getText());
-					
 					Main.rs = Main.pstmt.executeQuery();
 					
 					if(!chk2.isSelected()) { 
@@ -107,7 +107,8 @@ public class Resign {
 						Main.pstmt.setNull(4, Types.NVARCHAR);
 						Main.pstmt.executeUpdate();
 					}
-						
+					Main.con.commit();
+					
 					if(Main.rs.next()) {
 						JOptionPane.showMessageDialog(null, "회원탈퇴가 완료되었습니다.", "탈퇴 성공", JOptionPane.INFORMATION_MESSAGE);
 						
@@ -129,6 +130,10 @@ public class Resign {
 				}
 				finally {
 					Main.DBClose();
+					try {
+						Main.con.setAutoCommit(true);
+					}
+					catch(Exception ex) {}
 				}
 			}
 		});

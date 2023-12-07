@@ -226,27 +226,45 @@ public class Register {
 		                default -> 0;
 		            };
 		            Main.cstmt.setInt(8, validityPeriod);
-		            if(txt_corporate.getText().isEmpty()) {
+		            if(!(chk_employed.isSelected())) {
+			            if(txt_corporate.getText().isEmpty()) {
+			            	throw new Exception("기업명 칸이 비었습니다!");
+			            }
+			            else {
+			            	Main.cstmt.setString(9,txt_corporate.getText());
+			            }
+			            if(txt_salary.getText().isEmpty()) {
+			            	throw new Exception("연봉 칸이 비었습니다!");
+			            }
+			            else {
+			            	Main.cstmt.setLong(10,Long.valueOf(txt_salary.getText()));
+			            }
+			            if(txt_position.getText().isEmpty()) {
+			            	throw new Exception("직책 칸이 비었습니다!");
+			            }
+			            else {
+			            	Main.cstmt.setString(11,txt_position.getText());
+			            }
+		            }
+		            else {
 		            	Main.cstmt.setNull(9, java.sql.Types.NVARCHAR);
-		            }
-		            else {
-		            	Main.cstmt.setString(9,txt_corporate.getText());
-		            }
-		            if(txt_salary.getText().isEmpty()) {
-		            	Main.cstmt.setNull(10, java.sql.Types.NVARCHAR);
-		            }
-		            else {
-		            	Main.cstmt.setString(10,txt_salary.getText());
-		            }
-		            if(txt_position.getText().isEmpty()) {
+		            	Main.cstmt.setNull(10, java.sql.Types.NUMERIC);
 		            	Main.cstmt.setNull(11, java.sql.Types.NVARCHAR);
-		            }
-		            else {
-		            	Main.cstmt.setString(11,txt_position.getText());
 		            }
 		            Main.cstmt.registerOutParameter(12,Types.NVARCHAR);
 		            Main.cstmt.execute();
 		            String result = Main.cstmt.getString(12);
+		            
+		            if(!(chk_employed.isSelected())) {
+		            	Main.cstmt = Main.con.prepareCall("{CALL RECALCULATE(?,?,?,?,?,?)");
+		            	Main.cstmt.setString(1,txt_corporate.getText());
+		            	Main.cstmt.setString(3,txt_position.getText());
+		            	Main.cstmt.setLong(5,Long.valueOf(txt_salary.getText()));
+		            	Main.cstmt.setNull(2, java.sql.Types.NVARCHAR);
+		            	Main.cstmt.setNull(4, java.sql.Types.NVARCHAR);
+		            	Main.cstmt.setNull(6, java.sql.Types.NUMERIC);
+		            	Main.cstmt.execute();
+		            }
 		            JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
 		            frame.dispose();
 		        } catch (SQLException ex) {

@@ -443,7 +443,6 @@ public class Resume_inquiry extends JFrame {
 	// 이력서에서 정보 가져오기
 	
 	public void DataToDB(String personalID, String resumeName) {
-
 		resumeName = table_1.getValueAt(0, 1).toString();
 		memberName = table_1.getValueAt(1, 1).toString();
 		education = table_1.getValueAt(2, 3).toString();

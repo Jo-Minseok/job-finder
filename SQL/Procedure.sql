@@ -15,12 +15,12 @@ DROP PROCEDURE DELETE_POSITION_DEADLINE;
 DROP PROCEDURE DELETE_JOB_VACANCY;
 ------------------------------------- [Edit_Info] ----------------------------------------------
 CREATE OR REPLACE PROCEDURE RECALCULATE(
-최근_회사 NVARCHAR2,
-옛날_회사 NVARCHAR2,
-최근_직책 NVARCHAR2,
-옛날_직책 NVARCHAR2,
-최근_연봉 NUMBER,
-옛날_연봉 NUMBER)
+최근_회사 IN NVARCHAR2,
+옛날_회사 IN NVARCHAR2,
+최근_직책 IN NVARCHAR2,
+옛날_직책 IN NVARCHAR2,
+최근_연봉 IN NUMBER,
+옛날_연봉 IN NUMBER)
 AS
 TMP_연봉 NUMBER;
 BEGIN
@@ -29,6 +29,27 @@ BEGIN
         SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름= 옛날_회사 AND 직책= 옛날_직책;
         UPDATE 연봉_평균_계산 SET 평균 = TMP_연봉 WHERE 기업명 = 옛날_회사 AND 직책= 옛날_직책;
 END;
+
+CREATE OR REPLACE PROCEDURE CALCULATE_SALARY
+AS
+CURSOR CURSOR_COMPANY IS SELECT 이름 FROM 기업;
+기업이름 기업.이름%TYPE;
+TMP_연봉 NUMBER;
+TYPE StringArray IS TABLE OF VARCHAR2(50);
+직책_배열 StringArray:= StringArray('파트장','대리','사원','인턴','팀장','부장','차장','과장');
+BEGIN
+    OPEN CURSOR_COMPANY;
+    LOOP
+        FETCH CURSOR_COMPANY INTO 기업이름;
+        EXIT WHEN CURSOR_COMPANY%NOTFOUND;
+        FOR i IN 1..직책_배열.COUNT LOOP
+            SELECT AVG(연봉) INTO TMP_연봉 FROM 개인회원 WHERE 기업_이름 = 기업이름 AND 직책 = 직책_배열(i);
+            INSERT INTO 연봉_평균_계산 VALUES (기업이름,직책_배열(i), TMP_연봉);
+        END LOOP;
+    END LOOP;
+    CLOSE CURSOR_COMPANY;
+END;
+EXEC CALCULATE_SALARY;
 -------------------------------------- [Main Form] ---------------------------------------------
 CREATE OR REPLACE PROCEDURE MAIN_FIND(
 모드 IN NVARCHAR2,
