@@ -607,7 +607,7 @@ public class Mainpage {
 			Main.rs = Main.stmt.executeQuery(sql);
 			
 			Main.rs.last();
-			if(Main.rs.getRow()%6 != 0) {
+			if(Main.rs.getRow()%6 != 0 && Main.rs.getRow() > 6) {
 				max_recruit_page = Main.rs.getRow()/6+2;
 			}
 			else {

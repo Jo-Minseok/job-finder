@@ -37,6 +37,9 @@ public class Edit_info {
 	private JComboBox com_gender;
 	private JComboBox com_period;
 	private JComboBox<String> com_address = new JComboBox<>();
+	private String old_company;
+	private String old_position;
+	private String old_salary;
 
 	public Edit_info() {		
 		initialize();
@@ -64,6 +67,9 @@ public class Edit_info {
 				txt_corporate.setText(Main.rs.getString("기업_이름"));
 				txt_salary.setText(Main.rs.getString("연봉"));
 				txt_position.setText(Main.rs.getString("직책"));
+				old_company = new String(Main.rs.getString("기업_이름"));
+				old_position = new String(Main.rs.getString("직책"));
+				old_salary = new String(Main.rs.getString("연봉"));
 				
 				txt_id.setText(Main.ID);
 				txt_id.setEditable(false);
@@ -227,9 +233,9 @@ public class Edit_info {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(Main.mode.equals("개인")) {  // 개인회원
 		        try {
+		    		
 		        	Main.DBConnection();
 		        	String updateSQL = "UPDATE 개인회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
-
 		            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
 
 		        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -253,6 +259,7 @@ public class Edit_info {
 	                    pstmt.setNull(7, java.sql.Types.NVARCHAR);
 	                } else {
 	                    pstmt.setString(7, txt_corporate.getText());
+	                    old_company = new String(txt_corporate.getText());
 	                }
 	                if (txt_salary.getText().isEmpty()) {
 	                    pstmt.setNull(8, java.sql.Types.NVARCHAR);
