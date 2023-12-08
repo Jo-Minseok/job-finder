@@ -607,10 +607,10 @@ public class Mainpage {
 			Main.rs = Main.stmt.executeQuery(sql);
 			
 			Main.rs.last();
-			if(Main.rs.getRow()%6 != 0 && Main.rs.getRow() > 6) {
+			if(Main.rs.getRow()%6 != 0) {
 				max_recruit_page = Main.rs.getRow()/6+2;
 			}
-			else {
+			else{
 				max_recruit_page = Main.rs.getRow()/6+1;
 			}
 			Recruit_List = new Recruit_Information[max_recruit_page][6];

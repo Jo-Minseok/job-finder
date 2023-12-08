@@ -169,7 +169,7 @@ public class Resume{
 			            Main.pstmt.executeUpdate();
 					}
 					
-					CallableStatement cstmt = Main.con.prepareCall("{call POST_COUNT_PERSONAL}");
+					CallableStatement cstmt = Main.con.prepareCall("{CALL POST_COUNT_PERSONAL()}");
 					cstmt.execute();
 
 		            Main.con.commit();

@@ -203,6 +203,7 @@ public class Register {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(!chk_member.isSelected()) {  // 개인회원
 		        try {
+		        	Main.con.setAutoCommit(false);
 		        	Main.DBConnection();
 		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_PERSONAL(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"); // 개인 회원
 		        	
@@ -265,6 +266,7 @@ public class Register {
 		            	Main.cstmt.setNull(6, java.sql.Types.NUMERIC);
 		            	Main.cstmt.execute();
 		            }
+		            Main.con.commit();
 		            JOptionPane.showMessageDialog(frame, result + "\n" + txt_name.getText() + "님의 회원가입을 환영합니다.", "성공!", JOptionPane.INFORMATION_MESSAGE);
 		            frame.dispose();
 		        } catch (SQLException ex) {
@@ -276,6 +278,10 @@ public class Register {
 		        }
 		         
 		        finally {
+		        	try {
+		        	Main.con.setAutoCommit(true);
+		        	}
+		        	catch(Exception ex) {}
 		            Main.DBClose();
 		        }
 		    } else {  // 기업회원 

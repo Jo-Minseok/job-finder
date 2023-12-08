@@ -145,7 +145,7 @@ public class Upload_recruit extends JFrame {
 					Main.stmt = Main.con.createStatement();
 					Main.stmt.executeUpdate(sql);
 					
-					String call_business = "{call POST_COUNT_BUSINESS()}";
+					String call_business = "{CALL POST_COUNT_BUSINESS()}";
 					Main.stmt.execute(call_business);
 					
 					sql = "UPDATE 기업회원 SET 포인트 = 포인트 - 1000 WHERE 회원ID = '" + Main.ID +"'";
