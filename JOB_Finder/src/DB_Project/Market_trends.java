@@ -60,7 +60,7 @@ public class Market_trends {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("채용 시장 트랜드");
-		frame.setBounds(100, 100, 785, 361);
+		frame.setBounds(100, 100, 785, 392);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
@@ -136,7 +136,7 @@ public class Market_trends {
 		panel.add(lbl_take, gbc_lbl_take);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(-33, 57, 411, 33);
+		panel_1.setBounds(-32, 57, 411, 33);
 		c.add(panel_1);
 		
 		txt_start = new JTextField();
@@ -157,36 +157,40 @@ public class Market_trends {
 		panel_1.add(btn_serch);
 		
 		lbl_date = new JLabel("~ 일 채용 게시글 개수");
-		lbl_date.setBounds(12, 109, 745, 15);
+		lbl_date.setBounds(12, 146, 745, 15);
 		frame.getContentPane().add(lbl_date);
 		
 		lbl_date_data = new JLabel("");
-		lbl_date_data.setBounds(14, 134, 312, 15);
+		lbl_date_data.setBounds(14, 171, 312, 15);
 		frame.getContentPane().add(lbl_date_data);
 		
 		lbl_avgsalary = new JLabel("~ 일 채용 평균 연봉");
-		lbl_avgsalary.setBounds(14, 159, 743, 15);
+		lbl_avgsalary.setBounds(14, 196, 743, 15);
 		frame.getContentPane().add(lbl_avgsalary);
 		
 		lbl_avgsalary_data = new JLabel("");
-		lbl_avgsalary_data.setBounds(14, 184, 312, 15);
+		lbl_avgsalary_data.setBounds(14, 221, 312, 15);
 		frame.getContentPane().add(lbl_avgsalary_data);
 		
 		lbl_avgtime = new JLabel("~ 일 채용 평균 근무 시간");
-		lbl_avgtime.setBounds(14, 209, 743, 15);
+		lbl_avgtime.setBounds(14, 246, 743, 15);
 		frame.getContentPane().add(lbl_avgtime);
 		
 		lbl_avgtime_data = new JLabel("");
-		lbl_avgtime_data.setBounds(14, 234, 312, 15);
+		lbl_avgtime_data.setBounds(14, 271, 312, 15);
 		frame.getContentPane().add(lbl_avgtime_data);
 		
 		lbl_avgrate = new JLabel("~ 일 평균 경쟁률");
-		lbl_avgrate.setBounds(14, 266, 743, 15);
+		lbl_avgrate.setBounds(14, 303, 743, 15);
 		frame.getContentPane().add(lbl_avgrate);
 		
 		lbl_avgrate_data = new JLabel("");
-		lbl_avgrate_data.setBounds(14, 291, 312, 15);
+		lbl_avgrate_data.setBounds(14, 328, 312, 15);
 		frame.getContentPane().add(lbl_avgrate_data);
+		
+		JLabel lblNewLabel = new JLabel("※ 날짜 입력은 20230101 형식으로 입력하세요!");
+		lblNewLabel.setBounds(14, 100, 743, 15);
+		frame.getContentPane().add(lblNewLabel);
 		DB_To_Date(null,null,null);
 		
 		btn_serch.addActionListener(new ActionListener() {
