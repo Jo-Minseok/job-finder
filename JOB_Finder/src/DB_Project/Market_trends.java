@@ -191,22 +191,22 @@ public class Market_trends {
 		
 		btn_serch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(txt_start.getText() == "" && txt_end.getText() == ""){
-					if(cb_company.getSelectedItem().toString() == "") {
+				if(txt_start.getText().isEmpty() && txt_end.getText().isEmpty()){
+					if(cb_company.getSelectedItem().toString().equals("")) {
 						DB_To_Date(null,null,null);
 					}
 					else {
 						DB_To_Date(cb_company.getSelectedItem().toString(),null,null);
 					}
 				}
-				else if(txt_start.getText() != "" && txt_end.getText() == "") {
+				else if(!(txt_start.getText().isEmpty()) && txt_end.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(null, "종료 날짜를 입력하세요","검색 실패", JOptionPane.ERROR_MESSAGE);
 				}
-				else if(txt_start.getText() == "" && txt_end.getText() != "") {
+				else if(txt_start.getText().isEmpty() && !(txt_end.getText().isEmpty())) {
 					JOptionPane.showMessageDialog(null, "시작 날짜를 입력하세요","검색 실패", JOptionPane.ERROR_MESSAGE);
 				}
 				else {
-					if(cb_company.getSelectedItem().toString() == "") {
+					if(cb_company.getSelectedItem().toString().equals("")) {
 						DB_To_Date(null,txt_start.getText(),txt_start.getText());
 					}
 					else {
@@ -260,7 +260,7 @@ public class Market_trends {
 				Main.cstmt = Main.con.prepareCall(sql);
 				if(Company_name == null) {
 					Main.cstmt.setNull(1, java.sql.Types.NVARCHAR);
-					lbl_name.setText("[전체 조회");
+					lbl_name.setText("[전체 조회]");
 				}
 				else {
 					Main.cstmt.setString(1, Company_name);
@@ -305,10 +305,10 @@ public class Market_trends {
 				DecimalFormat decimalFormat = new DecimalFormat("#.#");
 				double woman_rate = 1 - (double)man / all;
 				double man_rate = (double)man/all;
-				lbl_now.setText(lbl_now.getText() + total_post + "개");
-				lbl_take.setText(lbl_take.getText() + Main.Won(take));
-				lbl_gender.setText(lbl_gender.getText() + decimalFormat.format(man_rate) + ":" + decimalFormat.format(woman_rate) + "(남:여)");
-				lbl_salary.setText(lbl_salary.getText() + Main.Won(avg_salary));
+				lbl_now.setText("현재 채용중인 공고: " + total_post + "개");
+				lbl_take.setText("매출액: " + Main.Won(take));
+				lbl_gender.setText("남여 성비: " + decimalFormat.format(man_rate) + ":" + decimalFormat.format(woman_rate) + "(남:여)");
+				lbl_salary.setText("연봉: " + Main.Won(avg_salary));
 				if(start == null) {
 					lbl_date.setText("전체 채용 게시글 개수");
 					lbl_date_data.setText(date_post + "개");
