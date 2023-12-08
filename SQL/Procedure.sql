@@ -6,6 +6,9 @@ DROP PROCEDURE PASSWORD_PROTECTION_PERSONAL;
 DROP PROCEDURE PASSWORD_PROTECTION_BUSINESS;
 DROP PROCEDURE CREATE_ACCOUNT_PERSONAL;
 DROP PROCEDURE CREATE_ACCOUNT_BUSINESS;
+DROP PROCEDURE RECALCULATE;
+DROP PROCEDURE COUNT_TREND_START;
+DROP PROCEDURE COUNT_TREND_UPDATE;
 
 DBMS_SCHEDULER.DROP_JOB('매일_자정_이력서_삭제');
 DBMS_SCHEDULER.DROP_JOB('매일_자정_포지션_제안_삭제');
@@ -240,6 +243,126 @@ END;
 EXEC COMPITITION_RATE;
 EXEC POST_COUNT_PERSONAL;
 EXEC POST_COUNT_BUSINESS;
+
+-------------------------------------- [채용 시장 FROM] ------------------------------------------
+
+CREATE OR REPLACE PROCEDURE COUNT_TREND_START
+AS
+BEGIN
+    FOR TMP_TABLE IN (SELECT 기업.기업구분, COUNT(기업.기업구분)  AS 게시글_개수 FROM 채용_게시글,기업,기업회원 WHERE 채용_게시글.작성자ID= 기업회원.회원ID AND 기업.이름 = 기업회원.기업명 GROUP BY(기업.기업구분))
+    LOOP
+        INSERT INTO 게시글수 VALUES (TMP_TABLE.기업구분, TMP_TABLE.게시글_개수);
+    END LOOP;
+    
+    FOR TMP_TABLE IN (SELECT 채용_게시글.지역, COUNT(채용_게시글.지역) AS 게시글_개수 FROM 채용_게시글,기업,기업회원 WHERE 채용_게시글.작성자ID= 기업회원.회원ID AND 기업.이름 = 기업회원.기업명 GROUP BY(채용_게시글.지역))
+    LOOP
+        INSERT INTO 게시글수 VALUES (TMP_TABLE.지역, TMP_TABLE.게시글_개수);
+    END LOOP;
+    
+    FOR TMP_TABLE IN (SELECT 채용_게시글.고용형태, COUNT(채용_게시글.고용형태) AS 게시글_개수 FROM 채용_게시글,기업,기업회원 WHERE 채용_게시글.작성자ID= 기업회원.회원ID AND 기업.이름 = 기업회원.기업명 GROUP BY(채용_게시글.고용형태))
+    LOOP
+        INSERT INTO 게시글수 VALUES (TMP_TABLE.고용형태, TMP_TABLE.게시글_개수);
+    END LOOP;
+END;
+
+CREATE OR REPLACE PROCEDURE COUNT_TREND_UPDATE
+AS
+BEGIN
+    FOR TMP_TABLE IN (SELECT 기업.기업구분, COUNT(기업.기업구분)  AS 게시글_개수 FROM 채용_게시글,기업,기업회원 WHERE 채용_게시글.작성자ID= 기업회원.회원ID AND 기업.이름 = 기업회원.기업명 GROUP BY(기업.기업구분))
+    LOOP
+        UPDATE 게시글수 SET 게시글수 = TMP_TABLE.게시글_개수 WHERE 분류 = TMP_TABLE.기업구분;
+    END LOOP;
+    
+    FOR TMP_TABLE IN (SELECT 채용_게시글.지역, COUNT(채용_게시글.지역) AS 게시글_개수 FROM 채용_게시글,기업,기업회원 WHERE 채용_게시글.작성자ID= 기업회원.회원ID AND 기업.이름 = 기업회원.기업명 GROUP BY(채용_게시글.지역))
+    LOOP
+        UPDATE 게시글수 SET 게시글수 = TMP_TABLE.게시글_개수 WHERE 분류 = TMP_TABLE.지역;
+    END LOOP;
+    
+    FOR TMP_TABLE IN (SELECT 채용_게시글.고용형태, COUNT(채용_게시글.고용형태) AS 게시글_개수 FROM 채용_게시글,기업,기업회원 WHERE 채용_게시글.작성자ID= 기업회원.회원ID AND 기업.이름 = 기업회원.기업명 GROUP BY(채용_게시글.고용형태))
+    LOOP
+        UPDATE 게시글수 SET 게시글수 = TMP_TABLE.게시글_개수 WHERE 분류 = TMP_TABLE.고용형태;
+    END LOOP;
+END;
+
+CREATE OR REPLACE PROCEDURE COUNT_TREND_PROGRAM(
+기업이름IN IN NVARCHAR2,
+시작날짜IN IN DATE,
+마감날짜IN IN DATE,
+날짜상관없는게시글수 OUT NUMBER,
+매출액OUT OUT NUMBER,
+남성 OUT NUMBER,
+전체인원 OUT NUMBER,
+평균연봉OUT OUT NUMBER,
+날짜채용게시글수 OUT NUMBER,
+날짜평균연봉 OUT NUMBER,
+날짜평균근무시간 OUT NUMBER,
+날짜경쟁률 OUT NUMBER)
+AS
+BEGIN
+    IF 기업이름IN IS NULL THEN
+    BEGIN
+        IF 시작날짜IN IS NULL THEN
+        BEGIN
+            SELECT COUNT(*) INTO 날짜상관없는게시글수 FROM 채용_게시글;
+            SELECT AVG(매출액) INTO 매출액OUT FROM 기업;
+            SELECT COUNT(성별) INTO 남성 FROM 개인회원 WHERE 성별 = '남';
+            SELECT COUNT(성별) INTO 전체인원 FROM 개인회원;
+            SELECT AVG(대졸초임) INTO 평균연봉OUT FROM 기업;
+            SELECT COUNT(*) INTO 날짜채용게시글수 FROM 채용_게시글;
+            SELECT AVG(급여 * 12) INTO 날짜평균연봉 FROM 채용_게시글;
+            SELECT AVG(근무시간) INTO 날짜평균근무시간 FROM 채용_게시글;
+            SELECT AVG(경쟁률) INTO 날짜경쟁률 FROM 채용_게시글;
+        END;
+        
+        ELSE
+        BEGIN
+            SELECT COUNT(*) INTO 날짜상관없는게시글수 FROM 채용_게시글;
+            SELECT AVG(매출액) INTO 매출액OUT FROM 기업;
+            SELECT COUNT(성별) INTO 남성 FROM 개인회원 WHERE 성별 = '남';
+            SELECT COUNT(성별) INTO 전체인원 FROM 개인회원;
+            SELECT AVG(대졸초임) INTO 평균연봉OUT FROM 기업;
+            SELECT COUNT(*) INTO 날짜채용게시글수 FROM 채용_게시글 WHERE 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+            SELECT AVG(급여 * 12) INTO 날짜평균연봉 FROM 채용_게시글 WHERE 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+            SELECT AVG(근무시간) INTO 날짜평균근무시간 FROM 채용_게시글 WHERE 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+            SELECT AVG(경쟁률) INTO 날짜경쟁률 FROM 채용_게시글 WHERE 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+        END;
+        END IF;
+    END;
+    
+    ELSE
+    BEGIN
+        IF 시작날짜IN IS NULL THEN
+        BEGIN
+            SELECT COUNT(*) INTO 날짜상관없는게시글수 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN;
+            SELECT AVG(매출액) INTO 매출액OUT FROM 기업 WHERE 기업.이름 = 기업이름IN;
+            SELECT COUNT(성별) INTO 남성 FROM 개인회원 WHERE 성별 = '남' AND 개인회원.기업_이름 = 기업이름IN;
+            SELECT COUNT(성별) INTO 전체인원 FROM 개인회원 WHERE 개인회원.기업_이름 = 기업이름IN;
+            SELECT AVG(대졸초임) INTO 평균연봉OUT FROM 기업 WHERE 기업.이름 = 기업이름IN;
+            SELECT COUNT(*) INTO 날짜채용게시글수 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN;
+            SELECT AVG(급여 * 12) INTO 날짜평균연봉 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN;
+            SELECT AVG(근무시간) INTO 날짜평균근무시간 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN;
+            SELECT AVG(경쟁률) INTO 날짜경쟁률 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN;
+        END;
+        
+        ELSE
+        BEGIN
+            SELECT COUNT(*) INTO 날짜상관없는게시글수 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN;
+            SELECT AVG(매출액) INTO 매출액OUT FROM 기업 WHERE 기업.이름 = 기업이름IN;
+            SELECT COUNT(성별) INTO 남성 FROM 개인회원 WHERE 성별 = '남' AND 개인회원.기업_이름 = 기업이름IN;
+            SELECT COUNT(성별) INTO 전체인원 FROM 개인회원 WHERE 개인회원.기업_이름 = 기업이름IN;
+            SELECT AVG(대졸초임) INTO 평균연봉OUT FROM 기업 WHERE 기업.이름 = 기업이름IN;
+            SELECT COUNT(*) INTO 날짜채용게시글수 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN AND 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+            SELECT AVG(급여 * 12) INTO 날짜평균연봉 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN AND 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+            SELECT AVG(근무시간) INTO 날짜평균근무시간 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN AND 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+            SELECT AVG(경쟁률) INTO 날짜경쟁률 FROM 채용_게시글,기업회원 WHERE 채용_게시글.작성자ID = 기업회원.회원ID AND 기업회원.기업명 = 기업이름IN AND 시작날짜IN < 마감일 AND 마감일 < 마감날짜IN;
+        END;
+        END IF;
+    END;
+    
+    END IF;
+END;
+
+EXEC COUNT_TREND_START;
 COMMIT;
 -----------------------------------------------------------------------------------------------
 ------------------------------------------- 스케줄러 -------------------------------------------
