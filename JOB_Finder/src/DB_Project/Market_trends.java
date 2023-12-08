@@ -323,7 +323,7 @@ public class Market_trends {
 					lbl_date.setText(start + " ~ " + end + " 기간 지원 가능 채용 게시글 개수");
 					lbl_date_data.setText(date_post + "개");
 					lbl_avgsalary.setText(start + " ~ " + end + " 기간 지원 가능 채용 평균 연봉");
-					lbl_avgsalary_data.setText(Main.Won(date_salary) + "원");
+					lbl_avgsalary_data.setText(Main.Won(date_salary));
 					lbl_avgtime.setText(start + " ~ " + end + " 기간 지원 가능 채용 평균 근무 시간");
 					lbl_avgtime_data.setText(date_work_time + "시간(주)");
 					lbl_avgrate.setText(start + " ~ " + end + " 기간 지원 가능 채용 평균 경쟁률");
