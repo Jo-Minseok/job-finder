@@ -177,6 +177,17 @@ public class Mainpage {
 		JButton btn_market = new JButton("채용 시장 분석");
 		btn_market.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				try {
+					Main.DBConnection();
+					Main.cstmt = Main.con.prepareCall("{CALL COUNT_TREND_UPDATE()}");
+					Main.cstmt.execute();
+				}
+				catch(Exception ex) {
+					JOptionPane.showMessageDialog(null, "불러오기 실패","DB로부터 업데이트를 하지 못하였습니다.", JOptionPane.ERROR_MESSAGE);
+				}
+				finally {
+					Main.DBClose();
+				}
 				Market_trends window = new Market_trends();
 				window.frame.setVisible(true);
 			}
@@ -190,7 +201,7 @@ public class Mainpage {
 		
 		JLabel lbl_ID = new JLabel("아이디 : ");
 		lbl_ID.setText(lbl_ID.getText() + Main.ID);
-		lbl_ID.setBounds(557, 250, 190, 15);
+		lbl_ID.setBounds(557, 255, 190, 15);
 		frame.getContentPane().add(lbl_ID);
 		
 		JLabel lbl_post_count = new JLabel("작성한 게시글 개수  : ");
@@ -464,7 +475,7 @@ public class Mainpage {
 		frame.getContentPane().add(lbl_briefing_5);
 		
 		JLabel lbl_point = new JLabel("포인트 : ");
-		lbl_point.setBounds(557, 225, 190, 15);
+		lbl_point.setBounds(557, 230, 190, 15);
 		frame.getContentPane().add(lbl_point);
 		
 		JLabel lbl_Count = new JLabel("지원 받은 개수");
