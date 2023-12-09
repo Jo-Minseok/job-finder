@@ -90,8 +90,8 @@ public class Find_ID_PW extends JFrame {
 		
 		MaskFormatter formatter2 = null;
 		try {
-			formatter = new MaskFormatter("###-####-####");
-			formatter.setPlaceholderCharacter('_');
+			formatter2 = new MaskFormatter("###-####-####");
+			formatter2.setPlaceholderCharacter('_');
 		}
 		catch(Exception ex) {}
 		JFormattedTextField txt_pw_phone = new JFormattedTextField(formatter2);

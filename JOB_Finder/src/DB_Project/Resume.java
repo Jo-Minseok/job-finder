@@ -56,7 +56,7 @@ public class Resume{
 		txt_graduate.setBounds(22, 114, 242, 34);
 		frame.getContentPane().add(txt_graduate);
 		
-		JLabel lbl_toeic = new JLabel("토익 점수");
+		JLabel lbl_toeic = new JLabel("토익 점수 (숫자만)");
 		lbl_toeic.setBounds(22, 148, 257, 44);
 		frame.getContentPane().add(lbl_toeic);
 		
@@ -64,7 +64,7 @@ public class Resume{
 		txt_toeic.setBounds(22, 188, 242, 34);
 		frame.getContentPane().add(txt_toeic);
 		
-		JLabel lbl_foreign = new JLabel("해외 경험 횟수");
+		JLabel lbl_foreign = new JLabel("해외 경험 횟수 (숫자만)");
 		lbl_foreign.setBounds(22, 222, 257, 44);
 		frame.getContentPane().add(lbl_foreign);
 		

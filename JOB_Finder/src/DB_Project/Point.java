@@ -41,7 +41,7 @@ public class Point {
 		lbl_used.setBounds(12, 70, 250, 20);
 		frame.getContentPane().add(lbl_used);
 		
-		JLabel lbl_charge = new JLabel("[ 충전하기 ]");
+		JLabel lbl_charge = new JLabel("[ 충전하기 ] (숫자만)");
 		lbl_charge.setBounds(12, 110, 150, 20);
 		frame.getContentPane().add(lbl_charge);
 		
