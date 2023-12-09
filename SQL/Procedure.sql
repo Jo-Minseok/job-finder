@@ -436,4 +436,5 @@ AS
     현재_날짜 DATE := SYSDATE;
 BEGIN
     DELETE FROM 채용_게시글 WHERE 마감일 < 현재_날짜;
+    COUNT_TREND_UPDATE();
 END;
