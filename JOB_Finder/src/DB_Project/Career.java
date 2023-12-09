@@ -34,7 +34,7 @@ public class Career  {
 		lbl_company.setBounds(25, 25, 100, 20);
 		frame.getContentPane().add(lbl_company);
 		
-		JLabel lbl_year = new JLabel("년수");
+		JLabel lbl_year = new JLabel("년수 (숫자만)");
 		lbl_year.setBounds(25, 55, 100, 20);
 		frame.getContentPane().add(lbl_year);
 		
@@ -42,7 +42,7 @@ public class Career  {
 		lbl_position.setBounds(25, 85, 100, 20);
 		frame.getContentPane().add(lbl_position);
 		
-		JLabel lbl_salary = new JLabel("연봉");
+		JLabel lbl_salary = new JLabel("연봉 (숫자만)");
 		lbl_salary.setBounds(25, 115, 100, 20);
 		frame.getContentPane().add(lbl_salary);
 		

@@ -112,7 +112,7 @@ public class Edit_info {
 		txt_pw.setBounds(30, 126, 190, 21);
 		frame.getContentPane().add(txt_pw);
 		
-		JLabel lblBirthDay = new JLabel("BIRTH DAY");
+		JLabel lblBirthDay = new JLabel("BIRTH DAY (형식: yyyyMMdd)");
 		lblBirthDay.setBounds(30, 157, 190, 15);
 		frame.getContentPane().add(lblBirthDay);
 		

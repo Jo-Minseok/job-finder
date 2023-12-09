@@ -95,7 +95,7 @@ public class Upload_recruit extends JFrame {
 		contentPane.add(txt_category);
 		txt_category.setColumns(10);
 		
-		JLabel lbl_salary = new JLabel("급여");
+		JLabel lbl_salary = new JLabel("급여(월급) (숫자만)");
 		lbl_salary.setBounds(20, 268, 150, 20);
 		contentPane.add(lbl_salary);
 		
@@ -108,7 +108,7 @@ public class Upload_recruit extends JFrame {
 		lbl_address.setBounds(20, 318, 150, 20);
 		contentPane.add(lbl_address);
 		
-		JLabel lbl_time = new JLabel("근무 시간(주)");
+		JLabel lbl_time = new JLabel("근무 시간(주) (숫자만)");
 		lbl_time.setBounds(20, 368, 150, 20);
 		contentPane.add(lbl_time);
 		
@@ -126,8 +126,8 @@ public class Upload_recruit extends JFrame {
 		contentPane.add(txt_position);
 		txt_position.setColumns(10);
 		
-		JLabel lbl_deadline = new JLabel("마감일");
-		lbl_deadline.setBounds(20, 526, 150, 20);
+		JLabel lbl_deadline = new JLabel("마감일 (형식: yyyy-MM-dd)");
+		lbl_deadline.setBounds(20, 526, 350, 20);
 		contentPane.add(lbl_deadline);
 		
 		txt_deadline = new JTextField();
@@ -187,7 +187,7 @@ public class Upload_recruit extends JFrame {
 		btn_close.setBounds(547, 541, 75, 30);
 		contentPane.add(btn_close);
 		
-		JLabel lbl_human = new JLabel("모집인원");
+		JLabel lbl_human = new JLabel("모집인원 (숫자만)");
 		lbl_human.setBounds(20, 421, 150, 20);
 		contentPane.add(lbl_human);
 		
@@ -201,8 +201,8 @@ public class Upload_recruit extends JFrame {
 		txt_type.setBounds(20, 233, 350, 25);
 		contentPane.add(txt_type);
 		
-		JLabel lbl_type = new JLabel("고용형태");
-		lbl_type.setBounds(20, 213, 150, 20);
+		JLabel lbl_type = new JLabel("고용형태 (정규직, 인턴, 계약직)");
+		lbl_type.setBounds(20, 213, 350, 20);
 		contentPane.add(lbl_type);
 		
 		com_address.setBounds(20, 336, 101, 23);

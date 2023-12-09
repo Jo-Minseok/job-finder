@@ -84,7 +84,7 @@ public class Upload_briefing extends JFrame {
 		txt_business.setBounds(20, 80, 350, 25);
 		contentPane.add(txt_business);
 		
-		JLabel lbl_num = new JLabel("회차");
+		JLabel lbl_num = new JLabel("회차 (숫자만)");
 		lbl_num.setBounds(20, 176, 150, 20);
 		contentPane.add(lbl_num);
 		
@@ -93,8 +93,8 @@ public class Upload_briefing extends JFrame {
 		txt_num.setBounds(20, 196, 350, 25);
 		contentPane.add(txt_num);
 		
-		JLabel lbl_date = new JLabel("개최일시");
-		lbl_date.setBounds(20, 226, 150, 20);
+		JLabel lbl_date = new JLabel("개최일시 (형식: yyyy-MM-dd)");
+		lbl_date.setBounds(20, 226, 350, 20);
 		contentPane.add(lbl_date);
 		
 		txt_date = new JTextField();
