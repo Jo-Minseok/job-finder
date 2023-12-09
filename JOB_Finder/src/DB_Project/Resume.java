@@ -122,16 +122,14 @@ public class Resume{
 					Main.con.setAutoCommit(false);
 					
 					String sql = "INSERT INTO 이력서 (작성자ID, 이력서명, 학력, 토익, 해외_경험_횟수, 작성일자) VALUES (?, ?, ?, ?, ?, SYSDATE)";
-		            Main.pstmt = Main.con.prepareStatement(sql);
-		            
-		            Main.pstmt.setString(1, Main.ID);
+		            Main.pstmt = Main.con.prepareStatement(sql);	            
+		            Main.pstmt.setString(1, Main.ID);	            
 		            Main.pstmt.setString(2, txt_resume.getText());
 		            Main.pstmt.setString(3, txt_graduate.getText());
 		            Main.pstmt.setInt(4, Integer.parseInt(txt_toeic.getText()));
 		            Main.pstmt.setInt(5, Integer.parseInt(txt_foreign.getText()));
-		            Main.pstmt.executeUpdate();	            
-		            Main.con.commit();
-		            
+		            Main.pstmt.executeUpdate();
+            
 					sql = "UPDATE 개인회원 SET 포인트 = 포인트 -300 WHERE 회원ID = ?";
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setString(1,Main.ID);
@@ -139,7 +137,7 @@ public class Resume{
 					
 					sql = "INSERT INTO 개인_포인트_수정_내역 VALUES (?, '사용', 300)";
 					Main.pstmt = Main.con.prepareStatement(sql);
-					Main.pstmt.setString(1, Main.ID);
+					Main.pstmt.setString(1, Main.ID);					
 					Main.pstmt.executeUpdate();
 									
 					// Certificate
