@@ -55,11 +55,11 @@ public class Resume_Apply {
 					Main.pstmt.setDate(4, java.sql.Date.valueOf(LocalDate.now()));
 					Main.pstmt.setString(5, "N");
 					Main.pstmt.executeUpdate();
-					JOptionPane.showMessageDialog(null, "지원을 하였습니다!", "지원 완료",JOptionPane.INFORMATION_MESSAGE);
 					
-					sql = "{CALL COMPITION_RATE()";
+					sql = "{CALL COMPITION_RATE()}";
 					Main.cstmt = Main.con.prepareCall(sql);
 					Main.cstmt.execute();
+					JOptionPane.showMessageDialog(null, "지원을 하였습니다!", "지원 완료",JOptionPane.INFORMATION_MESSAGE);
 					
 					frame.dispose();
 					Pass.frame.dispose();
