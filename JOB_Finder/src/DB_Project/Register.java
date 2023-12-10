@@ -180,6 +180,7 @@ public class Register {
 		frame.getContentPane().add(lbl_companynumber);
 		
 		txt_companynumber = new JTextField();
+		txt_companynumber.setEnabled(false);
 		txt_companynumber.setColumns(10);
 		txt_companynumber.setBounds(30, 589, 190, 21);
 		frame.getContentPane().add(txt_companynumber);
@@ -404,12 +405,14 @@ public class Register {
 					txt_salary.setEnabled(false);
 					txt_position.setEnabled(false);
 					txt_birth.setEnabled(false);
+					txt_companynumber.setEnabled(true);
 					com_gender.setEnabled(false);
 					chk_employed.setEnabled(false);
 				} else {
 					txt_birth.setEnabled(true);
 					txt_salary.setEnabled(true);
 					txt_position.setEnabled(true);
+					txt_companynumber.setEnabled(false);
 					com_gender.setEnabled(true);
 					chk_employed.setEnabled(true);
 				}
