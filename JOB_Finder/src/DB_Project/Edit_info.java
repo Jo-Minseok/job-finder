@@ -346,6 +346,10 @@ public class Edit_info {
 ;	                Main.con.commit();
 		        } catch (SQLException ex) {
 		            JOptionPane.showMessageDialog(null, "SQL 오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            try {
+						Main.con.rollback();
+					}
+					catch(SQLException ex_rollback) {}
 		            ex.printStackTrace();
 		        } catch (Exception ex) {
 		            JOptionPane.showMessageDialog(null, "오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
