@@ -81,7 +81,7 @@ BEGIN
         
     IF UPDATING('비밀번호') THEN
         BEGIN
-            IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <=8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
+            IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
                 BEGIN
                     RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
                 END;
@@ -168,7 +168,7 @@ BEGIN
     END IF;
     
     IF UPDATING('기업회원.비밀번호') THEN
-        IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <=8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
+        IF REGEXP_LIKE(:NEW.비밀번호,'\s') OR LENGTH(:NEW.비밀번호) <8 OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(:NEW.비밀번호,'[[:digit:]]') THEN
             RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
         END IF;
     END IF;
