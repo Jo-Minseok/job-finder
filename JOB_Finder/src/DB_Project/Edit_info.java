@@ -60,7 +60,8 @@ public class Edit_info {
 				
 				txt_phone.setText(Main.rs.getString("휴대폰"));
 				txt_pw.setText(Main.rs.getString("비밀번호"));
-				txt_birth.setText(Main.rs.getString("생년월일"));
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				txt_birth.setText(sdf.format(Main.rs.getDate("생년월일")));
 				com_gender.setSelectedItem(Main.rs.getString("성별"));
 				com_address.setSelectedItem(Main.rs.getString("거주_지역"));
 				com_period.setSelectedItem(Main.rs.getString("개인정보_유효기간"));

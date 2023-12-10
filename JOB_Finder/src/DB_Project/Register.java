@@ -91,7 +91,7 @@ public class Register {
 		txt_pw.setBounds(30, 175, 190, 21);
 		frame.getContentPane().add(txt_pw);
 		
-		JLabel lblBirthDay = new JLabel("BIRTH DAY");
+		JLabel lblBirthDay = new JLabel("BIRTH DAY (형식: yyyyMMdd)");
 		lblBirthDay.setBounds(30, 206, 190, 15);
 		frame.getContentPane().add(lblBirthDay);
 		
