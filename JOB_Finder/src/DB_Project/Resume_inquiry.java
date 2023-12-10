@@ -230,8 +230,8 @@ public class Resume_inquiry extends JFrame {
 	                {"자격증", cirtifiStrings, null, null}
 	                }, new String[] {"항목", "내용", "항목", "내용"})
 		{ boolean[][] columnEditables = new boolean[][] {
-				{false, true, false, false}, // 1행
-				{false, true, false, false}, // 2행
+				{false, false, false, false}, // 1행
+				{false, false, false, false}, // 2행
 				{false, false, false, true}, // 3행
 				{false, true, false, true}, // 4행
 				{false, true, false, true}, // 5행
@@ -444,7 +444,6 @@ public class Resume_inquiry extends JFrame {
 	
 	public void DataToDB(String personalID, String resumeName) {
 		resumeName = table_1.getValueAt(0, 1).toString();
-		memberName = table_1.getValueAt(1, 1).toString();
 		education = table_1.getValueAt(2, 3).toString();
 		toeic = Integer.parseInt(table_1.getValueAt(3, 1).toString());
 		overseasExperience = Integer.parseInt(table_1.getValueAt(3, 3).toString());
@@ -453,42 +452,40 @@ public class Resume_inquiry extends JFrame {
 		carrerPosition = table_1.getValueAt(5, 1).toString();
 		carrerIncome = Integer.parseInt(table_1.getValueAt(5, 3).toString());
 		
-		DBsave(personalID, resumeName, memberName, education, toeic, overseasExperience, carrerName, carrerYear, carrerPosition, carrerIncome);
+		DBsave(personalID, resumeName, education, 
+				toeic, overseasExperience, carrerName, carrerYear, carrerPosition, carrerIncome);
 		
 	}
 	
 	// 가져온 정보 DB에 저장
 	
-	public void DBsave(String personalID, String resumeName, String memberName, String education, 
+	public void DBsave(String personalID, String resumeName, String education, 
 				int toeic, int overseasExperience, String carrerName, int carrerYear, String carrerPosition, int carrerIncome) {
 		try {
 			Main.DBConnection();
 			
-			// 이름 수정 ( 생년월일, 휴대폰은 정보 수정에서 가능하기에 제외 )
-			String sql_name_update = "UPDATE 개인회원 SET 이름 = ? WHERE 회원ID = ?";
-			Main.pstmt = Main.con.prepareStatement(sql_name_update);
-			Main.pstmt.setString(1, memberName);
-			Main.pstmt.setString(2, personalID);
-			Main.pstmt.executeUpdate();
-			
-			// 이력서 수정 : 이력서명, 학력, 토익, 해외_경험_횟수
-			String sql_resume_update = "UPDATE 이력서 SET 이력서명 = ?, 학력 = ?, 토익 = ?, 해외_경험_횟수 = ? WHERE 작성자ID = ?";
+			// 이력서 수정 : 학력, 토익, 해외_경험_횟수
+			String sql_resume_update = "UPDATE 이력서 SET 학력 = ?, 토익 = ?, 해외_경험_횟수 = ? WHERE 작성자ID = ? AND 이력서명 = ?";
 			Main.pstmt = Main.con.prepareStatement(sql_resume_update);
-			Main.pstmt.setString(1, resumeName);
-			Main.pstmt.setString(2, education);
-			Main.pstmt.setInt(3, toeic);
-			Main.pstmt.setInt(4, overseasExperience);
-			Main.pstmt.setString(5,  personalID);
+			Main.pstmt.setString(1, education);
+			Main.pstmt.setInt(2, toeic);
+			Main.pstmt.setInt(3, overseasExperience);
+			Main.pstmt.setString(4,  personalID);
+			Main.pstmt.setString(5, resumeName);
 			Main.pstmt.executeUpdate();
 			
 			// 이력서_경력 수정 : 경력_위치, 년수, 직급, 연봉
-			String sql_resume_carrer_update = "UPDATE 이력서_경력 SET 경력_위치 = ?, 년수 = ?, 직급 = ?, 연봉 = ? WHERE 회원ID = ?";
+			String sql_resume_carrer_update = "UPDATE 이력서_경력 SET 경력_위치 = ?, 년수 = ?, 직급 = ?, 연봉 = ? WHERE 회원ID = ? AND 이력서명 = ?";
 			Main.pstmt = Main.con.prepareStatement(sql_resume_carrer_update);
 			Main.pstmt.setString(1, carrerName);
 			Main.pstmt.setInt(2, carrerYear);
 			Main.pstmt.setString(3, carrerPosition);
 			Main.pstmt.setInt(4, carrerIncome);
 			Main.pstmt.setString(5, personalID);
+			Main.pstmt.setString(6, resumeName);
+			Main.pstmt.executeUpdate();
+			
+			JOptionPane.showMessageDialog(null, "해당 이력서가 성공적으로 저장되었습니다.", "이력서 저장", JOptionPane.INFORMATION_MESSAGE);
 			
 		} catch(Exception ex) {
 			JOptionPane.showMessageDialog(null, ex.getMessage(), "이력서 저장 실패", JOptionPane.ERROR_MESSAGE);
