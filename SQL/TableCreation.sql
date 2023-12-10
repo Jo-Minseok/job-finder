@@ -18,6 +18,7 @@ TRUNCATE TABLE 이력서;
 TRUNCATE TABLE 기업회원;
 TRUNCATE TABLE 개인회원;
 TRUNCATE TABLE 기업;
+COMMIT;
 -----------------------------------------------------------------------------------------------
 ------------------------------------------- 테이블 삭제 -----------------------------------------
 -----------------------------------------------------------------------------------------------
@@ -46,6 +47,10 @@ DROP TABLE 지역;
 -----------------------------------------------------------------------------------------------
 ------------------------------------------- 테이블 생성 -----------------------------------------
 -----------------------------------------------------------------------------------------------
+CREATE TABLE 지역(
+    지역명 NVARCHAR2(4),
+    CONSTRAINT UK_지역 UNIQUE (지역명)
+);
 
 -- 강성 개체
 CREATE TABLE 기업(
@@ -59,11 +64,8 @@ CREATE TABLE 기업(
  매출액 NUMBER(38,0),
  대졸초임 NUMBER(38,0),
  지역 NVARCHAR2(3),
- CONSTRAINT PK_기업 PRIMARY KEY(이름)
-);
-
-CREATE TABLE 지역(
-    지역명 NVARCHAR2(4)
+ CONSTRAINT PK_기업 PRIMARY KEY(이름),
+ CONSTRAINT FK_기업_AREA FOREIGN KEY (지역) REFERENCES 지역(지역명) ON DELETE SET NULL
 );
 
 CREATE TABLE 개인회원(
@@ -129,7 +131,7 @@ CREATE TABLE 채용_게시글(
     경쟁률 NUMBER(3,0),
     CONSTRAINT PK_채용_게시글 PRIMARY KEY(게시글_번호),
     CONSTRAINT FK_채용_게시글 FOREIGN KEY (작성자ID) REFERENCES 기업회원(회원ID) ON DELETE CASCADE,
-    CONSTRAINT FK_채용_게시글 FOREIGN KEY (지역) REFERENCES 지역(지역명) ON DELETE SET NULL
+    CONSTRAINT FK_채용_게시글_AREA FOREIGN KEY (지역) REFERENCES 지역(지역명) ON DELETE SET NULL
 );
 
 CREATE TABLE 채용_설명회(
@@ -207,13 +209,15 @@ CREATE TABLE 기업_포인트_수정_내역(
 CREATE TABLE 개인_회원_정보_변경(
     회원ID NVARCHAR2(32),
     변경_열 NVARCHAR2(10),
-    변경_데이터 NVARCHAR2(76)
+    변경_데이터 NVARCHAR2(76),
+    이전_데이터 NVARCHAR2(76)
 );
 
 CREATE TABLE 기업_회원_정보_변경(
     회원ID NVARCHAR2(32),
     변경_열 NVARCHAR2(10),
-    변경_데이터 NVARCHAR2(76)
+    변경_데이터 NVARCHAR2(76),
+    이전_데이터 NVARCHAR2(76)
 );
 
 CREATE TABLE 연봉_평균_계산(

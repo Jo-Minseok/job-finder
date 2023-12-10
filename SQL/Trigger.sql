@@ -47,16 +47,16 @@ END 연봉_재연산_TRIG;
 -----------------------------------------------------------------------------------------------
 -------------------------------------------- 트리거 --------------------------------------------
 -----------------------------------------------------------------------------------------------
-DROP TRIGGER 개인_회원정보수정_TRIG_AFTER;
 DROP TRIGGER 개인_회원정보수정_TRIG_BEFORE;
-DROP TRIGGER 연봉_재연산_TRIG;
-
 DROP TRIGGER 기업_회원정보수정_TRIG;
+
 DROP TRIGGER 채용게시글_TRIG;
 DROP TRIGGER 채용설명회_TRIG;
+
 DROP TRIGGER 개인_포인트_변경_TRIG;
 DROP TRIGGER 기업_포인트_변경_TRIG;
 
+DROP TRIGGER  지원_TRIG;
 -- 시퀀스
 DROP SEQUENCE POST_NUMBER_SEQ;
 DROP TRIGGER POST_NUMBER_TRIG;
@@ -111,43 +111,43 @@ BEGIN
     
     IF UPDATING('비밀번호') THEN
         BEGIN
-            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '비밀번호', :NEW.비밀번호);
+            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '비밀번호', :NEW.비밀번호, :OLD.비밀번호);
         END;
     END IF;
         
     IF UPDATING('이름') THEN
         BEGIN
-            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '이름', :NEW.이름);
+            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '이름', :NEW.이름, :OLD.이름);
         END;
     END IF;
         
     IF UPDATING('생년월일') THEN
         BEGIN
-            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '생년월일', :NEW.생년월일);
+            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '생년월일', :NEW.생년월일, :OLD.생년월일);
         END;
     END IF;
         
     IF UPDATING('성별') THEN
         BEGIN
-            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '성별', :NEW.성별);
+            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '성별', :NEW.성별, :OLD.성별);
         END;
     END IF;
         
     IF UPDATING('휴대폰') THEN
         BEGIN   
-            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '휴대폰', :NEW.휴대폰);
+            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '휴대폰', :NEW.휴대폰, :OLD.휴대폰);
         END;
     END IF;
         
     IF UPDATING('거주_지역') THEN
         BEGIN
-            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '거주_지역', :NEW.거주_지역);
+            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '거주_지역', :NEW.거주_지역, :OLD.거주_지역);
         END;
     END IF;
         
     IF UPDATING('개인정보_유효기간') THEN
         BEGIN
-            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '개인정보_유효기간', :NEW.개인정보_유효기간);
+            INSERT INTO 개인_회원_정보_변경 VALUES (:NEW.회원ID, '개인정보_유효기간', :NEW.개인정보_유효기간, :OLD.개인정보_유효기간);
         END;
     END IF;
 END;
@@ -174,16 +174,16 @@ BEGIN
     END IF;
 
     IF UPDATING('이름') THEN
-        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '이름', :NEW.이름);
+        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '이름', :NEW.이름, :OLD.이름);
     END IF;
     IF UPDATING('개인정보_유효기간') THEN
-        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '개인정보_유효기간', :NEW.개인정보_유효기간);
+        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '개인정보_유효기간', :NEW.개인정보_유효기간, :OLD.개인정보_유효기간);
     END IF;
     IF UPDATING('휴대폰') THEN
-        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '휴대폰', :NEW.휴대폰);
+        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '휴대폰', :NEW.휴대폰, :OLD.휴대폰);
     END IF;
     IF UPDATING('비밀번호') THEN
-        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '비밀번호', :NEW.비밀번호);
+        INSERT INTO 기업_회원_정보_변경 VALUES (:NEW.회원ID, '비밀번호', :NEW.비밀번호, :OLD.비밀번호);
     END IF;
 END;
 
@@ -221,6 +221,21 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20007, '포인트가 부족합니다.');
     ELSIF(:NEW.포인트 > :OLD.포인트) THEN
         INSERT INTO 기업_포인트_수정_내역 VALUES (:NEW.회원ID,'추가',:NEW.포인트 - :OLD.포인트);
+    END IF;
+END;
+
+CREATE OR REPLACE TRIGGER 지원_TRIG BEFORE INSERT ON 지원
+FOR EACH ROW
+DECLARE
+    V_Count NUMBER;
+BEGIN
+    SELECT COUNT(*) INTO V_Count FROM 지원 WHERE 게시글_번호 = :NEW.게시글_번호 AND 지원자 = :NEW.지원자;
+    IF NOT(SQL%NOTFOUND) THEN
+        BEGIN
+            UPDATE 지원 SET 이력서명 = :NEW.이력서명, 일시정보 = :NEW.일시정보 WHERE 게시글_번호 = :NEW.게시글_번호 AND 지원자 = :NEW.지원자;
+        END;
+    ELSE
+        NULL;
     END IF;
 END;
 ----------------------------------------------------------------------- 시퀀스 ------------------------------------------------------------
