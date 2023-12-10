@@ -67,6 +67,10 @@ public class Resume_Apply {
 				}
 				catch(SQLException ex) {
 					JOptionPane.showMessageDialog(null, "지원을 실패했습니다.", "DB 오류",JOptionPane.ERROR_MESSAGE);
+					try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 				}
 				finally {
 					try {

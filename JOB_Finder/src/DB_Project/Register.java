@@ -271,10 +271,22 @@ public class Register {
 		            frame.dispose();
 		        } catch (SQLException ex) {
 		            JOptionPane.showMessageDialog(frame, "SQL 예외가 발생했습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 		        } catch (ParseException ex) {
 		            JOptionPane.showMessageDialog(frame, "날짜 형식이 올바르지 않습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 		        } catch (Exception ex) {
 		            JOptionPane.showMessageDialog(frame, "예외가 발생했습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 		        }
 		         
 		        finally {

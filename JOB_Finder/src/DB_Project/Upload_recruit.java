@@ -167,11 +167,11 @@ public class Upload_recruit extends JFrame {
 					catch(SQLException ex1) {}
 				}
 				finally {
-					Main.DBClose();
 					try {
-					Main.con.setAutoCommit(true);
+						Main.con.setAutoCommit(true);
 					}
 					catch(SQLException ex1) {}
+					Main.DBClose();
 				}
 			}
 		});
