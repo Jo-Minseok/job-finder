@@ -233,8 +233,8 @@ public class Edit_info {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(Main.mode.equals("개인")) {  // 개인회원
 		        try {
-		        	Main.con.setAutoCommit(false);
 		        	Main.DBConnection();
+		        	Main.con.setAutoCommit(false);
 		        	String updateSQL = "UPDATE 개인회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
 		            Main.pstmt = Main.con.prepareStatement(updateSQL);
 
