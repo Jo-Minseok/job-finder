@@ -107,7 +107,7 @@ public class Resume_inquiry extends JFrame {
 				}
 			// 기업 회원일 경우 내 채용 게시글에 지원한 이력서들 조회
 			else {
-				
+				btn_delete.setEnabled(false);
 				// 내 아이디로 작성한 채용 게시글(번호) 조회
 				
 				String sql_post_num = "SELECT 게시글_번호 FROM 채용_게시글 WHERE 작성자ID = ?";
