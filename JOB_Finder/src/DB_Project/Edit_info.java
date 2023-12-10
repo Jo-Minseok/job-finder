@@ -368,11 +368,6 @@ public class Edit_info {
 
 
 		            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
-
-		        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		            java.util.Date parsedDate = dateFormat.parse(txt_birth.getText());
-		            java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
-		            
 		            
 		            pstmt.setString(1, txt_phone.getText());
 	                pstmt.setString(2, txt_pw.getText());
