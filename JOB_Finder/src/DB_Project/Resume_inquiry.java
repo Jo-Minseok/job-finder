@@ -72,6 +72,24 @@ public class Resume_inquiry extends JFrame {
 		lbl_resume.setBounds(20, 15, 500, 30);
 		contentPane.add(lbl_resume);
 		
+		JButton btn_save = new JButton("저장");
+		btn_save.setFont(new Font("굴림", Font.PLAIN, 14));
+		btn_save.setBounds(715, 15, 70, 40);
+		contentPane.add(btn_save);
+		
+		// 변경 내용 저장 버튼
+		
+		btn_save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				if(Main.mode.equals("개인")){
+					DataToDB(Main.ID, resumeNames.get(Name_Index));
+				}
+				else {
+					DataToDB(applicantIDs.get(ID_Index), applicantNames.get(ID_Index));
+				}
+			}
+		});
+		
 		// 이력서 조회
 		// 개인 회원일 경우 본인이 작성한 이력서 조회
 		// 기업 회원일 경우 본 기업에 들어온 이력서 조회
@@ -108,6 +126,7 @@ public class Resume_inquiry extends JFrame {
 			// 기업 회원일 경우 내 채용 게시글에 지원한 이력서들 조회
 			else {
 				btn_delete.setEnabled(false);
+				btn_save.setEnabled(false);
 				// 내 아이디로 작성한 채용 게시글(번호) 조회
 				
 				String sql_post_num = "SELECT 게시글_번호 FROM 채용_게시글 WHERE 작성자ID = ?";
@@ -152,24 +171,6 @@ public class Resume_inquiry extends JFrame {
 		finally {
 			Main.DBClose();
 		}
-		
-		JButton btn_save = new JButton("저장");
-		btn_save.setFont(new Font("굴림", Font.PLAIN, 14));
-		btn_save.setBounds(715, 15, 70, 40);
-		contentPane.add(btn_save);
-		
-		// 변경 내용 저장 버튼
-		
-		btn_save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ev) {
-				if(Main.mode.equals("개인")){
-					DataToDB(Main.ID, resumeNames.get(Name_Index));
-				}
-				else {
-					DataToDB(applicantIDs.get(ID_Index), applicantNames.get(ID_Index));
-				}
-			}
-		});
 		
 		// 삭제 버튼
 		
