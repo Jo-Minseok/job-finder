@@ -203,8 +203,8 @@ public class Register {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(!chk_member.isSelected()) {  // 개인회원
 		        try {
-		        	Main.con.setAutoCommit(false);
 		        	Main.DBConnection();
+		        	Main.con.setAutoCommit(false);
 		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_PERSONAL(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"); // 개인 회원
 		        	
 		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
