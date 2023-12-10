@@ -143,7 +143,7 @@ BEGIN
         RAISE_APPLICATION_ERROR(-20002, '회원ID의 형식이 올바르지 않거나 ID 길이가 6자를 넘지 않습니다.');
     END IF;
     
-     IF REGEXP_LIKE(비밀번호,'\s') OR LENGTH(비밀번호) <8 OR NOT REGEXP_LIKE(비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(비밀번호,'[[:digit:]]') THEN
+    IF REGEXP_LIKE(비밀번호,'\s') OR LENGTH(비밀번호) <8 OR NOT REGEXP_LIKE(비밀번호,'[[:alpha:]]') OR NOT REGEXP_LIKE(비밀번호,'[[:digit:]]') THEN
         RAISE_APPLICATION_ERROR(-20003, '비밀번호의 형식이 올바르지 않거나 길이가 8자를 넘지 않습니다.');
     END IF;
     
