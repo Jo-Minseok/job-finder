@@ -91,7 +91,7 @@ public class Register {
 		txt_pw.setBounds(30, 175, 190, 21);
 		frame.getContentPane().add(txt_pw);
 		
-		JLabel lblBirthDay = new JLabel("BIRTH DAY");
+		JLabel lblBirthDay = new JLabel("BIRTH DAY (형식: yyyyMMdd)");
 		lblBirthDay.setBounds(30, 206, 190, 15);
 		frame.getContentPane().add(lblBirthDay);
 		
@@ -203,8 +203,8 @@ public class Register {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(!chk_member.isSelected()) {  // 개인회원
 		        try {
-		        	Main.con.setAutoCommit(false);
 		        	Main.DBConnection();
+		        	Main.con.setAutoCommit(false);
 		        	Main.cstmt = Main.con.prepareCall("{CALL CREATE_ACCOUNT_PERSONAL(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"); // 개인 회원
 		        	
 		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -271,10 +271,22 @@ public class Register {
 		            frame.dispose();
 		        } catch (SQLException ex) {
 		            JOptionPane.showMessageDialog(frame, "SQL 예외가 발생했습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 		        } catch (ParseException ex) {
 		            JOptionPane.showMessageDialog(frame, "날짜 형식이 올바르지 않습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 		        } catch (Exception ex) {
 		            JOptionPane.showMessageDialog(frame, "예외가 발생했습니다: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+		            try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 		        }
 		         
 		        finally {

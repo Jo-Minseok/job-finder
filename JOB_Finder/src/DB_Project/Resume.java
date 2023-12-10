@@ -186,11 +186,11 @@ public class Resume{
 						Main.con.rollback();
 					} catch(SQLException ex1) {}
 				} finally {
-					Main.DBClose();
 					try {
 						Main.con.setAutoCommit(true);
 					}
 					catch(SQLException ex1) {}
+					Main.DBClose();
 				}
 			}
 		});

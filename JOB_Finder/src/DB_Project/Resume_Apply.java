@@ -47,6 +47,7 @@ public class Resume_Apply {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Main.DBConnection();
+					Main.con.setAutoCommit(false);
 					String sql = "INSERT INTO 지원 VALUES (?,?,?,?,?)";
 					Main.pstmt = Main.con.prepareStatement(sql);
 					Main.pstmt.setInt(1, Pass.Post_ID);
@@ -60,15 +61,22 @@ public class Resume_Apply {
 					Main.cstmt = Main.con.prepareCall(sql);
 					Main.cstmt.execute();
 					JOptionPane.showMessageDialog(null, "지원을 하였습니다!", "지원 완료",JOptionPane.INFORMATION_MESSAGE);
-					
+					Main.con.commit();
 					frame.dispose();
 					Pass.frame.dispose();
 				}
 				catch(SQLException ex) {
 					JOptionPane.showMessageDialog(null, "지원을 실패했습니다.", "DB 오류",JOptionPane.ERROR_MESSAGE);
-					ex.printStackTrace();
+					try {
+						Main.con.rollback();
+					}
+					catch(Exception ex_roll) {};
 				}
 				finally {
+					try {
+						Main.con.setAutoCommit(true);
+					}
+					catch(Exception ex) {};
 					Main.DBClose();
 				}
 			}

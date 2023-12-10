@@ -139,11 +139,11 @@ public class Upload_briefing extends JFrame {
 					catch(SQLException ex1) {}
 				}
 				finally {
-					Main.DBClose();
 					try {
 						Main.con.setAutoCommit(true);
 					}
 					catch(SQLException ex1) {}
+					Main.DBClose();
 				}
 			}
 		});
