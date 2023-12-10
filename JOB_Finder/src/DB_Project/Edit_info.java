@@ -92,7 +92,6 @@ public class Edit_info {
 					
 					if (old_company == null && old_salary == null && old_position == null) {
 				        chk_employed.setSelected(true);
-				        
 				    }
 				}
 			} catch(SQLException ex) {
@@ -281,125 +280,150 @@ public class Edit_info {
 		btn_edit.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		    	if(Main.mode.equals("개인")) {  // 개인회원
-		        try {
-		        	Main.DBConnection();
-		        	Main.con.setAutoCommit(false);
-		        	String updateSQL = "UPDATE 개인회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
-		            Main.pstmt = Main.con.prepareStatement(updateSQL);
-
-		        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		            java.util.Date parsedDate = dateFormat.parse(txt_birth.getText());
-		            java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
-		            
-		            Main.pstmt.setString(1, txt_phone.getText());
-		            Main.pstmt.setString(2, txt_pw.getText());
-		            Main.pstmt.setDate(3, sqlDate);
-		            Main.pstmt.setString(4, com_gender.getSelectedItem().toString());
-		            Main.pstmt.setString(5, com_address.getSelectedItem().toString());
-	                String selectedPeriod = com_period.getSelectedItem().toString();
-		            int validityPeriod = switch (selectedPeriod) {
-		                case "1년" -> 1;
-		                case "3년" -> 3;
-		                case "5년" -> 5;
-		                default -> 0;
-		            };
-		            Main.pstmt.setInt(6, validityPeriod);
-		            
-	                if (txt_corporate.getText().isEmpty()) {
-	                	Main.pstmt.setNull(7, java.sql.Types.NVARCHAR);
-	                } else {
-	                	Main.pstmt.setString(7, txt_corporate.getText());
-	                }
-	                
-	                if (txt_salary.getText().isEmpty()) {
-	                	Main.pstmt.setNull(8, java.sql.Types.NVARCHAR);
-	                } else {
-	                	Main.pstmt.setString(8, txt_salary.getText());
-	                }
-	                
-	                if (txt_position.getText().isEmpty()) {
-	                	Main.pstmt.setNull(9, java.sql.Types.NVARCHAR);
-	                } else {
-	                	Main.pstmt.setString(9, txt_position.getText());
-	                }
-	                
-	                Main.pstmt.setString(10, txt_id.getText());
-
-		            int affectedRows = Main.pstmt.executeUpdate();
-
-	                if (affectedRows > 0) {
-	                    JOptionPane.showMessageDialog(null, "회원 정보가 성공적으로 업데이트 되었습니다.");
-	                } else {
-	                    JOptionPane.showMessageDialog(null, "업데이트된 회원 정보가 없습니다.");
-	                }
-	                
-	                String sql = "{CALL RECALCULATE(?,?,?,?,?,?)}";
-	                Main.cstmt = Main.con.prepareCall(sql);
-	                Main.cstmt.setString(1, txt_corporate.getText());
-	                Main.cstmt.setString(2, old_company);
-	                Main.cstmt.setString(3, txt_position.getText());
-	                Main.cstmt.setString(4, old_position);
-	                Main.cstmt.setString(5, txt_salary.getText());
-	                Main.cstmt.setString(6, old_salary);
-	                Main.cstmt.execute();
-	                
-;	                Main.con.commit();
-		        } catch (SQLException ex) {
-		            JOptionPane.showMessageDialog(null, "SQL 오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
-		            try {
-						Main.con.rollback();
-					}
-					catch(SQLException ex_rollback) {}
-		            ex.printStackTrace();
-		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(null, "오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
-		            ex.printStackTrace();
-		        } finally {
-		        	try {
-		        		Main.con.setAutoCommit(true);
-		        	}
-		        	catch (Exception ex) {}
-		            Main.DBClose();
-		        }
-		    } else {  // 기업회원 
-		    	try {
-		        	Main.DBConnection();
-		        	String updateSQL = "UPDATE 기업회원 SET 휴대폰 = ?, 비밀번호 = ?, 개인정보_유효기간 = ? WHERE 회원ID = ?";
-
-
-		            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
-		            
-		            pstmt.setString(1, txt_phone.getText());
-	                pstmt.setString(2, txt_pw.getText());
-	                String selectedPeriod = com_period.getSelectedItem().toString();
-		            int validityPeriod = switch (selectedPeriod) {
-		                case "1년" -> 1;
-		                case "3년" -> 3;
-		                case "5년" -> 5;
-		                default -> 0;
-		            };
-		            pstmt.setInt(3, validityPeriod);
-		            pstmt.setString(4, txt_id.getText());
-		            
-		            int affectedRows = pstmt.executeUpdate();
-
-	                if (affectedRows > 0) {
-	                    JOptionPane.showMessageDialog(null, "회원 정보가 성공적으로 업데이트 되었습니다.");
-	                } else {
-	                    JOptionPane.showMessageDialog(null, "업데이트된 회원 정보가 없습니다.");
-	                }
-
-		        } catch (SQLException ex) {
-		            JOptionPane.showMessageDialog(null, "SQL 오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
-		            ex.printStackTrace();
-		        } catch (Exception ex) {
-		            JOptionPane.showMessageDialog(null, "오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
-		            ex.printStackTrace();
-		        } finally {
-		            Main.DBClose();
-		        }
+		    		if(chk_employed.isSelected()) {
+		    			if(txt_corporate.getText().isEmpty()) {
+		    				JOptionPane.showMessageDialog(null, "회사 칸이 비었습니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    				return;
+		    			}
+		    			if(txt_salary.getText().isEmpty()) {
+		    				JOptionPane.showMessageDialog(null, "연봉 칸이 비었습니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    				return;
+		    			}
+		    			if(txt_position.getText().isEmpty()) {
+		    				JOptionPane.showMessageDialog(null, "직책 칸이 비었습니다.", "에러", JOptionPane.ERROR_MESSAGE);
+		    				return;
+		    			}
+		    		}
+			        try {
+			        	Main.DBConnection();
+			        	Main.con.setAutoCommit(false);
+			        	String updateSQL = "UPDATE 개인회원 SET 휴대폰 = ?, 비밀번호 = ?, 생년월일 = ?, 성별 = ?, 거주_지역 = ?, 개인정보_유효기간 = ?, 기업_이름 = ?, 연봉 = ?, 직책 = ? WHERE 회원ID = ?";
+			            Main.pstmt = Main.con.prepareStatement(updateSQL);
+	
+			        	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+			            java.util.Date parsedDate = dateFormat.parse(txt_birth.getText());
+			            java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
+			            
+			            Main.pstmt.setString(1, txt_phone.getText());
+			            Main.pstmt.setString(2, txt_pw.getText());
+			            Main.pstmt.setDate(3, sqlDate);
+			            Main.pstmt.setString(4, com_gender.getSelectedItem().toString());
+			            Main.pstmt.setString(5, com_address.getSelectedItem().toString());
+		                String selectedPeriod = com_period.getSelectedItem().toString();
+			            int validityPeriod = switch (selectedPeriod) {
+			                case "1년" -> 1;
+			                case "3년" -> 3;
+			                case "5년" -> 5;
+			                default -> 0;
+			            };
+			            Main.pstmt.setInt(6, validityPeriod);
+			            
+			            if(!chk_employed.isSelected()) {
+			            	Main.pstmt.setString(7, txt_corporate.getText());
+			            	Main.pstmt.setString(8, txt_salary.getText());
+			            	Main.pstmt.setLong(9, Long.valueOf(txt_position.getText()));
+			            }
+			            else {
+			            	Main.pstmt.setNull(7, java.sql.Types.NVARCHAR);
+			            	Main.pstmt.setNull(8, java.sql.Types.NVARCHAR);
+			            	Main.pstmt.setNull(9, java.sql.Types.NUMERIC);
+			            }
+		                
+		                Main.pstmt.setString(10, txt_id.getText());
+	
+			            int affectedRows = Main.pstmt.executeUpdate();
+	
+		                if (affectedRows > 0) {
+		                    JOptionPane.showMessageDialog(null, "회원 정보가 성공적으로 업데이트 되었습니다.");
+		                } else {
+		                    JOptionPane.showMessageDialog(null, "업데이트된 회원 정보가 없습니다.");
+		                }
+		                
+		                String sql = "{CALL RECALCULATE(?,?,?,?,?,?)}";
+		                Main.cstmt = Main.con.prepareCall(sql);
+		                if(!chk_employed.isSelected()) {
+		                	Main.cstmt.setString(1, txt_corporate.getText());
+		                	Main.cstmt.setString(3, txt_position.getText());
+		                	Main.cstmt.setLong(5, Long.valueOf(txt_salary.getText()));
+		                }
+		                else {
+		                	Main.cstmt.setNull(1, java.sql.Types.NVARCHAR);
+		                	Main.cstmt.setNull(3, java.sql.Types.NVARCHAR);
+		                	Main.cstmt.setNull(5, java.sql.Types.NUMERIC);
+		                }
+		                
+		                Main.cstmt.setString(2, old_company);
+		                Main.cstmt.setString(4, old_position);
+		                Main.cstmt.setString(6, old_salary);
+		                Main.cstmt.execute();
+		                Main.con.commit();
+			        }
+			        catch (SQLException ex) {
+			            JOptionPane.showMessageDialog(null, "SQL 오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+			            try {
+							Main.con.rollback();
+						}
+						catch(SQLException ex_rollback) {}
+			            ex.printStackTrace();
+			        }
+			        catch (Exception ex) {
+			            JOptionPane.showMessageDialog(null, "오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+			            try {
+							Main.con.rollback();
+			            }
+			            catch(SQLException ex_rollback) {}
+			            ex.printStackTrace();
+			        }
+			        finally {
+			        	try {
+			        		Main.con.setAutoCommit(true);
+			        	}
+			        	catch (Exception ex) {}
+			            Main.DBClose();
+			        }
+		    	}
+		    	else {  // 기업회원 
+			    	try {
+			        	Main.DBConnection();
+			        	String updateSQL = "UPDATE 기업회원 SET 휴대폰 = ?, 비밀번호 = ?, 개인정보_유효기간 = ? WHERE 회원ID = ?";
+	
+	
+			            PreparedStatement pstmt = Main.con.prepareStatement(updateSQL);
+			            
+			            pstmt.setString(1, txt_phone.getText());
+		                pstmt.setString(2, txt_pw.getText());
+		                String selectedPeriod = com_period.getSelectedItem().toString();
+			            int validityPeriod = switch (selectedPeriod) {
+			                case "1년" -> 1;
+			                case "3년" -> 3;
+			                case "5년" -> 5;
+			                default -> 0;
+			            };
+			            pstmt.setInt(3, validityPeriod);
+			            pstmt.setString(4, txt_id.getText());
+			            
+			            int affectedRows = pstmt.executeUpdate();
+	
+		                if (affectedRows > 0) {
+		                    JOptionPane.showMessageDialog(null, "회원 정보가 성공적으로 업데이트 되었습니다.");
+		                } else {
+		                    JOptionPane.showMessageDialog(null, "업데이트된 회원 정보가 없습니다.");
+		                }
+	
+			        }
+			    	catch (SQLException ex) {
+			            JOptionPane.showMessageDialog(null, "SQL 오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+			            ex.printStackTrace();
+			        }
+			    	catch (Exception ex) {
+			            JOptionPane.showMessageDialog(null, "오류: " + ex.getMessage(), "에러", JOptionPane.ERROR_MESSAGE);
+			            ex.printStackTrace();
+			        }
+			    	finally {
+			            Main.DBClose();
+			        }
+			    }
 		    }
-		  }
 		});
 		
 		// 무직 버튼
