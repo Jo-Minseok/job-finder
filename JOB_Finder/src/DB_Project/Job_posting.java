@@ -147,7 +147,7 @@ public class Job_posting {
 				lbl_type_data.setText(Main.rs.getString("고용형태"));
 				lbl_salary_data.setText(Main.Won(Main.rs.getLong("급여")) + "(월급)");
 				lbl_address_data.setText(Main.rs.getString("지역"));
-				lbl_time_data.setText(String.valueOf(Main.rs.getInt("근무시간")) + "주");
+				lbl_time_data.setText(String.valueOf(Main.rs.getInt("근무시간")) + "시간 (주)");
 				lbl_count_data.setText(String.valueOf(Main.rs.getInt("모집인원"))+ "명");
 				lbl_position_data.setText(Main.rs.getString("직책"));
 				lbl_date_data.setText(String.valueOf(Main.rs.getDate("마감일")));

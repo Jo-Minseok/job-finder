@@ -47,38 +47,66 @@ public class Edit_info {
 	}
 
 	private void Load_info() {
-		try {
-			Main.DBConnection();
-			
-			String sql = "SELECT 휴대폰, 비밀번호, 생년월일, 성별, 거주_지역, 개인정보_유효기간, 기업_이름, 연봉, 직책 FROM 개인회원 WHERE 회원ID = ?";
-			Main.pstmt = Main.con.prepareStatement(sql);
-			Main.pstmt.setString(1, Main.ID);
-			Main.rs = Main.pstmt.executeQuery();
-			
-			
-			if(Main.rs.next()) {
+		if(Main.mode.equals("개인")) {
+			try {
+				Main.DBConnection();
 				
-				txt_phone.setText(Main.rs.getString("휴대폰"));
-				txt_pw.setText(Main.rs.getString("비밀번호"));
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-				txt_birth.setText(sdf.format(Main.rs.getDate("생년월일")));
-				com_gender.setSelectedItem(Main.rs.getString("성별"));
-				com_address.setSelectedItem(Main.rs.getString("거주_지역"));
-				com_period.setSelectedItem(Main.rs.getString("개인정보_유효기간"));
-				txt_corporate.setText(Main.rs.getString("기업_이름"));
-				txt_salary.setText(Main.rs.getString("연봉"));
-				txt_position.setText(Main.rs.getString("직책"));
-				old_company = new String(Main.rs.getString("기업_이름"));
-				old_position = new String(Main.rs.getString("직책"));
-				old_salary = new String(Main.rs.getString("연봉"));
+				String sql = "SELECT 휴대폰, 비밀번호, 생년월일, 성별, 거주_지역, 개인정보_유효기간, 기업_이름, 연봉, 직책 FROM 개인회원 WHERE 회원ID = ?";
+				Main.pstmt = Main.con.prepareStatement(sql);
+				Main.pstmt.setString(1, Main.ID);
+				Main.rs = Main.pstmt.executeQuery();
 				
-				txt_id.setText(Main.ID);
-				txt_id.setEditable(false);
+				
+				if(Main.rs.next()) {
+					
+					txt_phone.setText(Main.rs.getString("휴대폰"));
+					txt_pw.setText(Main.rs.getString("비밀번호"));
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+					txt_birth.setText(sdf.format(Main.rs.getDate("생년월일")));
+					com_gender.setSelectedItem(Main.rs.getString("성별"));
+					com_address.setSelectedItem(Main.rs.getString("거주_지역"));
+					com_period.setSelectedItem(Main.rs.getString("개인정보_유효기간"));
+					txt_corporate.setText(Main.rs.getString("기업_이름"));
+					txt_salary.setText(Main.rs.getString("연봉"));
+					txt_position.setText(Main.rs.getString("직책"));
+					old_company = new String(Main.rs.getString("기업_이름"));
+					old_position = new String(Main.rs.getString("직책"));
+					old_salary = new String(Main.rs.getString("연봉"));
+					
+					txt_id.setText(Main.ID);
+					txt_id.setEditable(false);
+				}
+			} catch(SQLException ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "데이터 로드 실패", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				Main.DBClose();
 			}
-		} catch(SQLException ex) {
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "데이터 로드 실패", JOptionPane.ERROR_MESSAGE);
-		} finally {
-			Main.DBClose();
+		}
+		else {
+			try {
+				Main.DBConnection();
+				
+				String sql = "SELECT 휴대폰, 비밀번호, 개인정보_유효기간, 기업명 FROM 기업회원 WHERE 회원ID = ?";
+				Main.pstmt = Main.con.prepareStatement(sql);
+				Main.pstmt.setString(1, Main.ID);
+				Main.rs = Main.pstmt.executeQuery();
+				
+				
+				if(Main.rs.next()) {
+					
+					txt_phone.setText(Main.rs.getString("휴대폰"));
+					txt_pw.setText(Main.rs.getString("비밀번호"));
+					com_period.setSelectedItem(Main.rs.getString("개인정보_유효기간"));
+					txt_corporate.setText(Main.rs.getString("기업명"));
+					
+					txt_id.setText(Main.ID);
+					txt_id.setEditable(false);
+				}
+			} catch(SQLException ex) {
+				JOptionPane.showMessageDialog(null, ex.getMessage(), "데이터 로드 실패", JOptionPane.ERROR_MESSAGE);
+			} finally {
+				Main.DBClose();
+			}
 		}
 	}
 
@@ -226,6 +254,7 @@ public class Edit_info {
 	        txt_corporate.setEnabled(false);
 	        txt_salary.setEnabled(false);
 	        txt_position.setEnabled(false);
+	        txt_birth.setEnabled(false);
 	        com_gender.setEnabled(false);
 	        com_address.setEnabled(false);
 		}		
