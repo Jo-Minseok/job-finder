@@ -129,7 +129,8 @@ public class Login {
 		frame.getContentPane().add(btn_find);
 		
 		JLabel lbl_logo = new JLabel("");
-		lbl_logo.setIcon(new ImageIcon("img/Login.png"));
+		//lbl_logo.setIcon(new ImageIcon("bin/Login.png"));
+		lbl_logo.setIcon(new ImageIcon(getClass().getClassLoader().getResource("Login.png")));
 		lbl_logo.setBounds(37, 10, 357, 71);
 		frame.getContentPane().add(lbl_logo);
 	}

@@ -124,7 +124,7 @@ public class Mainpage {
 		lbl_logo.setForeground(Color.BLACK);
 		lbl_logo.setBackground(Color.WHITE);
 		lbl_logo.setBounds(12, 10, 766, 109);
-		lbl_logo.setIcon(new ImageIcon("img/Main.png"));
+		lbl_logo.setIcon(new ImageIcon(getClass().getClassLoader().getResource("Main.png")));
 		frame.getContentPane().add(lbl_logo);
 		
 		JLabel lbl_business_search = new JLabel("기업 조회");
@@ -499,7 +499,7 @@ public class Mainpage {
 		btn_previous_1.setBounds(180, 437, 42, 23);
 		frame.getContentPane().add(btn_previous_1);
 		
-		ImageIcon icon = new ImageIcon("img/HOME.png");
+		ImageIcon icon = new ImageIcon(getClass().getClassLoader().getResource("HOME.png"));
 		btn_home_1 = new JButton(icon);
 		btn_home_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -177,21 +177,6 @@ BEGIN
         INSERT INTO 기업_포인트_수정_내역 VALUES (:NEW.회원ID,'추가',:NEW.포인트 - :OLD.포인트);
     END IF;
 END;
-
-CREATE OR REPLACE TRIGGER 지원_TRIG BEFORE INSERT ON 지원
-FOR EACH ROW
-DECLARE
-    V_Count NUMBER;
-BEGIN
-    SELECT COUNT(*) INTO V_Count FROM 지원 WHERE 게시글_번호 = :NEW.게시글_번호 AND 지원자 = :NEW.지원자;
-    IF NOT(SQL%NOTFOUND) THEN
-        BEGIN
-            UPDATE 지원 SET 이력서명 = :NEW.이력서명, 일시정보 = :NEW.일시정보 WHERE 게시글_번호 = :NEW.게시글_번호 AND 지원자 = :NEW.지원자;
-        END;
-    ELSE
-        NULL;
-    END IF;
-END;
 ----------------------------------------------------------------------- 시퀀스 ------------------------------------------------------------
 CREATE SEQUENCE POST_NUMBER_SEQ
 MINVALUE 1
