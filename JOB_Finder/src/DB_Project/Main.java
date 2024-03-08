@@ -11,9 +11,9 @@ public class Main {
 	static CallableStatement cstmt = null;
 	static ResultSet rs = null;
 	
-	static String DB_url = "jdbc:oracle:thin:@minseok821lab.kro.kr:1521:orcl";
-	static String DB_id = "seok3764";
-	static String DB_pw = "0424";
+	static String DB_url = "jdbc:oracle:thin:@unknown:1521:orcl";
+	static String DB_id = "unknown";
+	static String DB_pw = "unknwon";
 	
 	static String mode = null;
 	static String ID = null;
