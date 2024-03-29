@@ -36,7 +36,7 @@
     <th>수행 내용</th>
     <tr>
         <td>팀장</td>
-        <td>조민석</td>
+        <td>조민석(3학년)</td>
         <td><a href="https://github.com/Jo-Minseok">@Jo-Minseok</a></td>
         <td>
           <ul>
@@ -83,7 +83,7 @@
     </tr>
     <tr>
       <td>팀원</td>
-      <td>서아론</td>
+      <td>서아론(3학년)</td>
       <td><a href="https://github.com/Seo-aron">@Seo-aron</a></td>
       <td>
         <ul>
@@ -113,7 +113,7 @@
     </tr>
   <tr>
     <td>팀원</td>
-    <td>한창훈</td>
+    <td>한창훈(3학년)</td>
     <td><a href="https://github.com/khanbii">@khanbii</a></td>
     <td>
       <ul>
@@ -143,7 +143,7 @@
 
 ## PROJECT INFORMATION
 
-> 동의대학교 데이터베이스 프로그래밍 팀 프로젝트 </br>
+> 동의대학교 2023학년도 데이터베이스 프로그래밍 팀 프로젝트 </br>
 > PERIOD: 2023.11.09 ~ 2023.12.11</br>
 
 ### Mean
