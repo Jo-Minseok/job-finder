@@ -36,7 +36,7 @@
     <th>수행 내용</th>
     <tr>
         <td>팀장</td>
-        <td>조민석(3학년)</td>
+        <td>조민석 (3학년)</td>
         <td><a href="https://github.com/Jo-Minseok">@Jo-Minseok</a></td>
         <td>
           <ul>
@@ -83,7 +83,7 @@
     </tr>
     <tr>
       <td>팀원</td>
-      <td>서아론(3학년)</td>
+      <td>서아론 (3학년)</td>
       <td><a href="https://github.com/Seo-aron">@Seo-aron</a></td>
       <td>
         <ul>
@@ -113,7 +113,7 @@
     </tr>
   <tr>
     <td>팀원</td>
-    <td>한창훈(3학년)</td>
+    <td>한창훈 (3학년)</td>
     <td><a href="https://github.com/khanbii">@khanbii</a></td>
     <td>
       <ul>
