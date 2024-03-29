@@ -1,6 +1,7 @@
 # 💼 잡 파인더 소프트웨어 (Job-Finder Software)
 
 <div align="center">
+<img src="https://github.com/Jo-Minseok/job-finder/assets/99482796/940a93cf-e7b8-4b3a-b87a-ac546a8f7640"><br>
 <a href="https://hits.seeyoufarm.com"><img width = "15%" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FJo-Minseok%2Fjob-finder&count_bg=%23DE6700&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
 </div>
 
